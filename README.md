@@ -1,6 +1,8 @@
 # Bank Management Mini-Project
 Author: Anna DeVries
+
 Date: 3 August 2021
+
 Purpose: for code review
 
 ## Bank Management Services
