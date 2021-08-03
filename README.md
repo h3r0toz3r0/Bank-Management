@@ -14,4 +14,7 @@ Purpose: for code review
 6) erase() – This function is for deleting a customer account.
 7) see() – This function shows account number, name, date of birth, citizenship number, age, address, phone number, type of account, amount deposited and date of deposit. It also displays the amount of interest corresponding to a particular account type.
 
-Projects for code review 
+## Parts
+1) Writing to and from a file
+2) Server client
+3) Multiple clients and one server 
