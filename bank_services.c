@@ -4,6 +4,10 @@
 //              Date: 3 August 2021                         //
 //////////////////////////////////////////////////////////////
 
+/*  includes     */
+#include <stdio.h>
+
+
 /*  new_acc() function:
     This function creates a new customer account. It asks 
     for some  personal and banking details of the customer 
@@ -64,6 +68,21 @@ void see(void){
     This function displays the menu or welcome screen to 
     perform different banking activities mentioned below.
 */
-void new_acc(void){
+int main(void){
+    // local variables
+    char user_input[1];
+
+    // prints welcome screen
+    printf("\n\tCUSTOMER ACCOUNT BANKING MANAGEMENT SYSTEM\n");
+    printf("\t\t\tMAIN MENU\n\n");
+
+    // accepts user input
+
+
+    // input sanitization 
+
+    // perform desired function 
+
+    // end program, return success
     return 0;
 }
