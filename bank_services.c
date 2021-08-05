@@ -9,7 +9,7 @@
 #include <stdlib.h>
 
 /*  defines      */
-#define DEBUG 1
+#define DEBUG 0
 
 void new_acc(void);
 void view_list(void);
@@ -19,6 +19,50 @@ void erase(void);
 void see(void);
 int welcome(int selection);
 void determine_func(int selection);
+
+/*  structs      */
+struct customer {
+    char *name;         // customer name
+    char *birth;        // birthday as Dec 25, 1995 -> 19951225
+    int citizen_num;    // customer citizenship number
+    char *address;      // customer home address
+    int phone;          // customer phone number
+    int account;        // 1 = savings, 2 = current, 
+                        // 3 = fixed for 1 yr; 4 = fixed 
+                        // for 2 yr; 5 = fixed for 3 yr
+};
+
+/*  init_cust_struct() function: 
+    mallocs memory for necessary variables
+*/
+int init_cust_struct(struct customer Customer){
+    // allocate memory
+    Customer.name = malloc(32 * sizeof(char));
+    Customer.birth = malloc(8 * sizeof(char));
+    Customer.address = malloc(64 * sizeof(char));
+
+    // error checking
+    if ( Customer.name == NULL || Customer.birth == NULL || Customer.address == NULL ){
+        printf("\nmalloc failed; out of memory.\n");
+        return -1;
+    }
+
+    // return on success
+    return 0;
+}
+
+/*  free_cust_struct() function:
+    frees memory for necessary variables
+*/
+void free_cust_struct(struct customer Customer){
+    // free memory
+    free(Customer.name);
+    free(Customer.birth);
+    free(Customer.address);
+
+    // return on success
+    return;
+}
 
 /*  new_acc() function:
     This function creates a new customer account. It asks 
@@ -30,6 +74,16 @@ void determine_func(int selection);
     for 3 years.
 */
 void new_acc(void){
+    // local variables
+    struct customer Customer;
+
+    // initialize struct
+    init_cust_struct(Customer);
+
+    // free struct
+    free_cust_struct(Customer);
+
+    // return on success
     return;
 }
 

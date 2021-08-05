@@ -22,6 +22,6 @@ Source: https://www.codewithc.com/mini-project-in-c-bank-management-system/
 3) Multiple clients and one server 
 
 ## Hints
-Vagrant is your friend: `valgrind --leak-cheak=full ./bank_services`
+Valgrind is your friend: `valgrind --leak-cheak=full ./bank_services`
 
 Security and memory management matter.
