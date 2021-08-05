@@ -5,6 +5,8 @@ Date: 3 August 2021
 
 Purpose: for code review
 
+Source: https://www.codewithc.com/mini-project-in-c-bank-management-system/
+
 ## Bank Management Services
 1) menu() – This function displays the menu or welcome screen to perform different banking activities mentioned below.
 2) new_acc() – This function creates a new customer account. It asks for some  personal and banking details of the customer such as name, date of birth, citizenship number, address and phone number. You can enter the amount to deposit and choose one type of deposit account – saving, current, fixed for 1 year, fixed for 2 years or fixed for 3 years.
