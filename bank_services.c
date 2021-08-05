@@ -6,7 +6,18 @@
 
 /*  includes     */
 #include <stdio.h>
+#include <stdlib.h>
 
+/*  defines      */
+#define DEBUG 1
+
+void new_acc(void);
+void view_list(void);
+void edit(void);
+void transact(void);
+void erase(void);
+void see(void);
+void *welcome(char *user_input);
 
 /*  new_acc() function:
     This function creates a new customer account. It asks 
@@ -64,24 +75,68 @@ void see(void){
     return;
 }
 
+/*  welcome() function:
+    This function displays and takes user input at main menu.
+*/
+void *welcome(char *user_input){
+    printf("\t\t\tMAIN MENU\n\n");
+    printf("1. Create new account\n");
+    printf("2. Update information of existing account\n");
+    printf("3. For transactions\n");
+    printf("4. Check the details of existing account\n");
+    printf("5. Removing existing account\n");
+    printf("6. View cutomer's list\n");
+    printf("7. Exit\n");
+
+    // accepts user input
+    printf("\nEnter your choice: ");
+    *user_input = fgetc(stdin);
+    printf("\n");
+
+    // input sanitization 
+
+    // perform desired function 
+
+    // return user_input
+    return user_input;
+}
+
 /*  main() function:
     This function displays the menu or welcome screen to 
     perform different banking activities mentioned below.
 */
 int main(void){
     // local variables
-    char user_input[1];
+    char *user_input;
+    int user_input_size = 1;
+    int check_bit = 0;
+
+    // allocate memory
+    user_input = malloc(user_input_size * sizeof(char*));
+
+    // check memory; null if out of memory
+    if ( user_input == NULL ){
+        printf("\nmalloc failed; out of memory.\n");
+        return -1;
+    }
 
     // prints welcome screen
     printf("\n\tCUSTOMER ACCOUNT BANKING MANAGEMENT SYSTEM\n");
-    printf("\t\t\tMAIN MENU\n\n");
 
-    // accepts user input
+    // Call main menu page
+    while ( check_bit == 0 ){
+        user_input = welcome(user_input);
 
+        // sanity check
+        if ( DEBUG == 1 )
+            printf("(debug only) user input: %c\n\n", *user_input);
 
-    // input sanitization 
+        // check condition
+        check_bit = 1;
+    }
 
-    // perform desired function 
+    // free memory
+    free(user_input);
 
     // end program, return success
     return 0;

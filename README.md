@@ -18,3 +18,8 @@ Purpose: for code review
 1) Writing to and from a file
 2) Server client
 3) Multiple clients and one server 
+
+## Hints
+Vagrant is your friend: `valgrind --leak-cheak=full ./bank_services`
+
+Security and memory management matter.
