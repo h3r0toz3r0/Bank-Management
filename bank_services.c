@@ -17,7 +17,8 @@ void edit(void);
 void transact(void);
 void erase(void);
 void see(void);
-void *welcome(char *user_input);
+int welcome(int selection);
+void determine_func(int selection);
 
 /*  new_acc() function:
     This function creates a new customer account. It asks 
@@ -78,7 +79,21 @@ void see(void){
 /*  welcome() function:
     This function displays and takes user input at main menu.
 */
-void *welcome(char *user_input){
+int welcome(int selection){
+    // local variables
+    char *user_input;
+    int user_input_size = 10;
+
+    // allocate memory
+    user_input = malloc(user_input_size * sizeof(char));
+
+    // error checking
+    if ( user_input == NULL ){
+        printf("\nmalloc failed; out of memory.\n");
+        return -1;
+    }
+    
+    // print screen
     printf("\t\t\tMAIN MENU\n\n");
     printf("1. Create new account\n");
     printf("2. Update information of existing account\n");
@@ -88,17 +103,58 @@ void *welcome(char *user_input){
     printf("6. View cutomer's list\n");
     printf("7. Exit\n");
 
-    // accepts user input
+    // accepts user input; pointer is now a single char from stdin
     printf("\nEnter your choice: ");
-    *user_input = fgetc(stdin);
+    if ( fgets(user_input, user_input_size, stdin) == NULL ){
+        printf("\nfgets failed; user input error.\n");
+        return -1;
+    }
     printf("\n");
 
     // input sanitization 
+    if ( sscanf(user_input, "%d", &selection) == EOF){
+        printf("\nsscanf failed; user input error.\n");
+        return -1;
+    }
 
-    // perform desired function 
+    // free memory
+    free(user_input);
 
     // return user_input
-    return user_input;
+    return selection;
+}
+
+/*  determine_func() function:
+    This function determines which function selection calls and
+    calls for that function.
+*/
+void determine_func(int selection){
+    // selection 1 = create
+    if ( selection == 1 )
+        new_acc();
+
+    // selection 2 = update
+    else if ( selection == 2 )
+        edit();
+
+    // selection 3 = transactions
+    else if ( selection == 3 )
+        transact();
+
+    // selection 4 = check details
+    else if ( selection == 4 )
+        see();
+
+    // selection 5 = remove
+    else if ( selection == 5 )
+        erase();
+
+    // selection 6 = view list
+    else if ( selection == 6 )
+        view_list();
+
+    // return function
+    return;
 }
 
 /*  main() function:
@@ -107,36 +163,23 @@ void *welcome(char *user_input){
 */
 int main(void){
     // local variables
-    char *user_input;
-    int user_input_size = 1;
-    int check_bit = 0;
-
-    // allocate memory
-    user_input = malloc(user_input_size * sizeof(char*));
-
-    // check memory; null if out of memory
-    if ( user_input == NULL ){
-        printf("\nmalloc failed; out of memory.\n");
-        return -1;
-    }
+    int selection = 0;
 
     // prints welcome screen
     printf("\n\tCUSTOMER ACCOUNT BANKING MANAGEMENT SYSTEM\n");
 
-    // Call main menu page
-    while ( check_bit == 0 ){
-        user_input = welcome(user_input);
+    // continuously calls main menu
+    while ( selection != 7 ){
+        // call main menu
+        selection = welcome(selection);
 
         // sanity check
         if ( DEBUG == 1 )
-            printf("(debug only) user input: %c\n\n", *user_input);
+            printf("(debug only) user input: %d\n\n", selection);
 
-        // check condition
-        check_bit = 1;
+        // calls desired function
+        determine_func(selection);
     }
-
-    // free memory
-    free(user_input);
 
     // end program, return success
     return 0;
