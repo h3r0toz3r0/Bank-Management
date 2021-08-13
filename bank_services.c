@@ -10,7 +10,7 @@
 #include <string.h>
 
 /*  defines      */
-#define DEBUG 0
+#define DEBUG 1
 
 int new_acc(void);
 void view_list(void);
@@ -26,13 +26,37 @@ typedef struct customer {
     char *last_name;            // customer last name
     char *first_name;           // customer first name
     char *birth;                // birthday as Dec 25, 1995 -> 19951225
-    int citizen_num;            // customer citizenship number
+    char *citizen_num;          // customer citizenship number
     char *address;              // customer home address
-    int phone;                  // customer phone number
-    int account;                // 1 = savings, 2 = current, 
-                                // 3 = fixed for 1 yr; 4 = fixed 
+    char *phone;                // customer phone number
+    char *account;              // 1 = savings; 2 = current; 3 = fixed for 1 yr; 4 = fixed 
                                 // for 2 yr; 5 = fixed for 3 yr
 } Customer;
+
+/*  user_input() function:
+    inputs string to store user input and string size and outputs completed string.
+    Takes user input and places it into string
+*/
+void *get_input(char *input_string, int input_size){
+    // local variables
+    int c;
+
+    // accept user input
+    if (fgets(input_string, input_size, stdin) == NULL) {
+        printf("\nfgets failed; user input error.\n");
+        return "0";
+    }
+
+    // clears stdin buffer if greater than char* allocation
+    else if (strchr(input_string, '\n') == NULL) {
+        while((c = getc(stdin)) != '\n' && c != EOF);
+    }
+
+    // removes erroneous white space
+    sscanf(input_string, "%s", input_string);
+
+    return input_string;
+}
 
 /*  new_acc() function:
     This function creates a new customer account. It asks 
@@ -46,22 +70,24 @@ typedef struct customer {
 int new_acc(void){
     // local variables
     Customer* guest;
-    int first_size = 32;
-    int last_size = 32;
-    int bday_size = 9;
-    int addr_size = 64;
-    char *user_input;
+    int first_size = 32, last_size = 32, birth_size = 9, address_size = 64, citizen_size = 10, phone_size = 11, account_size = 2;
+    char* user_input;
+    int user_input_size = 4;
+    int c;
 
     // allocate memory
     guest = malloc(sizeof(Customer));
     guest->first_name = malloc(first_size * sizeof(char));
     guest->last_name = malloc(last_size * sizeof(char));
-    guest->birth = malloc(bday_size * sizeof(char));
-    guest->address = malloc(addr_size * sizeof(char));
-    user_input = malloc(sizeof(char) * 3);
+    guest->birth = malloc(birth_size * sizeof(char));
+    guest->address = malloc(address_size * sizeof(char));
+    guest->citizen_num = malloc(citizen_size * sizeof(char));
+    guest->phone = malloc(phone_size * sizeof(char));
+    guest->account = malloc(account_size * sizeof(char));
+    user_input= malloc(user_input_size * sizeof(char));
 
     // error checking
-    if ( guest->first_name == NULL || guest->last_name == NULL || guest->birth == NULL || guest->address == NULL || guest == NULL ){
+    if ( guest->first_name == NULL || guest == NULL || user_input == NULL || guest->last_name == NULL || guest->birth == NULL || guest->address == NULL ){
         printf("\nmalloc failed; out of memory.\n");
         return -1;
     }
@@ -69,75 +95,57 @@ int new_acc(void){
     // print screen
     printf("\t\t\tCREATE NEW ACCOUNT\n\n");
 
-    // accepts user input for account and input sanitization  
-    printf("\nAccount Owner Last Name: ");
-    if ( fgets(guest->last_name, last_size, stdin) == NULL ){
-        printf("\nfgets failed; user input error.\n");
-        return -1;
-    }
-    if ( sscanf(guest->last_name, "%31[^\n]", guest->last_name) == EOF){
-        printf("\nsscanf failed; user input error.\n");
-        return -1;
-    }
-    printf("Account Owner First Name: ");
-    if ( fgets(guest->first_name, first_size, stdin) == NULL ){
-        printf("\nfgets failed; user input error.\n");
-        return -1;
-    }
-    if ( sscanf(guest->first_name, "%31[^\n]", guest->first_name) == EOF){
-        printf("\nsscanf failed; user input error.\n");
-        return -1;
-    }
-    printf("Account Owner Birthday (yyyymmdd): ");
-    if ( fgets(guest->birth, bday_size, stdin) == NULL ){
-        printf("\nfgets failed; user input error.\n");
-        return -1;
-    }
-    if ( sscanf(guest->birth, "%8[^\n]", guest->birth) == EOF){
-        printf("\nsscanf failed; user input error.\n");
-        return -1;
-    }
-    printf("Account Owner Physical Address: ");
-    if ( fgets(guest->address, addr_size, stdin) == NULL ){
-        printf("\nfgets failed; user input error.\n");
-        return -1;
-    }
-    if ( sscanf(guest->address, "%63[^\n]", guest->address) == EOF){
-        printf("\nsscanf failed; user input error.\n");
-        return -1;
-    }
+    // accepts user input for account and clear stdin buffer
+    printf("First Name: ");
+    strcpy(guest->first_name, get_input(guest->first_name, first_size));
+    printf("Last Name: ");
+    strcpy(guest->last_name, get_input(guest->last_name, last_size));
+    printf("Birthday (yyyymmdd): ");
+    strcpy(guest->birth, get_input(guest->birth, birth_size));
+    printf("Citizenship Number: ");
+    strcpy(guest->citizen_num, get_input(guest->citizen_num, citizen_size));
+    printf("Address: ");
+    strcpy(guest->address, get_input(guest->address, address_size));
+    printf("Phone Number: ");
+    strcpy(guest->phone, get_input(guest->phone, phone_size));
+    printf("Account Type (1 = savings, 2 = current, 3 = fixed for 1 yr, 4 = fixed for 2 yr, 5 = fixed for 3 yr: ");
+    strcpy(guest->account, get_input(guest->account, account_size));
+
     printf("\n");
 
     // Verify Information
-    printf("Verify account info:\n");
-    printf("\t\tAccount Owner: \t\t%s %s\n", guest->first_name, guest->last_name);
-    printf("\t\tBirthday (yyyymmdd): \t%s\n", guest->birth);
-    printf("\t\tAddress: \t\t%s\n", guest->address);
-    printf("is this correct? (y/n) ");
-    if ( fgets(user_input, 3, stdin) == NULL ){
-        printf("\nfgets failed; user input error.\n");
-        return -1;
-    }
-    if ( sscanf(user_input, "%s", user_input) == EOF){
-        printf("\nsscanf failed; user input error.\n");
-        return -1;
-    }
+    while ( strncmp(user_input, "yes", 3) ){
+        printf("Verify account info:\n");
+        printf("\t\tAccount Owner: \t\t%s %s\n", guest->first_name, guest->last_name);
+        printf("\t\tCitizenship Number: \t%s\n", guest->citizen_num);
+        printf("\t\tBirthday: \t\t%s\n", guest->birth);
+        printf("\t\tAddress: \t\t%s\n", guest->address);
+        printf("\t\tPhone Number: \t\t%s\n", guest->phone);
+        printf("\t\tAccount Type: \t\t%s\n", guest->account);
+        printf("is this correct? (yes/no) ");
+        if (fgets(user_input, user_input_size, stdin) == NULL) {
+            printf("\nfgets failed; user input error.\n");
+            return -1;
+        }
 
-    // Re-do create account if wrong
-    if ( strcmp(user_input, "n") == 0 ||  strcmp(user_input, "no") == 0 ){
-        new_acc();
-    }
+        // clear stdin buffer
+        else if (strchr(user_input, '\n') == NULL) {
+            while((c = getc(stdin)) != '\n' && c != EOF);
+        }
 
-    // Continue if account correct
-    else if ( strcmp(user_input, "y") == 0 ||  strcmp(user_input, "yes") == 0 ){
-        printf("Account information saved.\nReturning to main menu.\n");
+        // sanity check
+        if ( DEBUG == 1 )
+            printf("(debug only) yes/no user input: %s\n", user_input);
     }
 
     // free memory
     free(guest->first_name);
     free(guest->last_name);
-    free(guest->birth);
+    free(guest->birth); 
     free(guest->address);
+    free(guest->citizen_num);
+    free(guest->phone); 
+    free(guest->account);
     free(guest);
     free(user_input);
 
