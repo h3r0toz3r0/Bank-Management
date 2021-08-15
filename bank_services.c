@@ -153,7 +153,19 @@ int new_acc(void){
             printf("(debug only) yes/no user input: %s\n", user_input);
     }
 
-    // create file with structval
+    // create a file and write data to the file
+    FILE *fptr = fopen("record.dat", "w");
+    if ( fptr == NULL ){
+        printf("Unable to create file.\n");
+        return -1;
+    }
+
+    // append to file
+    fputs(data, fptr);
+
+    // close file
+    fclose(fptr);
+
 
     // free memory
     free(guest->first_name);
