@@ -52,9 +52,10 @@ void *get_input(char *input_string, int input_size){
         while((c = getc(stdin)) != '\n' && c != EOF);
     }
 
-    // removes erroneous white space
-    sscanf(input_string, "%s", input_string);
+    // removes erroneous newline character
+    strtok(input_string, "\n");
 
+    // return function
     return input_string;
 }
 
@@ -97,24 +98,24 @@ int new_acc(void){
 
     // accepts user input for account and clear stdin buffer
     printf("First Name: ");
-    strcpy(guest->first_name, get_input(guest->first_name, first_size));
+    memmove(guest->first_name, get_input(guest->first_name, first_size), first_size);
     printf("Last Name: ");
-    strcpy(guest->last_name, get_input(guest->last_name, last_size));
+    memmove(guest->last_name, get_input(guest->last_name, last_size), last_size);
     printf("Birthday (yyyymmdd): ");
-    strcpy(guest->birth, get_input(guest->birth, birth_size));
+    memmove(guest->birth, get_input(guest->birth, birth_size), birth_size);
     printf("Citizenship Number: ");
-    strcpy(guest->citizen_num, get_input(guest->citizen_num, citizen_size));
+    memmove(guest->citizen_num, get_input(guest->citizen_num, citizen_size), citizen_size);
     printf("Address: ");
-    strcpy(guest->address, get_input(guest->address, address_size));
+    memmove(guest->address, get_input(guest->address, address_size), address_size);
     printf("Phone Number: ");
-    strcpy(guest->phone, get_input(guest->phone, phone_size));
+    memmove(guest->phone, get_input(guest->phone, phone_size), phone_size);
     printf("Account Type (1 = savings, 2 = current, 3 = fixed for 1 yr, 4 = fixed for 2 yr, 5 = fixed for 3 yr: ");
-    strcpy(guest->account, get_input(guest->account, account_size));
+    memmove(guest->account, get_input(guest->account, account_size), account_size);
 
     printf("\n");
 
     // Verify Information
-    while ( strncmp(user_input, "yes", 3) ){
+    while ( 1 ){
         printf("Verify account info:\n");
         printf("\t\tAccount Owner: \t\t%s %s\n", guest->first_name, guest->last_name);
         printf("\t\tCitizenship Number: \t%s\n", guest->citizen_num);
@@ -123,20 +124,36 @@ int new_acc(void){
         printf("\t\tPhone Number: \t\t%s\n", guest->phone);
         printf("\t\tAccount Type: \t\t%s\n", guest->account);
         printf("is this correct? (yes/no) ");
-        if (fgets(user_input, user_input_size, stdin) == NULL) {
-            printf("\nfgets failed; user input error.\n");
-            return -1;
-        }
+        strcmp(user_input, get_input(user_input, user_input_size));
+        printf("\n");
 
-        // clear stdin buffer
-        else if (strchr(user_input, '\n') == NULL) {
-            while((c = getc(stdin)) != '\n' && c != EOF);
+        // check char* for y/yes
+        if ( strcmp(user_input, "yes") == 0 || strcmp(user_input, "y")  == 0 )
+            break;
+
+        // check char* for n/no
+        if ( strcmp(user_input, "no") == 0 || strcmp(user_input, "n") == 0){
+            // free memory
+            free(guest->first_name);
+            free(guest->last_name);
+            free(guest->birth); 
+            free(guest->address);
+            free(guest->citizen_num);
+            free(guest->phone); 
+            free(guest->account);
+            free(guest);
+            free(user_input);
+
+            // call new_acct
+            new_acc();
         }
 
         // sanity check
         if ( DEBUG == 1 )
             printf("(debug only) yes/no user input: %s\n", user_input);
     }
+
+    // create file with structval
 
     // free memory
     free(guest->first_name);
