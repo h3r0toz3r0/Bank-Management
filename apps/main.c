@@ -4,15 +4,6 @@
 //              Date: 3 August 2021                         //
 //////////////////////////////////////////////////////////////
 
-//  includes
-#include "new-acc.h"
-#include "edit.h"
-#include "transact.h"
-#include "see.h"
-#include "erase.h"
-#include "view-list.h"
-#include <stdio.h>
-
 //  main function
 int main( void )
 {
