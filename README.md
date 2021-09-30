@@ -7,6 +7,11 @@ Purpose: for code review
 
 Source: https://www.codewithc.com/mini-project-in-c-bank-management-system/
 
+## Useage
+make exec - compiles and runs program
+
+make clean - cleans workspace, removes executables and .o files
+
 ## Bank Management Services
 1) menu() – This function displays the menu or welcome screen to perform different banking activities mentioned below.
 2) new_acc() – This function creates a new customer account. It asks for some  personal and banking details of the customer such as name, date of birth, citizenship number, address and phone number. You can enter the amount to deposit and choose one type of deposit account – saving, current, fixed for 1 year, fixed for 2 years or fixed for 3 years.
@@ -22,6 +27,6 @@ Source: https://www.codewithc.com/mini-project-in-c-bank-management-system/
 3) Multiple clients and one server 
 
 ## Hints
-Valgrind is your friend: `valgrind --leak-cheak=full ./bank_services`
+Valgrind is your friend: `valgrind --leak-check=full ./bank_services`
 
 Security and memory management matter.
