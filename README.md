@@ -27,6 +27,6 @@ make clean - cleans workspace, removes executables and .o files
 3) Multiple clients and one server 
 
 ## Hints
-Valgrind is your friend: `valgrind --leak-check=full ./bank_services`
+Valgrind is your friend: `valgrind --leak-check=full ./BankService`
 
 Security and memory management matter.
