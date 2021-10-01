@@ -20,58 +20,73 @@
 //  new_acc function
 int func_create(void)
 {
+    printf("\n---------- CREATE NEW ACCOUNT ----------\n");
+
     // declare local variables
     struct Customer* customer;
+    char *input;
+    int check;
 
     // initialize variables
+    check = 0;
     customer = NULL;
+    input = malloc(10 * sizeof(char));
     customer = init_customer(customer);
 
     // collect user information
-    printf("\n---------- CREATE NEW ACCOUNT ----------\n");
-    printf("Enter New Account Owner Name: ");
-    user_input(customer->name, STREET_LEN);
-    printf("Enter Home Street Address: ");
-    user_input(customer->street, STREET_LEN);
-    printf("Enter Home City: ");
-    user_input(customer->city, CITY_LEN);
-    printf("Enter Home State: ");
-    user_input(customer->state, STATE_LEN);
-    printf("Enter Citizenship Number: ");
-    user_input(customer->citizenship, CITZ_LEN);
-    printf("Enter Birth Month (as number): ");
-    user_input(customer->birth_month, BM_LEN);
-    printf("Enter Birth Day: ");
-    user_input(customer->birth_day, BD_LEN);
-    printf("Enter Birth Year: ");
-    user_input(customer->birth_year, BY_LEN);
-    printf("Enter Phone Number: ");
-    user_input(customer->phone, PHONE_LEN);
-    printf("Enter New Account Type: ");
-    user_input(customer->type, TYPE_LEN);
+    while ( check  == 0 )
+    {
+        printf("Enter New Account Owner Name: ");
+        user_input(customer->name, STREET_LEN);
+        printf("Enter Home Street Address: ");
+        user_input(customer->street, STREET_LEN);
+        printf("Enter Home City: ");
+        user_input(customer->city, CITY_LEN);
+        printf("Enter Home State: ");
+        user_input(customer->state, STATE_LEN);
+        printf("Enter Citizenship Number: ");
+        user_input(customer->citizenship, CITZ_LEN);
+        printf("Enter Birth Month (as number): ");
+        user_input(customer->birth_month, BM_LEN);
+        printf("Enter Birth Day: ");
+        user_input(customer->birth_day, BD_LEN);
+        printf("Enter Birth Year: ");
+        user_input(customer->birth_year, BY_LEN);
+        printf("Enter Phone Number: ");
+        user_input(customer->phone, PHONE_LEN);
+        printf("Enter New Account Type: ");
+        user_input(customer->type, TYPE_LEN);
 
-    ///////// CHECK USER INPUT - are the values correct?
-
-    // confirm information with user
-    printf("\n\nAccount information:"
-            "\n\tname:\t\t\t%s"
-            "\n\taddress:\t\t%s %s, %s"
-            "\n\tbirthday:\t\t%s %s, %s"
-            "\n\tcitizenship number:\t%s"
-            "\n\tphone number:\t\t%s"
-            "\n\taccount type:\t\t%s"
-            "\nIs this correct? ", 
-            customer->name, customer->street, 
-            customer->city, customer->state, 
-            customer->birth_month, customer->birth_day, 
-            customer->birth_year, customer->citizenship, 
-            customer->phone, customer->type);
+        // confirm information with user
+        printf("\n\nAccount information:"
+                "\n\tname:\t\t\t%s"
+                "\n\taddress:\t\t%s %s, %s"
+                "\n\tbirthday:\t\t%s/%s/%s"
+                "\n\tcitizenship number:\t%s"
+                "\n\tphone number:\t\t%s"
+                "\n\taccount type:\t\t%s"
+                "\nIs this correct? ", 
+                customer->name, customer->street, 
+                customer->city, customer->state, 
+                customer->birth_month, customer->birth_day, 
+                customer->birth_year, customer->citizenship, 
+                customer->phone, customer->type);
+        user_input(input, 10);
+        if(strcmp(input, "yes") == 0 || strcmp(input, "y") == 0 ||
+            strcmp(input, "YES") == 0 || strcmp(input, "Y") == 0 ||
+            strcmp(input,"Yes") == 0 )
+        {
+            check = 1;
+        }
+    }
 
     printf("\n");
 
     // free memory
     free_customer(customer);
+    free(input);
 
+    // return 0 for success
     return 0;
 }
 
