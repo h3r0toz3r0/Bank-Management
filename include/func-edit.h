@@ -1,6 +1,6 @@
 /*
- * name: edit.h
- * description: header file for edit.c 
+ * name: func-edit.h
+ * description: header file for func-edit.c 
  */
 
 //  include guard
@@ -8,6 +8,6 @@
 #define EDIT_H    
 
 //  declare function
-void edit(void);
+void func_edit(void);
 
 #endif /* EDIT_H */

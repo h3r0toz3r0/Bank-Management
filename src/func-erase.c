@@ -5,11 +5,11 @@
  */
 
 //  includes
-#include "erase.h"
+#include "func-erase.h"
 #include <stdio.h>
 
 //  edit function
-void erase(void)
+void func_erase(void)
 {
     printf("erase\n");
 

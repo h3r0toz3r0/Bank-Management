@@ -6,11 +6,11 @@
  */
 
 //  includes
-#include "edit.h"
+#include "func-edit.h"
 #include <stdio.h>
 
 //  edit function
-void edit(void)
+void func_edit(void)
 {
     printf("edit\n");
 

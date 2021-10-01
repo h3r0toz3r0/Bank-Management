@@ -2,33 +2,36 @@ CC = gcc
 CFLAGS = -c -Wall -I include
 OBJ = BankSystem
 
-all $(OBJ): main.o edit.o erase.o new-acc.o see.o transact.o view-list.o
-	$(CC) main.o edit.o erase.o new-acc.o see.o transact.o view-list.o -o $(OBJ)
+all $(OBJ): main.o func-edit.o func-erase.o func-create.o func-see.o func-transact.o func-view.o struct-cust.o
+	$(CC) main.o func-edit.o func-erase.o func-create.o func-see.o func-transact.o func-view.o struct-cust.o -o $(OBJ)
 
 main.o:
 	$(CC) $(CFLAGS) apps/main.c
 
-edit.o:
-	$(CC) $(CFLAGS) src/edit.c
+func-edit.o:
+	$(CC) $(CFLAGS) src/func-edit.c
 
-erase.o:
-	$(CC) $(CFLAGS) src/erase.c
+func-erase.o:
+	$(CC) $(CFLAGS) src/func-erase.c
 
-new-acc.o:
-	$(CC) $(CFLAGS) src/new-acc.c
+func-create.o:
+	$(CC) $(CFLAGS) src/func-create.c
 
-see.o:
-	$(CC) $(CFLAGS) src/see.c
+func-see.o:
+	$(CC) $(CFLAGS) src/func-see.c
 
-transact.o:
-	$(CC) $(CFLAGS) src/transact.c
+func-transact.o:
+	$(CC) $(CFLAGS) src/func-transact.c
 
-view-list.o:
-	$(CC) $(CFLAGS) src/view-list.c
+func-view.o:
+	$(CC) $(CFLAGS) src/func-view.c
+
+struct-cust.o:
+	$(CC) $(CFLAGS) src/struct-cust.c
 
 exec: all
+	rm *.o
 	./$(OBJ)
 
 clean:
 	rm $(OBJ)
-	rm *.o

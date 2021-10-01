@@ -1,5 +1,5 @@
 /*  
- * file: new_acc.c
+ * file: func_create.c
  * description: this function creates a new customer account. 
  * It asks for some  personal and banking details of the customer 
  * such as name, date of birth, citizenship number, 
@@ -7,16 +7,32 @@
  * deposit and choose one type of deposit account – saving, 
  * current, fixed for 1 year, fixed for 2 years or fixed 
  * for 3 years.
+ * return: 0 for success, -1 for error
  */
 
 //  includes
-#include "new-acc.h"
+#include "func-create.h"
+#include "struct-cust.h"
 #include <stdio.h>
+#include <string.h>
 
 //  new_acc function
-int new_acc(void)
+int func_create(void)
 {
     printf("new-acc\n");
+
+    // declare local variables
+    struct Customer* customer = NULL;
+
+    // initialize customer
+    customer = init_customer(customer);
+
+    memmove(customer->name, "Anna DeVries", 50);
+
+    printf("%s\n", customer->name);
+
+    // free customer
+    free_customer(customer);
 
     return 0;
 }
@@ -29,22 +45,6 @@ int new_acc(void)
 //     int user_input_size = 4;
 //     int c;
 
-//     // allocate memory
-//     guest = malloc(sizeof(Customer));
-//     guest->first_name = malloc(first_size * sizeof(char));
-//     guest->last_name = malloc(last_size * sizeof(char));
-//     guest->birth = malloc(birth_size * sizeof(char));
-//     guest->address = malloc(address_size * sizeof(char));
-//     guest->citizen_num = malloc(citizen_size * sizeof(char));
-//     guest->phone = malloc(phone_size * sizeof(char));
-//     guest->account = malloc(account_size * sizeof(char));
-//     user_input= malloc(user_input_size * sizeof(char));
-
-//     // error checking
-//     if ( guest->first_name == NULL || guest == NULL || user_input == NULL || guest->last_name == NULL || guest->birth == NULL || guest->address == NULL ){
-//         printf("\nmalloc failed; out of memory.\n");
-//         return -1;
-//     }
 
 //     // print screen
 //     printf("\t\t\tCREATE NEW ACCOUNT\n\n");
@@ -119,17 +119,6 @@ int new_acc(void)
 //     // close file
 //     fclose(fptr);
 
-
-//     // free memory
-//     free(guest->first_name);
-//     free(guest->last_name);
-//     free(guest->birth); 
-//     free(guest->address);
-//     free(guest->citizen_num);
-//     free(guest->phone); 
-//     free(guest->account);
-//     free(guest);
-//     free(user_input);
 
 //     // return on success
 //     return 0;

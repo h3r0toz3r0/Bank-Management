@@ -1,6 +1,6 @@
 /*
- * name: erase.h
- * description: header file for erase.c 
+ * name: func-erase.h
+ * description: header file for func-erase.c 
  */
 
 //  include guard
@@ -8,6 +8,6 @@
 #define ERASE_H    
 
 //  declare function
-void erase(void);
+void func_erase(void);
 
 #endif /* ERASE_H */

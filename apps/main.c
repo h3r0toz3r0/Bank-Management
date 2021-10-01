@@ -24,27 +24,27 @@ int selection(int select_bit)
     // run desired function
     if (select_bit == 1)
     {
-        new_acc();
+        func_create();
     }
     else if (select_bit == 2)
     {
-        edit();
+        func_edit();
     }
     else if (select_bit == 3)
     {
-        transact();
+        func_erase();
     }
     else if (select_bit == 4)
     {
-        see();
+        func_see();
     }
     else if (select_bit == 5)
     {
-        erase();
+        func_transact();
     }
     else if (select_bit == 6)
     {
-        view_list();
+        func_view();
     }
 
     // return selection
@@ -64,9 +64,9 @@ int main( void )
     printf("\n\tCUSTOMER ACCOUNT BANKING MANAGEMENT SYSTEM\n");
     printf("\n\tOPTIONS:\t1 - create a new account\n"
            "\t\t\t2 - update an existing account\n"
-           "\t\t\t3 - deposit/withdraw from an account\n"
+           "\t\t\t3 - remove existing account\n"
            "\t\t\t4 - check details of an account\n"
-           "\t\t\t5 - remove existing account\n"
+           "\t\t\t5 - deposit/withdraw from an account\n"
            "\t\t\t6 - view customer information associated with account\n"
            "\t\t\t7 - exit\n\n");
 

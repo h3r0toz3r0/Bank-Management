@@ -1,6 +1,6 @@
 /*
- * name: see.h
- * description: header file for see.c 
+ * name: func-see.h
+ * description: header file for func-see.c 
  */
 
 //  include guard
@@ -8,6 +8,6 @@
 #define SEE_H    
 
 //  declare function
-void see(void);
+void func_see(void);
 
 #endif /* SEE_H */

@@ -7,11 +7,11 @@
  */
 
 //  includes
-#include "view-list.h"
+#include "func-view.h"
 #include <stdio.h>
 
 //  edit function
-void view_list(void)
+void func_view(void)
 {
     printf("view-list\n");
 

@@ -1,6 +1,6 @@
 /*
- * name: transact.h
- * description: header file for transact.c 
+ * name: func-transact.h
+ * description: header file for func-transact.c 
  */
 
 //  include guard
@@ -8,6 +8,6 @@
 #define TRANSACT_H    
 
 //  declare function
-void transact(void);
+void func_transact(void);
 
 #endif /* TRANSACT_H */

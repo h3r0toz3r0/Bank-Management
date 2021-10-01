@@ -5,11 +5,11 @@
  */
 
 //  includes
-#include "transact.h"
+#include "func-transact.h"
 #include <stdio.h>
 
 //  edit function
-void transact(void)
+void func_transact(void)
 {
     printf("transact\n");
 

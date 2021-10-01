@@ -8,20 +8,19 @@
 #define MAIN_H    
 
 //  includes
-#include "new-acc.h"
-#include "edit.h"
-#include "transact.h"
-#include "see.h"
-#include "erase.h"
-#include "view-list.h"
-#include <stdio.h>
+#include "func-create.h"
+#include "func-edit.h"
+#include "func-erase.h"
+#include "func-see.h"
+#include "func-transact.h"
+#include "func-view.h"
 
 //  declare functions
-int new_acc(void);
-void edit(void);
-void erase(void);
-void see(void);
-void transact(void);
-void view_list(void);
+int func_create(void);
+void func_edit(void);
+void func_erase(void);
+void func_see(void);
+void func_transact(void);
+void func_view(void);
 
 #endif /* MAIN_H */

@@ -8,11 +8,11 @@
  */
 
 //  includes
-#include "see.h"
+#include "func-see.h"
 #include <stdio.h>
 
 //  edit function
-void see(void)
+void func_see(void)
 {
     printf("see\n");
 
