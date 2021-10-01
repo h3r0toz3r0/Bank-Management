@@ -7,6 +7,18 @@
 #ifndef CUSTOMER_H
 #define CUSTOMER_H   
 
+//  macros
+#define NAME_LEN    50
+#define STREET_LEN  100
+#define CITY_LEN    50
+#define STATE_LEN   20
+#define CITZ_LEN    20
+#define BM_LEN      11
+#define BD_LEN      3
+#define BY_LEN      5
+#define PHONE_LEN   20
+#define TYPE_LEN    20
+
 //  define structure
 typedef struct Customer
 {

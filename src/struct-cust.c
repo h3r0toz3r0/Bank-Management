@@ -12,11 +12,22 @@
 //  user_input() function asks user for string input for customer struct
 char *user_input( char *string_input, int string_length )
 {
-    // allocate memory
-    string_input = malloc(string_length * sizeof(char));
+    // define local variables
+    int c;
 
     // collect user input
-    fgets(string_input, string_length, stdin);
+    if (fgets(string_input, string_length, stdin) == NULL) {
+        printf("\nfgets failed; user input error.\n");
+        return "0";
+    }
+
+    // clears stdin buffer if greater than char* allocation
+    else if (strchr(string_input, '\n') == NULL) {
+        while((c = getc(stdin)) != '\n' && c != EOF);
+    }
+
+    // removes erroneous newline character
+    strtok(string_input, "\n");
 
     // return string input
     return string_input;
@@ -27,16 +38,16 @@ struct Customer* init_customer(struct Customer* customer)
 {
     // allocate memory
     customer = malloc(sizeof(struct Customer));
-    customer->name = malloc(50 * sizeof(char));
-    customer->street = malloc(100 * sizeof(char));
-    customer->city = malloc(50 * sizeof(char));
-    customer->state = malloc(20 * sizeof(char));
-    customer->citizenship = malloc(20 * sizeof(char));
-    customer->birth_month = malloc(10 * sizeof(char));
-    customer->birth_day = malloc(2 * sizeof(char));
-    customer->birth_year = malloc(4 * sizeof(char));
-    customer->phone = malloc(20 * sizeof(char));
-    customer->type = malloc(20 * sizeof(char));
+    customer->name = malloc(NAME_LEN * sizeof(char));
+    customer->street = malloc(STREET_LEN * sizeof(char));
+    customer->city = malloc(CITY_LEN * sizeof(char));
+    customer->state = malloc(STATE_LEN * sizeof(char));
+    customer->citizenship = malloc(CITZ_LEN * sizeof(char));
+    customer->birth_month = malloc(BM_LEN * sizeof(char));
+    customer->birth_day = malloc(BD_LEN * sizeof(char));
+    customer->birth_year = malloc(BY_LEN * sizeof(char));
+    customer->phone = malloc(PHONE_LEN * sizeof(char));
+    customer->type = malloc(TYPE_LEN * sizeof(char));
 
     // error checking
     if( customer == NULL || customer->name == NULL ||

@@ -30,28 +30,44 @@ int func_create(void)
     // collect user information
     printf("\n---------- CREATE NEW ACCOUNT ----------\n");
     printf("Enter New Account Owner Name: ");
-    customer->name = user_input(customer->name, 50);
+    user_input(customer->name, STREET_LEN);
     printf("Enter Home Street Address: ");
-    customer->street = user_input(customer->street, 100);
+    user_input(customer->street, STREET_LEN);
     printf("Enter Home City: ");
-    customer->city = user_input(customer->city, 50);
+    user_input(customer->city, CITY_LEN);
     printf("Enter Home State: ");
-    customer->state = user_input(customer->state, 20);
+    user_input(customer->state, STATE_LEN);
     printf("Enter Citizenship Number: ");
-    customer->citizenship = user_input(customer->citizenship, 20);
+    user_input(customer->citizenship, CITZ_LEN);
     printf("Enter Birth Month (as number): ");
-    customer->birth_month = user_input(customer->birth_month, 10);
+    user_input(customer->birth_month, BM_LEN);
     printf("Enter Birth Day: ");
-    customer->birth_day = user_input(customer->birth_day, 2);
+    user_input(customer->birth_day, BD_LEN);
     printf("Enter Birth Year: ");
-    customer->birth_year = user_input(customer->birth_year, 4);
+    user_input(customer->birth_year, BY_LEN);
     printf("Enter Phone Number: ");
-    customer->phone = user_input(customer->phone, 20);
+    user_input(customer->phone, PHONE_LEN);
     printf("Enter New Account Type: ");
-    customer->type = user_input(customer->type, 20);
+    user_input(customer->type, TYPE_LEN);
 
+    ///////// CHECK USER INPUT - are the values correct?
 
-    printf("%s\n", customer->name);
+    // confirm information with user
+    printf("\n\nAccount information:"
+            "\n\tname:\t\t\t%s"
+            "\n\taddress:\t\t%s %s, %s"
+            "\n\tbirthday:\t\t%s %s, %s"
+            "\n\tcitizenship number:\t%s"
+            "\n\tphone number:\t\t%s"
+            "\n\taccount type:\t\t%s"
+            "\nIs this correct? ", 
+            customer->name, customer->street, 
+            customer->city, customer->state, 
+            customer->birth_month, customer->birth_day, 
+            customer->birth_year, customer->citizenship, 
+            customer->phone, customer->type);
+
+    printf("\n");
 
     // free memory
     free_customer(customer);
