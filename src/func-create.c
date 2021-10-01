@@ -15,23 +15,45 @@
 #include "struct-cust.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 //  new_acc function
 int func_create(void)
 {
-    printf("new-acc\n");
-
     // declare local variables
-    struct Customer* customer = NULL;
+    struct Customer* customer;
 
-    // initialize customer
+    // initialize variables
+    customer = NULL;
     customer = init_customer(customer);
 
-    memmove(customer->name, "Anna DeVries", 50);
+    // collect user information
+    printf("\n---------- CREATE NEW ACCOUNT ----------\n");
+    printf("Enter New Account Owner Name: ");
+    customer->name = user_input(customer->name, 50);
+    printf("Enter Home Street Address: ");
+    customer->street = user_input(customer->street, 100);
+    printf("Enter Home City: ");
+    customer->city = user_input(customer->city, 50);
+    printf("Enter Home State: ");
+    customer->state = user_input(customer->state, 20);
+    printf("Enter Citizenship Number: ");
+    customer->citizenship = user_input(customer->citizenship, 20);
+    printf("Enter Birth Month (as number): ");
+    customer->birth_month = user_input(customer->birth_month, 10);
+    printf("Enter Birth Day: ");
+    customer->birth_day = user_input(customer->birth_day, 2);
+    printf("Enter Birth Year: ");
+    customer->birth_year = user_input(customer->birth_year, 4);
+    printf("Enter Phone Number: ");
+    customer->phone = user_input(customer->phone, 20);
+    printf("Enter New Account Type: ");
+    customer->type = user_input(customer->type, 20);
+
 
     printf("%s\n", customer->name);
 
-    // free customer
+    // free memory
     free_customer(customer);
 
     return 0;

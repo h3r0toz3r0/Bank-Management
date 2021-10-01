@@ -30,8 +30,8 @@ struct-cust.o:
 	$(CC) $(CFLAGS) src/struct-cust.c
 
 exec: all
-	rm *.o
 	./$(OBJ)
 
 clean:
+	rm *.o
 	rm $(OBJ)

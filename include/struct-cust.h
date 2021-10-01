@@ -29,5 +29,6 @@ typedef struct Customer
 //  declare function
 struct Customer* init_customer(struct Customer* customer);
 void free_customer(struct Customer* customer);
+char *user_input( char *string_input, int string_length );
 
 #endif /* CUSTOMER_H */

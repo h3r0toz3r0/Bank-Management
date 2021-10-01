@@ -7,6 +7,20 @@
 #include "struct-cust.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+
+//  user_input() function asks user for string input for customer struct
+char *user_input( char *string_input, int string_length )
+{
+    // allocate memory
+    string_input = malloc(string_length * sizeof(char));
+
+    // collect user input
+    fgets(string_input, string_length, stdin);
+
+    // return string input
+    return string_input;
+}
 
 //  init_customer() function initializes memory for customer structure
 struct Customer* init_customer(struct Customer* customer)
