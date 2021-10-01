@@ -16,7 +16,12 @@
 #include "view-list.h"
 #include <stdio.h>
 
-//  declare function
+//  declare functions
 int new_acc(void);
+void edit(void);
+void erase(void);
+void see(void);
+void transact(void);
+void view_list(void);
 
 #endif /* MAIN_H */

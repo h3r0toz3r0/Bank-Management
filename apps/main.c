@@ -1,18 +1,64 @@
-//////////////////////////////////////////////////////////////
-//              Bank Management Program                     //
-//              Author: Anna DeVries                        //
-//              Date: 3 August 2021                         //
-//////////////////////////////////////////////////////////////
+/*
+ * name: main.c
+ * author: Anna DeVries
+ * description: bank management program
+ */
+
+//  includes
+#include <stdio.h>
+#include "main.h"
+
+//  selection function
+int selection(int select_bit)
+{
+    // define local variables
+    int tmp;
+
+    // user input
+    printf("Enter a number: ");
+    scanf("%d", &select_bit);
+
+    // sanitize input
+    while ((tmp = getchar()) != EOF && tmp != '\n');
+
+    // run desired function
+    if (select_bit == 1)
+    {
+        new_acc();
+    }
+    else if (select_bit == 2)
+    {
+        edit();
+    }
+    else if (select_bit == 3)
+    {
+        transact();
+    }
+    else if (select_bit == 4)
+    {
+        see();
+    }
+    else if (select_bit == 5)
+    {
+        erase();
+    }
+    else if (select_bit == 6)
+    {
+        view_list();
+    }
+
+    // return selection
+    return select_bit;
+}
 
 //  main function
 int main( void )
 {
     // define local variables
-    int selection;
-    int tmp;
+    int select_bit;
 
     // initiate local variables
-    selection = 0;
+    select_bit = 0;
 
     // prints welcome screen
     printf("\n\tCUSTOMER ACCOUNT BANKING MANAGEMENT SYSTEM\n");
@@ -25,50 +71,9 @@ int main( void )
            "\t\t\t7 - exit\n\n");
 
     // for-loop till user chooses to exit
-    while (selection != 7)
+    while (select_bit != 7)
     {
-        // user input
-        printf("Enter a number: ");
-        scanf("%d", &selection);
-
-        // sanitize input
-        while ((tmp = getchar()) != EOF && tmp != '\n');
-
-        // selection 1 = create
-        if ( selection == 1 )
-        {
-            new_acc();
-        }
-
-        // selection 2 = update
-        else if ( selection == 2 )
-        {
-            edit();
-        }
-
-        // selection 3 = transactions
-        else if ( selection == 3 )
-        {
-            transact();
-        }
-
-        // selection 4 = check details
-        else if ( selection == 4 )
-        {
-            see();
-        }
-
-        // selection 5 = remove
-        else if ( selection == 5 )
-        {
-            erase();
-        }
-
-        // selection 6 = view list
-        else if ( selection == 6 )
-        {
-            view_list();
-        }
+        select_bit = selection(select_bit);
     }
 
     //  Exit at success
