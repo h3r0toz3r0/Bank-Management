@@ -2,8 +2,8 @@ CC = gcc
 CFLAGS = -c -Wall -I include
 OBJ = BankSystem
 
-all $(OBJ): main.o func-edit.o func-erase.o func-create.o func-see.o func-transact.o func-view.o struct-cust.o
-	$(CC) main.o func-edit.o func-erase.o func-create.o func-see.o func-transact.o func-view.o struct-cust.o -o $(OBJ)
+all $(OBJ): main.o func-edit.o func-erase.o func-create.o func-see.o func-transact.o func-view.o struct-cust.o func-files.o
+	$(CC) main.o func-edit.o func-erase.o func-create.o func-see.o func-transact.o func-view.o struct-cust.o func-files.o -o $(OBJ)
 
 main.o:
 	$(CC) $(CFLAGS) apps/main.c
@@ -28,6 +28,9 @@ func-view.o:
 
 struct-cust.o:
 	$(CC) $(CFLAGS) src/struct-cust.c
+
+func-files.o:
+	$(CC) $(CFLAGS) src/func-files.c
 
 exec: all
 	./$(OBJ)

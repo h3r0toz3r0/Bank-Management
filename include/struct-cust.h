@@ -22,6 +22,7 @@
 //  define structure
 typedef struct Customer
 {
+    int acc_num;        //  account number
     char *name;         //  account user name
     char *street;       //  user street address
     char *city;         //  user city

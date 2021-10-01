@@ -13,6 +13,7 @@
 //  includes
 #include "func-create.h"
 #include "struct-cust.h"
+#include "func-files.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -23,12 +24,15 @@ int func_create(void)
     printf("\n---------- CREATE NEW ACCOUNT ----------\n");
 
     // declare local variables
-    struct Customer* customer;
+    struct Customer *customer;
     char *input;
     int check;
+    int acc_num;
 
     // initialize variables
     check = 0;
+    acc_num = 0;
+    //memset(customer, 0, sizeof(struct Customer));
     customer = NULL;
     input = malloc(10 * sizeof(char));
     customer = init_customer(customer);
@@ -79,8 +83,22 @@ int func_create(void)
             check = 1;
         }
     }
-
     printf("\n");
+
+    // initilize account number
+    acc_num = assign_acc();
+
+    // append account number to structure
+    customer->acc_num = acc_num;
+
+    // add account to FILE
+    insert_file(customer);
+
+    // print confirmation
+    printf("\nCongratulations - your new account has been registered.\n"
+            "Your account number is %d.\n"
+            "You will need this number to access your account.\n\n", acc_num);
+
 
     // free memory
     free_customer(customer);
