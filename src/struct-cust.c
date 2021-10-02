@@ -49,6 +49,18 @@ struct Customer* init_customer(struct Customer* customer)
     customer->phone = malloc(PHONE_LEN * sizeof(char));
     customer->type = malloc(TYPE_LEN * sizeof(char));
 
+    // initialize variables
+    memset(customer->name, 0, NAME_LEN);
+    memset(customer->street, 0, STREET_LEN);
+    memset(customer->city, 0, CITY_LEN);
+    memset(customer->state, 0, STATE_LEN);
+    memset(customer->citizenship, 0, CITZ_LEN);
+    memset(customer->birth_month, 0, BM_LEN);
+    memset(customer->birth_day, 0, BD_LEN); // broke
+    memset(customer->birth_year, 0, BY_LEN); // broke
+    memset(customer->phone, 0, PHONE_LEN);
+    memset(customer->type, 0, TYPE_LEN);
+
     // error checking
     if( customer == NULL || customer->name == NULL ||
         customer->street == NULL || customer->city == NULL ||

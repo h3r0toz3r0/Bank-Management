@@ -14,8 +14,8 @@
 #define STATE_LEN   20
 #define CITZ_LEN    20
 #define BM_LEN      11
-#define BD_LEN      3
-#define BY_LEN      5
+#define BD_LEN      10
+#define BY_LEN      10
 #define PHONE_LEN   20
 #define TYPE_LEN    20
 
