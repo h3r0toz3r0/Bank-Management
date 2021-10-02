@@ -18,7 +18,7 @@
 #define BY_LEN      10
 #define PHONE_LEN   20
 #define TYPE_LEN    20
-#define ACC_LEN     10
+#define ACC_LEN     6
 
 //  define structure
 typedef struct Customer

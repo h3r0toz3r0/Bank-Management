@@ -8,11 +8,54 @@
 #include "struct-cust.h"
 #include <stdio.h>
 #include <string.h>
+#include <time.h> 
+#include <math.h> 
+#include <stdlib.h>
 
 //  assign_acc(): function that assigns a random, unused account number
 void assign_acc(struct Customer* customer)
 {
-    strncpy(customer->acc_num, "100", ACC_LEN);
+    // define local varibles
+    int randsize;
+    int seed;
+    int count;
+    int start_index;
+    int len;
+    time_t current_time;
+    unsigned long tmp_seed;
+
+    // initialize local variables
+    randsize = ACC_LEN;
+    count = 0;
+    char buffer[randsize * 2 + 1];
+    char final_buffer[randsize];
+
+    // generate seed based on current time
+    time(&current_time);
+    seed = current_time;
+    tmp_seed = seed * seed;
+
+    // fill buffer with random numbers
+    while( count < (2 * randsize) )
+    {
+        buffer[count++] = (tmp_seed % 10 + ('0' - 0));
+        tmp_seed /= 10;
+    }
+    buffer[count] = '\0';
+
+    // index buffer
+    len = strlen(buffer);
+    start_index = (len - randsize) / 2;
+    strncpy(final_buffer, buffer + start_index, randsize - 1);
+    final_buffer[randsize - 1] = '\0';
+
+    // replace seed with random number
+    seed = atol(final_buffer);
+
+    // check FILE to ensure unique account number
+
+    // add account number to customer struct
+    strncpy(customer->acc_num, final_buffer, randsize);
 
     // return
     return;
