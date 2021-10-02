@@ -15,6 +15,6 @@
 
 //  declare function
 void insert_file(struct Customer* customer);
-int assign_acc(void);
+void assign_acc(struct Customer* customer);
 
 #endif /* FILES_H */

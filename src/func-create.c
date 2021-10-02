@@ -27,12 +27,9 @@ int func_create(void)
     struct Customer *customer;
     char *input;
     int check;
-    int acc_num;
 
     // initialize variables
     check = 0;
-    acc_num = 0;
-    //memset(customer, 0, sizeof(struct Customer));
     customer = NULL;
     input = malloc(10 * sizeof(char));
     customer = init_customer(customer);
@@ -86,18 +83,15 @@ int func_create(void)
     printf("\n");
 
     // initilize account number
-    acc_num = assign_acc();
-
-    // append account number to structure
-    customer->acc_num = acc_num;
+    assign_acc(customer);
 
     // add account to FILE
     insert_file(customer);
 
     // print confirmation
     printf("\nCongratulations - your new account has been registered.\n"
-            "Your account number is %d.\n"
-            "You will need this number to access your account.\n\n", acc_num);
+            "Your account number is %s.\n"
+            "You will need this number to access your account.\n\n", customer->acc_num);
 
 
     // free memory

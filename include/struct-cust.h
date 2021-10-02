@@ -18,11 +18,12 @@
 #define BY_LEN      10
 #define PHONE_LEN   20
 #define TYPE_LEN    20
+#define ACC_LEN     10
 
 //  define structure
 typedef struct Customer
 {
-    int acc_num;        //  account number
+    char *acc_num;      //  account number
     char *name;         //  account user name
     char *street;       //  user street address
     char *city;         //  user city

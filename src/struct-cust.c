@@ -48,6 +48,7 @@ struct Customer* init_customer(struct Customer* customer)
     customer->birth_year = malloc(BY_LEN * sizeof(char));
     customer->phone = malloc(PHONE_LEN * sizeof(char));
     customer->type = malloc(TYPE_LEN * sizeof(char));
+    customer->acc_num = malloc(ACC_LEN * sizeof(char));
 
     // initialize variables
     memset(customer->name, 0, NAME_LEN);
@@ -60,6 +61,7 @@ struct Customer* init_customer(struct Customer* customer)
     memset(customer->birth_year, 0, BY_LEN);
     memset(customer->phone, 0, PHONE_LEN);
     memset(customer->type, 0, TYPE_LEN);
+    memset(customer->acc_num, 0, ACC_LEN);
 
     // error checking
     if( customer == NULL || customer->name == NULL ||
@@ -67,7 +69,7 @@ struct Customer* init_customer(struct Customer* customer)
         customer->state == NULL || customer->citizenship == NULL ||
         customer->birth_month == NULL || customer->birth_day == NULL ||
         customer->birth_year == NULL || customer->phone == NULL ||
-        customer->type == NULL)
+        customer->type == NULL || customer->acc_num == NULL)
     {
         printf("\nmalloc failed; out of memory.\n");
         return NULL;
@@ -91,6 +93,7 @@ void free_customer(struct Customer* customer)
     free(customer->birth_year);
     free(customer->phone);
     free(customer->type);
+    free(customer->acc_num);
     free(customer);
 
     // return

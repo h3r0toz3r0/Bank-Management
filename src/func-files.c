@@ -7,12 +7,15 @@
 #include "func-files.h"
 #include "struct-cust.h"
 #include <stdio.h>
+#include <string.h>
 
 //  assign_acc(): function that assigns a random, unused account number
-int assign_acc(void)
+void assign_acc(struct Customer* customer)
 {
+    strncpy(customer->acc_num, "100", ACC_LEN);
+
     // return
-    return 0;
+    return;
 }
 
 //  insert_file(): function inserts new account into file
@@ -25,7 +28,8 @@ void insert_file(struct Customer* customer)
     fd = fopen(FILE_PATH, "a");
 
     // append structure to file
-    //fwrite(customer->acc_num, sizeof(int), 1, fd);
+    fwrite(customer->acc_num, sizeof(char), ACC_LEN, fd);
+    fwrite(",", sizeof(char), 1, fd);
     fwrite(customer->name, sizeof(char), NAME_LEN, fd);
     fwrite(",", sizeof(char), 1, fd);
     fwrite(customer->street, sizeof(char), STREET_LEN, fd);
