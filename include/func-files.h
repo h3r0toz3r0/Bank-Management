@@ -11,7 +11,7 @@
 #include "struct-cust.h"
 
 //  macros
-#define FILE_PATH   "records.dat"
+#define FILE_PATH   "records.csv"
 
 //  declare function
 void insert_file(struct Customer* customer);

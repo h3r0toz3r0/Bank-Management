@@ -56,8 +56,8 @@ struct Customer* init_customer(struct Customer* customer)
     memset(customer->state, 0, STATE_LEN);
     memset(customer->citizenship, 0, CITZ_LEN);
     memset(customer->birth_month, 0, BM_LEN);
-    memset(customer->birth_day, 0, BD_LEN); // broke
-    memset(customer->birth_year, 0, BY_LEN); // broke
+    memset(customer->birth_day, 0, BD_LEN);
+    memset(customer->birth_year, 0, BY_LEN);
     memset(customer->phone, 0, PHONE_LEN);
     memset(customer->type, 0, TYPE_LEN);
 

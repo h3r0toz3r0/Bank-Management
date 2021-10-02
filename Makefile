@@ -37,4 +37,5 @@ exec: all
 
 clean:
 	rm *.o
+	rm records.*
 	rm $(OBJ)
