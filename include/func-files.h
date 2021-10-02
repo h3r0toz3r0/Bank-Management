@@ -16,5 +16,6 @@
 //  declare function
 void insert_file(struct Customer* customer);
 void assign_acc(struct Customer* customer);
+void unique_file(int seed, struct Customer* customer);
 
 #endif /* FILES_H */
