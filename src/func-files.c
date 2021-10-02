@@ -11,6 +11,50 @@
 #include <time.h> 
 #include <math.h> 
 #include <stdlib.h>
+#include <unistd.h>
+
+//  unique_file(): function that searches all FILE enteries to ensure a unique acc_num is assigned
+void unique_file(int seed, struct Customer* customer)
+{
+    // define local variables
+    FILE *fd;
+    int len;
+
+    // initialize local variables
+    len =   NAME_LEN + STREET_LEN + CITY_LEN + STATE_LEN + 
+            CITZ_LEN + BM_LEN + BD_LEN + BY_LEN + PHONE_LEN + 
+            TYPE_LEN + ACC_LEN;
+    char buffer[len];
+
+    // exit if file doesn't exist, no values to compare to
+    if( access( FILE_PATH, F_OK ) != 0 )
+    {
+        // return function
+        return;
+    }
+
+    // open file
+    fd = fopen(FILE_PATH, "r");
+
+    // read line by line
+    while (fgets(buffer, len - 1, fd))
+    {
+        // remove trailing newline
+        buffer[strcspn(buffer, "\n")] = 0;
+
+        // check buffer string to seed
+        if ( atol(buffer) == seed )
+        {
+            assign_acc(customer);
+        }
+    }
+
+    // close file
+    fclose(fd);
+
+    // return function
+    return;
+}
 
 //  assign_acc(): function that assigns a random, unused account number
 void assign_acc(struct Customer* customer)
@@ -53,6 +97,7 @@ void assign_acc(struct Customer* customer)
     seed = atol(final_buffer);
 
     // check FILE to ensure unique account number
+    unique_file(seed, customer);
 
     // add account number to customer struct
     strncpy(customer->acc_num, final_buffer, randsize);
