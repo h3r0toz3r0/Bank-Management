@@ -23,7 +23,7 @@ make clean - cleans workspace, removes executables and .o files
 
 ## Parts
 1) Writing to and from a file
-2) Server client
+2) FTP Server/client
 3) Multiple clients and one server 
 
 ## Hints
