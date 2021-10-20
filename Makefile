@@ -1,41 +1,23 @@
 CC = gcc
-CFLAGS = -c -Wall -I include
+CFLAGS = -Wall -Werror -Wextra -Wpedantic -g -I include
 OBJ = BankSystem
+SOURCES = $(wildcard src/*.c)
+OBJECTS = $(patsubst src/%.c,%.o,$(SOURCES))
 
-all $(OBJ): main.o func-edit.o func-erase.o func-create.o func-see.o func-transact.o func-view.o struct-cust.o func-files.o
-	$(CC) main.o func-edit.o func-erase.o func-create.o func-see.o func-transact.o func-view.o struct-cust.o func-files.o -o $(OBJ)
+%.o: src/%.c 
+	$(CC) -c $(CFLAGS) $^
 
-main.o:
-	$(CC) $(CFLAGS) apps/main.c
+$(OBJ): $(OBJECTS)
+	$(CC) $(CFLAGS) apps/main.c $? -o $@
 
-func-edit.o:
-	$(CC) $(CFLAGS) src/func-edit.c
-
-func-erase.o:
-	$(CC) $(CFLAGS) src/func-erase.c
-
-func-create.o:
-	$(CC) $(CFLAGS) src/func-create.c
-
-func-see.o:
-	$(CC) $(CFLAGS) src/func-see.c
-
-func-transact.o:
-	$(CC) $(CFLAGS) src/func-transact.c
-
-func-view.o:
-	$(CC) $(CFLAGS) src/func-view.c
-
-struct-cust.o:
-	$(CC) $(CFLAGS) src/struct-cust.c
-
-func-files.o:
-	$(CC) $(CFLAGS) src/func-files.c
+all: $(OBJ)
 
 exec: all
 	./$(OBJ)
 
 clean:
-	rm *.o
-	rm $(OBJ)
-	rm records.*
+	rm -f $(OBJ)
+	rm -f *.o 
+	rm -f records.*
+
+.PHONY: clean
