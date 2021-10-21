@@ -53,7 +53,9 @@ char *string_input(char *string_input, int string_length)
     }
 
     // clears stdin buffer; getc has no errors defined
-    while((c = getc(stdin)) != '\n' && c != EOF);
+    else if (strchr(string_input, '\n') == NULL) {
+        while((c = getc(stdin)) != '\n' && c != EOF);
+    }
 
     // removes erroneous newline character; strtok has no errors defined
     strtok(string_input, "\n");
@@ -113,13 +115,13 @@ int selection(int select_bit)
 }
 
 /**
- * @brief rand_number_generator() mid-square method to generate a pseudorandom number.
+ * @brief random_gen() mid-square method to generate a pseudorandom number.
  * @param randsize - integer specifying size of random number to create.
  * @returns a random number.
  * @retval seed - success.
  * @retval INT_INPUT_ERROR - error.
  */
-int rand_number_generator(int randsize)
+int random_gen(int randsize)
 {
     // declare variables
     int count;
@@ -141,7 +143,7 @@ int rand_number_generator(int randsize)
 
     // converts long to string (ltoa) implementation
     while (tmp_seed > INIT_INTEGER || count < (randsize * 2)) { 
-        buffer[count++] = (tmp_seed % randsize + (INIT_STRING - INIT_INTEGER)); 
+        buffer[count++] = (tmp_seed % randsize) + (INIT_STRING - INIT_INTEGER); 
         tmp_seed = tmp_seed / randsize; 
     } 
     buffer[count] = '\0';

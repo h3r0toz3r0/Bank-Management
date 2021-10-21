@@ -20,11 +20,12 @@ int create(void)
     // declare variables
     struct Customer *customer;
     char *input;
-    // int check;
+    int check;
 
     // initialize variables
     check = INIT_CHECK;
     input = calloc(SIZE_INPUT, sizeof(char));
+    customer = INIT_CUST;
     customer = init_customer(customer);
 
     // check for errors
@@ -85,17 +86,24 @@ int create(void)
     }
 
     // initilize account number
-    customer->acc_num = rand_number_generator(RANDSIZE);
+    customer->acc_num = random_gen(RANDSIZE);
     if (customer->acc_num == INT_INPUT_ERROR)
     {
-        printf("\nrand_number_generator() failed; unable to assign unique account number.\n");
+        printf("\nrandom_gen() failed; unable to assign unique account number.\n");
         destroy_customer(customer);
         free(input);
         return CREATE_ERROR;
     }
 
-    ///////////////// check if accn number is unique
+    // // check for unique account number
+    // char *check_string = find_customer(customer->acc_num);
+    // printf("tmp message for check string: %s\n", check_string);
+    // /// ADD ERROR CHECKING
 
+    // convert struct to string
+    char cust_string[100];
+    snprintf(cust_string, 100, "%d,%s,%s\n", customer->acc_num, customer->name, customer->state);
+    printf("%s\n", cust_string);
     // // add account to FILE
     // if (insert_file(customer) == INIT_FILE_ERROR)
     // {

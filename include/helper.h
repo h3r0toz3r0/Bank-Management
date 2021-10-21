@@ -27,12 +27,12 @@
 #define INT_INPUT_ERROR        -1
 #define STR_INPUT_ERROR         NULL
 #define INIT_INTEGER            0
-#define INIT_STRING            '0'
+#define INIT_STRING             NULL
 
 // declare functions
 int selection(int select_bit);
 int integer_input(int integer_input);
 char *string_input(char *string_input, int string_length);
-int rand_number_generator(int randsize);
+int random_gen(int randsize);
 
 #endif /* HELPER_H */
