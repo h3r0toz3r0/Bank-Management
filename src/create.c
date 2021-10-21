@@ -5,8 +5,7 @@
  * such as name, date of birth, citizenship number, 
  * address and phone number. You can enter the amount to 
  * deposit and choose one type of deposit account – saving, 
- * current, fixed for 1 year, fixed for 2 years or fixed 
- * for 3 years.
+ * current.
  * @retval CREATE_SUCCESS - success.
  * @retval CREATE_ERROR - error.
  */
@@ -21,7 +20,7 @@ int create(void)
     // declare variables
     struct Customer *customer;
     char *input;
-    int check;
+    // int check;
 
     // initialize variables
     check = INIT_CHECK;
@@ -29,7 +28,7 @@ int create(void)
     customer = init_customer(customer);
 
     // check for errors
-    if (customer == CUST_ERROR)
+    if (customer == CUSTOMER_ERROR)
     {
         free(input);
         return CREATE_ERROR;
@@ -39,7 +38,7 @@ int create(void)
     while (check == INIT_CHECK)
     {
         customer = edit_customer(customer);
-        if (customer == CUST_ERROR)
+        if (customer == CUSTOMER_ERROR)
         {
             free(input);
             return CREATE_ERROR;
@@ -49,7 +48,7 @@ int create(void)
         printf("Select Account Type\n"
                 "\tEnter \"1\" for savings\n"
                 "\tEnter \"2\" for checking: ");
-        customer->type = integer_input();
+        customer->type = integer_input(customer->type);
         if (customer->type == INT_INPUT_ERROR)
         {
             destroy_customer(customer);
@@ -81,28 +80,30 @@ int create(void)
             strcmp(input, "YES") == 0 || strcmp(input, "Y") == 0 ||
             strcmp(input,"Yes") == 0 )
         {
-            check = 1;
+            check = EXIT_CHECK;
         }
     }
 
     // initilize account number
-    customer->acc_num = assign_acc();
-    if (customer->acc_num == ACCN_ERROR)
+    customer->acc_num = rand_number_generator(RANDSIZE);
+    if (customer->acc_num == INT_INPUT_ERROR)
     {
-        printf("\nassign_acc() failed; unable to assign unique account number.\n");
+        printf("\nrand_number_generator() failed; unable to assign unique account number.\n");
         destroy_customer(customer);
         free(input);
         return CREATE_ERROR;
     }
 
-    // add account to FILE
-    if (insert_file(customer) == INIT_FILE_ERROR)
-    {
-        printf("\ninsert_file() failed; unable to save customer information.\n");
-        destroy_customer(customer);
-        free(input);
-        return CREATE_ERROR;
-    }
+    ///////////////// check if accn number is unique
+
+    // // add account to FILE
+    // if (insert_file(customer) == INIT_FILE_ERROR)
+    // {
+    //     printf("\ninsert_file() failed; unable to save customer information.\n");
+    //     destroy_customer(customer);
+    //     free(input);
+    //     return CREATE_ERROR;
+    // }
 
     // print confirmation
     printf("\nCongratulations - your new account has been registered.\n"

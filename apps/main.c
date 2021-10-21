@@ -9,10 +9,10 @@
 
 int main(void)
 {
-    // declare local variables
+    // declare variables
     int select_bit;
 
-    // initiate local variables
+    // initiate variables
     select_bit = INIT_SELECTION_BIT;
 
     // for-loop till user chooses to exit

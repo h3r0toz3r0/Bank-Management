@@ -8,12 +8,17 @@
 
 // libraries
 #include <stdio.h>
+#include "customer.h"
+#include "helper.h"
 
 // macros 
 #define CREATE_ERROR           -1
 #define CREATE_SUCCESS          0
 
-#define
+#define INIT_CHECK              0
+#define EXIT_CHECK              1
+#define SIZE_INPUT              4
+#define RANDSIZE                6
 
 // declare functions
 int create(void);

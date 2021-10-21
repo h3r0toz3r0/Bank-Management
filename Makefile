@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -Wpedantic -g -I include
+CFLAGS = -Wall -I include # -Werror -Wextra -Wpedantic -g -I include
 OBJ = BankSystem
 SOURCES = $(wildcard src/*.c)
 OBJECTS = $(patsubst src/%.c,%.o,$(SOURCES))

@@ -16,7 +16,7 @@
  */
 int integer_input(int integer_input)
 {
-    // declare local variables
+    // declare variables
     int c;
 
     // user input
@@ -43,7 +43,7 @@ int integer_input(int integer_input)
  */
 char *string_input(char *string_input, int string_length)
 {
-    // define local variables
+    // define variables
     int c;
 
     // collect user input
@@ -112,19 +112,49 @@ int selection(int select_bit)
     return select_bit;
 }
 
-////////////////////////////////////////////////////////////////////////////////////
 /**
- * @brief check_empty() check is char array is filled with zeros.
- * @returns success or error messages.
- * @retval CHECK_EMPTY_SUCCESS - success.
- * @retval CHECK_EMPTY_ERROR - error.
+ * @brief rand_number_generator() mid-square method to generate a pseudorandom number.
+ * @param randsize - integer specifying size of random number to create.
+ * @returns a random number.
+ * @retval seed - success.
+ * @retval INT_INPUT_ERROR - error.
  */
-int check_empty(char *string)
+int rand_number_generator(int randsize)
 {
-    if (string[0] != '\0')
-    {
-        return CHECK_EMPTY_ERROR;
-    }
+    // declare variables
+    int count;
+    int len;
+    int start_index;
+    unsigned long seed;
+    time_t current_time;
+    unsigned long tmp_seed;
+    char buffer[randsize * 2 + 1];
+    char seed_buffer[randsize + 1];
 
-    return CHECK_EMPTY_SUCCESS;
+    // initiate variables
+    count = 0;
+    time(&current_time); 
+    seed = current_time; 
+
+    // square current seed
+    tmp_seed = seed * seed;
+
+    // converts long to string (ltoa) implementation
+    while (tmp_seed > INIT_INTEGER || count < (randsize * 2)) { 
+        buffer[count++] = (tmp_seed % randsize + (INIT_STRING - INIT_INTEGER)); 
+        tmp_seed = tmp_seed / randsize; 
+    } 
+    buffer[count] = '\0';
+    len = strlen(buffer); 
+    start_index = (len - randsize) / 2; 
+
+    // get middle digits 
+    strncpy(seed_buffer, buffer + start_index, randsize); 
+    seed_buffer[RANDSIZE] = '\0'; 
+
+    // replace the seed with new seed 
+    seed = atol(seed_buffer); 
+
+    // returns random number
+    return seed;
 }

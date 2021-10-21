@@ -9,6 +9,8 @@
 // libraries
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+#include <stdlib.h>
 #include "create.h"
 
 #include "tmp.h"
@@ -24,17 +26,13 @@
 
 #define INT_INPUT_ERROR        -1
 #define STR_INPUT_ERROR         NULL
-
-//////////////////////////////////////////
-#define CHECK_EMPTY_ERROR      -1
-#define CHECK_EMPTY_SUCCESS     0
+#define INIT_INTEGER            0
+#define INIT_STRING            '0'
 
 // declare functions
 int selection(int select_bit);
 int integer_input(int integer_input);
 char *string_input(char *string_input, int string_length);
-
-/////////////////////////////////////////////////////////
-int check_empty(char *string);
+int rand_number_generator(int randsize);
 
 #endif /* HELPER_H */
