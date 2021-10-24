@@ -50,7 +50,8 @@ int create(void)
                 "\tEnter \"1\" for savings\n"
                 "\tEnter \"2\" for checking: ");
         customer->type = integer_input(customer->type);
-        if (customer->type == INT_INPUT_ERROR)
+        if (customer->type == INT_INPUT_ERROR || 
+            customer->type < TYPE_MIN || customer->type > TYPE_MAX)
         {
             destroy_customer(customer);
             free(input);
@@ -100,10 +101,19 @@ int create(void)
     // printf("tmp message for check string: %s\n", check_string);
     // /// ADD ERROR CHECKING
 
-    // convert struct to string
-    char cust_string[100];
-    snprintf(cust_string, 100, "%d,%s,%s\n", customer->acc_num, customer->name, customer->state);
-    printf("%s\n", cust_string);
+    // convert struct to string for csv storage
+    int cust_string_length = SIZE_NAME + SIZE_STREET + SIZE_CITY + SIZE_STATE + SIZE_PHONE + SIZE_SSN + SIZE_MONTH + SIZE_DAY + SIZE_YEAR + SIZE_TYPE + RANDSIZE;
+    char cust_string[cust_string_length];
+    for (int i = 0; i < cust_string_length; i++)
+    {
+        cust_string[i] = INIT_VALUE_STR;
+    }
+    snprintf(cust_string, cust_string_length, "%d,%s,%s,%s,%s,%d,%d,%d,%d,%s,%d\n", customer->acc_num, customer->name, customer->street, customer->city, customer->state, customer->citizenship, customer->birth_month, customer->birth_day, customer->birth_year, customer->phone, customer->type);
+    printf("CUSTOMER STRING: %s\n", cust_string);
+    
+    // char cust_string[100];
+    // snprintf(cust_string, 100, "%d,%s,%s\n", customer->acc_num, customer->name, customer->state);
+    // printf("%s\n", cust_string);
     // // add account to FILE
     // if (insert_file(customer) == INIT_FILE_ERROR)
     // {

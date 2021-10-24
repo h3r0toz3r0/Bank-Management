@@ -22,6 +22,11 @@
 #define SIZE_CITY       50
 #define SIZE_STATE      3
 #define SIZE_PHONE      16
+#define SIZE_SSN        10
+#define SIZE_MONTH      3
+#define SIZE_DAY        3
+#define SIZE_YEAR       5
+#define SIZE_TYPE       2
 
 #define SSN_MAX         999999999
 #define SSN_MIN         111111111
@@ -31,8 +36,8 @@
 #define DAY_MIN         1
 #define YEAR_MAX        2021
 #define YEAR_MIN        1920
-
-#define DELIM           ","
+#define TYPE_MAX        2
+#define TYPE_MIN        1
 
 //  define structure
 typedef struct Customer

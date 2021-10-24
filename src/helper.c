@@ -124,39 +124,43 @@ int selection(int select_bit)
 int random_gen(int randsize)
 {
     // declare variables
-    int count;
-    int len;
-    int start_index;
-    unsigned long seed;
     time_t current_time;
-    unsigned long tmp_seed;
-    char buffer[randsize * 2 + 1];
-    char seed_buffer[randsize + 1];
+    int seed;
+    int tmp_randsize;
+    int tmp_half_randsize;
 
-    // initiate variables
-    count = 0;
+    // initialize variables
     time(&current_time); 
-    seed = current_time; 
+    seed = current_time;
+    tmp_randsize = 1;
+    tmp_half_randsize = 1;
+
+    // logic to calculate size of random number
+    for (int i = 0; i < randsize; i++)
+    {
+        tmp_randsize = tmp_randsize * 10;
+    }
+    for (int i = 0; i < (randsize / 2); i++)
+    {
+        tmp_half_randsize = tmp_half_randsize * 10;
+    }
 
     // square current seed
-    tmp_seed = seed * seed;
+    seed = seed * seed;
 
-    // converts long to string (ltoa) implementation
-    while (tmp_seed > INIT_INTEGER || count < (randsize * 2)) { 
-        buffer[count++] = (tmp_seed % randsize) + (INIT_STRING - INIT_INTEGER); 
-        tmp_seed = tmp_seed / randsize; 
-    } 
-    buffer[count] = '\0';
-    len = strlen(buffer); 
-    start_index = (len - randsize) / 2; 
+    // mid-square method
+    seed = seed / tmp_half_randsize;
+    seed = seed % tmp_randsize;
 
-    // get middle digits 
-    strncpy(seed_buffer, buffer + start_index, randsize); 
-    seed_buffer[RANDSIZE] = '\0'; 
+    // ensure positive
+    seed = abs(seed);
 
-    // replace the seed with new seed 
-    seed = atol(seed_buffer); 
+    // check digit length
+    if (seed < RAND_MIN || seed > RAND_MAX)
+    {
+        random_gen(randsize);
+    }
 
-    // returns random number
+    // return seed
     return seed;
 }
