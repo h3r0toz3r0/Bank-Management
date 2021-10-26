@@ -21,8 +21,8 @@
 #define EXIT_CHECK              1
 #define SIZE_INPUT              4
 #define RANDSIZE                6
-#define RAND_MAX                999999
-#define RAND_MIN                111111
+#define RANDOM_MAX              999999
+#define RANDOM_MIN              111111
 #define INIT_CUST               NULL
 
 // declare functions

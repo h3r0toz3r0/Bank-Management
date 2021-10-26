@@ -156,7 +156,7 @@ int random_gen(int randsize)
     seed = abs(seed);
 
     // check digit length
-    if (seed < RAND_MIN || seed > RAND_MAX)
+    if (seed < RANDOM_MIN || seed > RANDOM_MAX)
     {
         random_gen(randsize);
     }

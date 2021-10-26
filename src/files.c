@@ -21,10 +21,23 @@ char *find_customer(int accn)
     char *line;
     size_t len;
     ssize_t read;
+    char *ptr;
+    int count;
 
     //initiate variables
     line = INIT_STRING;
     len = INIT_INTEGER;
+
+    // initialize customer string
+    int cust_string_length =    SIZE_NAME + SIZE_STREET + SIZE_CITY + 
+                                SIZE_STATE + SIZE_PHONE + SIZE_SSN + 
+                                SIZE_MONTH + SIZE_DAY + SIZE_YEAR + 
+                                SIZE_TYPE + RANDSIZE;
+    char cust_string[cust_string_length];
+    for (int i = 0; i < cust_string_length; i++)
+    {
+        cust_string[i] = INIT_VALUE_STR;
+    }
 
     // open file
     fp = fopen(FILE_PATH, "r");
@@ -34,10 +47,31 @@ char *find_customer(int accn)
         return FIND_CUSTOMER_ERROR;
     }
     
-    // read file
+    // read file line by line
     while ((read = getline(&line, &len, fp)) != END_FILE)
     {
-        printf("%s\n", line);
+        // initialize count 
+        count = INIT_INTEGER;
+
+        // break apart line by commas
+        ptr = strtok(line,",");
+        while (ptr != NULL)
+        {
+            int a = atoi(ptr);
+            printf("%d\t", a);
+            ptr = strtok(NULL, ",");
+            count++;
+
+            // compare account number
+            if (count == ACCN_ITERATION)
+            {
+                if (a == accn)
+                {
+                    // load string into return 
+                    cust_string = line;
+                }
+            }
+        }
     }
 
     // close file
@@ -49,10 +83,8 @@ char *find_customer(int accn)
         free(line);
     }
 
-    printf("tmp print. accn: %d\n", accn);
-
     // return success
-    return "hi";
+    return cust_string;
 }
 
 /**
@@ -77,7 +109,7 @@ int write_int(FILE *fp, int num)
 }
 
 /**
- * @brief write_string() function writes integers to file.
+ * @brief write_string() function writes strings to file.
  * @param fp- file pointer.
  * @param string - message to write to file.
  * @returns success or error messages.
@@ -99,120 +131,45 @@ int write_string(FILE *fp, char *string)
 
 /**
  * @brief insert_file() function inserts new account into file.
+ * @param cust_string - string object of the customer 
  * @returns success or error messages.
- * @retval customer - success.
+ * @retval INIT_FILE_SUCCESS - success.
  * @retval INIT_FILE_ERROR - error.
  */
-// int insert_file(struct Customer* customer)
-// {
-//     // define local variables
-//     FILE *fp;
+int insert_file(char *cust_string)
+{
+    // declare variables 
+    FILE *fp;
 
-//     // open file
-//     fp = fopen(FILE_PATH, "a");
-//     if (fp == FOPEN_ERROR)
-//     {
-//         printf("\nfopen failed; unable to save customer information.\n");
-//         return INIT_FILE_ERROR;
-//     }
+    // open file
+    fp = fopen(FILE_PATH, "a");
+    if (fp == FOPEN_ERROR)
+    {
+        printf("\nfopen failed; unable to save customer information.\n");
+        return INIT_FILE_ERROR;
+    }
 
-//     // append structure to file
-//     if (write_int(fp, customer->acc_num) == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, ",") == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, customer->name) == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, ",") == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, customer->street) == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, ",") == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, customer->city) == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, ",") == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, customer->state) == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, ",") == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_int(fp, customer->citizenship) == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, ",") == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_int(fp, customer->birth_month) == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, ",") == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_int(fp, customer->birth_day) == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, ",") == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_int(fp, customer->birth_year) == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, ",") == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, customer->phone) == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, ",") == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_int(fp, customer->type) == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
-//     if (write_string(fp, "\n") == WRITE_ERROR)
-//     {
-//         return INIT_FILE_ERROR;
-//     }
+    // add account to FILE
+    if (write_string(fp, cust_string) == WRITE_ERROR)
+    {
+        // close file
+        if (fclose(fp) == EOF)
+        {
+            printf("\nfclose failed; unable to save customer information.\n");
+            return INIT_FILE_ERROR;
+        }
 
-//     // close file
-//     if (fclose(fp) == EOF)
-//     {
-//         printf("\nfclose failed; unable to save customer information.\n");
-//         return INIT_FILE_ERROR;
-//     }
+        printf("\ninsert_file() failed; unable to save customer information.\n");
+        return INIT_FILE_ERROR;
+    }
 
-//     // return
-//     return 0;
-// }
+    // close file
+    if (fclose(fp) == EOF)
+    {
+        printf("\nfclose failed; unable to save customer information.\n");
+        return INIT_FILE_ERROR;
+    }
+
+    // return success
+    return INIT_FILE_SUCCESS;
+}

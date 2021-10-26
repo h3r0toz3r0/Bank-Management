@@ -14,7 +14,10 @@
 // macros 
 #define FILE_PATH                      "records.csv"
 #define FIND_CUSTOMER_ERROR             NULL
+#define ACCN_ITERATION                  1
+
 #define INIT_FILE_ERROR                -1
+#define INIT_FILE_SUCCESS               0
 
 #define WRITE_ERROR                    -1
 #define WRITE_SUCCESS                   0
@@ -26,6 +29,6 @@
 char *find_customer(int accn);
 int write_string(FILE *fp, char *string);
 int write_int(FILE *fp, int num);
-// int insert_file(struct Customer* customer);
+int insert_file(char *cust_string);
 
 #endif /* FILES_H */

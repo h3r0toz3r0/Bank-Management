@@ -96,32 +96,41 @@ int create(void)
         return CREATE_ERROR;
     }
 
-    // // check for unique account number
-    // char *check_string = find_customer(customer->acc_num);
-    // printf("tmp message for check string: %s\n", check_string);
-    // /// ADD ERROR CHECKING
+    // check for unique account number
+    char *check_string = find_customer(customer->acc_num);
+    printf("tmp message for check string: %s\n", check_string);
+    /// ADD ERROR CHECKING
 
     // convert struct to string for csv storage
-    int cust_string_length = SIZE_NAME + SIZE_STREET + SIZE_CITY + SIZE_STATE + SIZE_PHONE + SIZE_SSN + SIZE_MONTH + SIZE_DAY + SIZE_YEAR + SIZE_TYPE + RANDSIZE;
+    int cust_string_length =    SIZE_NAME + SIZE_STREET + SIZE_CITY + 
+                                SIZE_STATE + SIZE_PHONE + SIZE_SSN + 
+                                SIZE_MONTH + SIZE_DAY + SIZE_YEAR + 
+                                SIZE_TYPE + RANDSIZE;
     char cust_string[cust_string_length];
     for (int i = 0; i < cust_string_length; i++)
     {
         cust_string[i] = INIT_VALUE_STR;
     }
-    snprintf(cust_string, cust_string_length, "%d,%s,%s,%s,%s,%d,%d,%d,%d,%s,%d\n", customer->acc_num, customer->name, customer->street, customer->city, customer->state, customer->citizenship, customer->birth_month, customer->birth_day, customer->birth_year, customer->phone, customer->type);
-    printf("CUSTOMER STRING: %s\n", cust_string);
-    
-    // char cust_string[100];
-    // snprintf(cust_string, 100, "%d,%s,%s\n", customer->acc_num, customer->name, customer->state);
-    // printf("%s\n", cust_string);
-    // // add account to FILE
-    // if (insert_file(customer) == INIT_FILE_ERROR)
-    // {
-    //     printf("\ninsert_file() failed; unable to save customer information.\n");
-    //     destroy_customer(customer);
-    //     free(input);
-    //     return CREATE_ERROR;
-    // }
+    if (snprintf(cust_string, cust_string_length, "%d,%s,%s,%s,%s,%d,"
+                "%d,%d,%d,%s,%d\n", customer->acc_num, customer->name, 
+                customer->street, customer->city, customer->state, 
+                customer->citizenship, customer->birth_month, 
+                customer->birth_day, customer->birth_year, customer->phone, 
+                customer->type) < INIT_CHECK)
+    {
+        printf("\nsnprintf error; unable to convert struct to string.\n");
+        destroy_customer(customer);
+        free(input);
+        return CREATE_ERROR;
+    }
+
+    // insert customer string into file
+    if (insert_file(cust_string) == INIT_FILE_ERROR)
+    {
+        destroy_customer(customer);
+        free(input);
+        return CREATE_ERROR;
+    }
 
     // print confirmation
     printf("\nCongratulations - your new account has been registered.\n"
