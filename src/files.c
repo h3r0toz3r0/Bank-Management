@@ -28,17 +28,6 @@ char *find_customer(int accn)
     line = INIT_STRING;
     len = INIT_INTEGER;
 
-    // initialize customer string
-    int cust_string_length =    SIZE_NAME + SIZE_STREET + SIZE_CITY + 
-                                SIZE_STATE + SIZE_PHONE + SIZE_SSN + 
-                                SIZE_MONTH + SIZE_DAY + SIZE_YEAR + 
-                                SIZE_TYPE + RANDSIZE;
-    char cust_string[cust_string_length];
-    for (int i = 0; i < cust_string_length; i++)
-    {
-        cust_string[i] = INIT_VALUE_STR;
-    }
-
     // open file
     fp = fopen(FILE_PATH, "r");
     if (fp == FOPEN_ERROR)
@@ -58,7 +47,6 @@ char *find_customer(int accn)
         while (ptr != NULL)
         {
             int a = atoi(ptr);
-            printf("%d\t", a);
             ptr = strtok(NULL, ",");
             count++;
 
@@ -67,8 +55,11 @@ char *find_customer(int accn)
             {
                 if (a == accn)
                 {
+                    // close file
+                    fclose(fp);
+
                     // load string into return 
-                    cust_string = line;
+                    return line;
                 }
             }
         }
@@ -84,7 +75,7 @@ char *find_customer(int accn)
     }
 
     // return success
-    return cust_string;
+    return FIND_CUSTOMER_ERROR;
 }
 
 /**

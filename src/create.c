@@ -87,7 +87,7 @@ int create(void)
     }
 
     // initilize account number
-    customer->acc_num = random_gen(RANDSIZE);
+    customer->acc_num = 666777; //random_gen(RANDSIZE);
     if (customer->acc_num == INT_INPUT_ERROR)
     {
         printf("\nrandom_gen() failed; unable to assign unique account number.\n");
@@ -97,9 +97,13 @@ int create(void)
     }
 
     // check for unique account number
-    char *check_string = find_customer(customer->acc_num);
-    printf("tmp message for check string: %s\n", check_string);
-    /// ADD ERROR CHECKING
+    if (find_customer(customer->acc_num) != FIND_CUSTOMER_ERROR)
+    {
+        printf("\nfind_customer() failed; account number is not unique, please try again.\n");
+        destroy_customer(customer);
+        free(input);
+        return CREATE_ERROR;
+    }
 
     // convert struct to string for csv storage
     int cust_string_length =    SIZE_NAME + SIZE_STREET + SIZE_CITY + 
