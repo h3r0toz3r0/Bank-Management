@@ -7,12 +7,6 @@ int edit(void)
     return EDIT_SUCCESS;
 }
 
-int erase(void)
-{
-    // return success
-    return ERASE_SUCCESS;
-}
-
 int transact(void)
 {
     // return success

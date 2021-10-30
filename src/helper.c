@@ -65,7 +65,7 @@ char *string_input(char *string_input, int string_length)
 }
 
 /**
- * @brief Selection() runs desired bank functionality. Options include: creating an account,
+ * @brief selection() runs desired bank functionality. Options include: creating an account,
  * editing an account, erase an account, viewing account information, performing an account 
  * transaction, and exiting. Even a failure in the functions, the program will continue to run.
  * @param select_bit - interger received from user input to function selection.

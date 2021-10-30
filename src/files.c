@@ -8,11 +8,12 @@
 #include "files.h"
 
 /**
- * @brief 
- * @param
- * @returns 
- * @retval 
- * @retval 
+ * @brief find_customer() searches the records file for a specific account number.
+ * @param accn - interger that holds the account number to be searched.
+ * @param line_cpy - empty string to place customer string object into.
+ * @returns customer entry matching the account number.
+ * @retval line_cpy - success
+ * @retval FIND_CUSTOMER_ERROR - error
  */
 char *find_customer(int accn, char *line_cpy)
 {
@@ -175,11 +176,11 @@ int insert_file(char *cust_string)
 }
 
 /**
- * @brief 
- * @param 
- * @returns
- * @retval
- * @retval
+ * @brief exists() checks if the file exists in the computer system.
+ * @param filename - string that holds the name of the file in question.
+ * @returns a value expressing if the file exists or not.
+ * @retval FILE_EXISTS - file exists.
+ * @retval FILE_DNE - file doesn't exist.
  */
 int exists(char *filename)
 {

@@ -7,11 +7,60 @@
 #include "customer.h"
 
 /**
+ * @brief struct_to_string() takes a customer structure and converts it to a string.
+ * @returns a string containing the customer object.
+ * @retval cust_obj - success.
+ * @retval STR_INPUT_ERROR - error.
+ */
+char *struct_to_string(struct Customer* customer, char *cust_obj)
+{
+    // declare variables
+    int length_customer_obj;
+
+    // initialize variables
+    length_customer_obj =       SIZE_NAME + SIZE_STREET + SIZE_CITY + 
+                                SIZE_STATE + SIZE_PHONE + SIZE_SSN + 
+                                SIZE_MONTH + SIZE_DAY + SIZE_YEAR + 
+                                SIZE_TYPE;
+
+    // ensure customer obj is cleared
+    memset(cust_obj, INIT_INTEGER, length_customer_obj);
+
+    // convert structure to string
+    if (snprintf(cust_obj, length_customer_obj, "%d,%s,%s,%s,%s,%d,"
+                "%d,%d,%d,%s,%d\n", 
+                customer->acc_num, customer->name, 
+                customer->street, customer->city, customer->state, 
+                customer->citizenship, customer->birth_month, 
+                customer->birth_day, customer->birth_year, 
+                customer->phone, customer->type) < INIT_CHECK)
+    {
+        printf("\nsnprintf error; unable to convert struct to string.\n");
+        return STR_INPUT_ERROR;
+    }
+
+    // return success
+    return cust_obj;
+}
+
+/**
+ * @brief string_to_struct() takes a customer object string and converts it to the customer struct.
+ * @returns a customer structure.
+ * @retval customer - success.
+ * @retval CUSTOMER_ERROR - error.
+ */
+// struct Customer* string_to_struct(struct Customer* customer, char *cust_obj)
+// {
+//     // return success
+//     return customer;
+// }
+
+/**
  * @brief init_customer() creates memory allocations for structure.
  * @param customer - a NULL customer structure.
  * @returns a initialized customer structure.
- * @retval customer - success
- * @retval CUSTOMER_ERROR - error
+ * @retval customer - success.
+ * @retval CUSTOMER_ERROR - error.
  */
 struct Customer* init_customer(struct Customer* customer)
 {
@@ -77,8 +126,8 @@ void destroy_customer(struct Customer* customer)
 /**
  * @brief edit_customer() adds user input into customer structure.
  * @returns customer structure with user updated values.
- * @retval customer - success
- * @retval CUSTOMER_ERROR - error
+ * @retval customer - success.
+ * @retval CUSTOMER_ERROR - error.
  */
 struct Customer* edit_customer(struct Customer* customer)
 {

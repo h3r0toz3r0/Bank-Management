@@ -60,6 +60,7 @@ typedef struct Customer
 struct Customer* init_customer(struct Customer* customer);
 void destroy_customer(struct Customer* customer);
 struct Customer* edit_customer(struct Customer* customer);
-// struct Customer* find_customer(int accn, struct Customer* customer);
+struct Customer* string_to_struct(struct Customer* customer, char *cust_obj);
+char *struct_to_string(struct Customer* customer, char *cust_obj);
 
 #endif /* CUSTOMER_H */

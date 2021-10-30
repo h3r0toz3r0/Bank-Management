@@ -12,6 +12,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include "create.h"
+#include "erase.h"
 
 #include "tmp.h"
 
