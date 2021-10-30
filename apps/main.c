@@ -15,6 +15,24 @@ int main(void)
     // initiate variables
     select_bit = INIT_SELECTION_BIT;
 
+    // initialize records file
+    if (exists(FILE_PATH) == FILE_DNE)
+    {
+        // declare variables
+        FILE *fp;
+
+        // create file
+        fp = fopen(FILE_PATH, "w");
+        if (fp == NULL)
+        {
+            printf("\nfopen failed; unable to create file.\n");
+            return MAIN_ERROR;
+        }
+
+        // close file
+        fclose(fp);
+    }
+
     // for-loop till user chooses to exit
     while (select_bit != EXIT_SELECTION_BIT)
     {

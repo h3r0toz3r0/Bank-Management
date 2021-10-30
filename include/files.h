@@ -25,10 +25,14 @@
 #define FOPEN_ERROR                     NULL
 #define END_FILE                       -1
 
+#define FILE_DNE                       -1
+#define FILE_EXISTS                     0
+
 // declare functions
-char *find_customer(int accn);
+char *find_customer(int accn, char *line_cpy);
 int write_string(FILE *fp, char *string);
 int write_int(FILE *fp, int num);
 int insert_file(char *cust_string);
+int exists(char *filename);
 
 #endif /* FILES_H */

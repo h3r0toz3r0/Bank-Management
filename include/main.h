@@ -8,6 +8,7 @@
 
 // libraries
 #include "helper.h"
+#include "files.h"
 
 // macros
 #define MAIN_SUCCESS        0

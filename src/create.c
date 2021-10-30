@@ -19,19 +19,27 @@ int create(void)
 
     // declare variables
     struct Customer *customer;
-    char *input;
+    char input[SIZE_INPUT];
+    char *cust_obj;
     int check;
+    int length_customer_obj;
 
     // initialize variables
     check = INIT_CHECK;
-    input = calloc(SIZE_INPUT, sizeof(char));
+    // input = calloc(SIZE_INPUT, sizeof(char));
     customer = INIT_CUST;
     customer = init_customer(customer);
+    length_customer_obj =   SIZE_NAME + SIZE_STREET + SIZE_CITY + 
+                                SIZE_STATE + SIZE_PHONE + SIZE_SSN + 
+                                SIZE_MONTH + SIZE_DAY + SIZE_YEAR + 
+                                SIZE_TYPE;
+    cust_obj = calloc(length_customer_obj, sizeof(char));
 
     // check for errors
     if (customer == CUSTOMER_ERROR)
     {
-        free(input);
+        // free(input);
+        free(cust_obj);
         return CREATE_ERROR;
     }
 
@@ -41,7 +49,8 @@ int create(void)
         customer = edit_customer(customer);
         if (customer == CUSTOMER_ERROR)
         {
-            free(input);
+            // free(input);
+            free(cust_obj);
             return CREATE_ERROR;
         }
 
@@ -54,7 +63,8 @@ int create(void)
             customer->type < TYPE_MIN || customer->type > TYPE_MAX)
         {
             destroy_customer(customer);
-            free(input);
+            // free(input);
+            free(cust_obj);
             return CREATE_ERROR;
         }
 
@@ -66,7 +76,7 @@ int create(void)
                 "\n\tcitizenship number:\t%d"
                 "\n\tphone number:\t\t%s"
                 "\n\taccount type:\t\t%d"
-                "\nIs this correct? ", 
+                "\nIs this correct (y/n)? ", 
                 customer->name, customer->street, 
                 customer->city, customer->state, 
                 customer->birth_month, customer->birth_day, 
@@ -75,7 +85,8 @@ int create(void)
         if (string_input(input, SIZE_INPUT) == STR_INPUT_ERROR)
         {
             destroy_customer(customer);
-            free(input);
+            // free(input);
+            free(cust_obj);
             return CREATE_ERROR;
         }
         if(strcmp(input, "yes") == 0 || strcmp(input, "y") == 0 ||
@@ -87,35 +98,31 @@ int create(void)
     }
 
     // initilize account number
-    customer->acc_num = 666777; //random_gen(RANDSIZE);
+    customer->acc_num = random_gen(RANDSIZE);
     if (customer->acc_num == INT_INPUT_ERROR)
     {
         printf("\nrandom_gen() failed; unable to assign unique account number.\n");
         destroy_customer(customer);
-        free(input);
+        // free(input);
+        free(cust_obj);
         return CREATE_ERROR;
     }
 
     // check for unique account number
-    if (find_customer(customer->acc_num) != FIND_CUSTOMER_ERROR)
+    if (find_customer(customer->acc_num, cust_obj) != FIND_CUSTOMER_ERROR)
     {
         printf("\nfind_customer() failed; account number is not unique, please try again.\n");
         destroy_customer(customer);
-        free(input);
+        // free(input);
+        free(cust_obj);
         return CREATE_ERROR;
     }
 
+    // ensure customer obj is cleared
+    memset(cust_obj, INIT_INTEGER, length_customer_obj);
+
     // convert struct to string for csv storage
-    int cust_string_length =    SIZE_NAME + SIZE_STREET + SIZE_CITY + 
-                                SIZE_STATE + SIZE_PHONE + SIZE_SSN + 
-                                SIZE_MONTH + SIZE_DAY + SIZE_YEAR + 
-                                SIZE_TYPE + RANDSIZE;
-    char cust_string[cust_string_length];
-    for (int i = 0; i < cust_string_length; i++)
-    {
-        cust_string[i] = INIT_VALUE_STR;
-    }
-    if (snprintf(cust_string, cust_string_length, "%d,%s,%s,%s,%s,%d,"
+    if (snprintf(cust_obj, length_customer_obj, "%d,%s,%s,%s,%s,%d,"
                 "%d,%d,%d,%s,%d\n", customer->acc_num, customer->name, 
                 customer->street, customer->city, customer->state, 
                 customer->citizenship, customer->birth_month, 
@@ -124,15 +131,17 @@ int create(void)
     {
         printf("\nsnprintf error; unable to convert struct to string.\n");
         destroy_customer(customer);
-        free(input);
+        // free(input);
+        free(cust_obj);
         return CREATE_ERROR;
     }
 
     // insert customer string into file
-    if (insert_file(cust_string) == INIT_FILE_ERROR)
+    if (insert_file(cust_obj) == INIT_FILE_ERROR)
     {
         destroy_customer(customer);
-        free(input);
+        // free(input);
+        free(cust_obj);
         return CREATE_ERROR;
     }
 
@@ -143,7 +152,8 @@ int create(void)
 
     // free memory
     destroy_customer(customer);
-    free(input);
+    // free(input);
+    free(cust_obj);
 
     // return success
     return CREATE_SUCCESS;

@@ -14,7 +14,7 @@
  * @retval 
  * @retval 
  */
-char *find_customer(int accn)
+char *find_customer(int accn, char *line_cpy)
 {
     // declare variables
     FILE *fp;
@@ -24,15 +24,21 @@ char *find_customer(int accn)
     char *ptr;
     int count;
 
-    //initiate variables
-    line = INIT_STRING;
+    // initiate variables 
     len = INIT_INTEGER;
+    line = INIT_STRING;
 
     // open file
     fp = fopen(FILE_PATH, "r");
     if (fp == FOPEN_ERROR)
     {
+        // print error msg
         printf("\nfopen failed; unable to find customer.\n");
+
+        // free memory
+        free(line);
+
+        // return error
         return FIND_CUSTOMER_ERROR;
     }
     
@@ -41,6 +47,9 @@ char *find_customer(int accn)
     {
         // initialize count 
         count = INIT_INTEGER;
+
+        // copy line 
+        strcpy(line_cpy, line);
 
         // break apart line by commas
         ptr = strtok(line,",");
@@ -58,8 +67,11 @@ char *find_customer(int accn)
                     // close file
                     fclose(fp);
 
+                    // free memory
+                    free(line);
+
                     // load string into return 
-                    return line;
+                    return line_cpy;
                 }
             }
         }
@@ -69,10 +81,7 @@ char *find_customer(int accn)
     fclose(fp);
 
     // free memory
-    if (line)
-    {
-        free(line);
-    }
+    free(line);
 
     // return success
     return FIND_CUSTOMER_ERROR;
@@ -163,4 +172,30 @@ int insert_file(char *cust_string)
 
     // return success
     return INIT_FILE_SUCCESS;
+}
+
+/**
+ * @brief 
+ * @param 
+ * @returns
+ * @retval
+ * @retval
+ */
+int exists(char *filename)
+{
+    // declare variables
+    FILE *fp;
+
+    // open file
+    if ((fp = fopen(filename, "r")))
+    {
+        // close file if it exists
+        fclose(fp);
+        
+        // return success
+        return FILE_EXISTS;
+    }
+
+    // return error
+    return FILE_DNE;
 }
