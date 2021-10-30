@@ -8,6 +8,8 @@
 
 // libraries
 #include <stdio.h>
+#include "files.h"
+#include "customer.h"
 
 // macros 
 #define ERASE_ERROR           -1
