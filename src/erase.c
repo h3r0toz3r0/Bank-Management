@@ -54,12 +54,12 @@ int erase(void)
         return ERASE_SUCCESS;
     }
 
-    printf("\ncustomer: %s\n", cust_obj);
-
     // convert string to structure
+    customer = string_to_struct(customer, cust_obj);
 
     // print and verify structure to delete
     printf("\n\nAccount information:"
+            "\n\taccount number:\t\t%d"
             "\n\tname:\t\t\t%s"
             "\n\taddress:\t\t%s %s, %s"
             "\n\tbirthday:\t\t%d/%d/%d"
@@ -67,7 +67,7 @@ int erase(void)
             "\n\tphone number:\t\t%s"
             "\n\taccount type:\t\t%d"
             "\nIs this the account you would like to delete (y/n)? ", 
-            customer->name, customer->street, 
+            customer->acc_num, customer->name, customer->street, 
             customer->city, customer->state, 
             customer->birth_month, customer->birth_day, 
             customer->birth_year, customer->citizenship, 
@@ -83,6 +83,13 @@ int erase(void)
         strcmp(str_input,"Yes") == 0 )
     {
         // delete account
+        if (delete_line(customer->acc_num, FILE_PATH) == DELETE_LINE_ERROR)
+        {
+            printf("\ndelete_line() failed; unable to delete account.\n");
+            destroy_customer(customer);
+            free(cust_obj);
+            return ERASE_ERROR;
+        }
         printf("Account %d has been deleted.\n", customer->acc_num);
     }
 

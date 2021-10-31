@@ -200,3 +200,86 @@ int exists(char *filename)
     // return error
     return FILE_DNE;
 }
+
+/**
+ * @brief delete_line() deletes a single line from the file based on accn.
+ * @param accn - integer that represents account number to be removed.
+ * @param filename - filename for the records file.
+ * @returns a value expressing if removing line was successful.
+ * @retval DELETE_LINE_SUCCESS - success.
+ * @retval DELETE_LINE_ERROR - error.
+ */
+int delete_line(int accn, char *filename)
+{
+    // declare variables
+    FILE *fp1;
+    FILE *fp2;
+    int length_customer_obj;
+    char *ptr;
+    int cust_accn;
+
+    // initialize variables
+    length_customer_obj =       SIZE_NAME + SIZE_STREET + SIZE_CITY + 
+                                SIZE_STATE + SIZE_PHONE + SIZE_SSN + 
+                                SIZE_MONTH + SIZE_DAY + SIZE_YEAR + 
+                                SIZE_TYPE;
+    char line[length_customer_obj];
+    char line_cpy[length_customer_obj];
+    cust_accn = INIT_INTEGER;
+
+    // open files
+    fp1 = fopen(filename, "r");
+    if (fp1 == FOPEN_ERROR)
+    {
+        printf("\nfopen failed; unable to find file.\n");
+        return DELETE_LINE_ERROR;
+    }
+    fp2 = fopen(FILE_TMP_PATH, "w");
+    if (fp2 == FOPEN_ERROR)
+    {
+        printf("\nfopen failed; unable to open file.\n");
+        return DELETE_LINE_ERROR;
+    }
+
+    // copy content into tmp
+    while (!feof(fp1))
+    {
+        strcpy(line, "\0");
+        fgets(line, length_customer_obj, fp1);
+
+        // copy line 
+        strcpy(line_cpy, line);
+
+        if (!feof(fp1)) 
+        {
+            // read accn number of line
+            ptr = strtok(line,",");
+            cust_accn = atoi(ptr);
+
+            // skip line of customer to delete
+            if (cust_accn != accn) 
+            {
+                fprintf(fp2, "%s", line_cpy);
+            }
+        }
+    }
+
+    // close files
+    fclose(fp1);
+    fclose(fp2);
+
+    // remove file
+    if (remove(FILE_PATH) != INIT_CHECK)
+    {
+        printf("\nremove() failed; unable to remove temporary file.\n");
+    }
+
+    // rename file
+    if (rename(FILE_TMP_PATH, FILE_PATH) != INIT_CHECK)
+    {
+        printf("\nrename() failed; unable to rename temporary file.\n");
+    }
+
+    // return error
+    return DELETE_LINE_SUCCESS;
+}

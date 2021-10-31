@@ -47,13 +47,74 @@ char *struct_to_string(struct Customer* customer, char *cust_obj)
  * @brief string_to_struct() takes a customer object string and converts it to the customer struct.
  * @returns a customer structure.
  * @retval customer - success.
- * @retval CUSTOMER_ERROR - error.
  */
-// struct Customer* string_to_struct(struct Customer* customer, char *cust_obj)
-// {
-//     // return success
-//     return customer;
-// }
+struct Customer* string_to_struct(struct Customer* customer, char *cust_obj)
+{
+    // declare variables
+    char *ptr;
+    int count;
+
+    // initiate variables 
+    count = 0;
+    
+    // break apart line by commas
+    ptr = strtok(cust_obj,",");
+    while (ptr != NULL)
+    {
+        // convert string to struct
+        if (0 == count)
+        {
+            customer->acc_num = atoi(ptr);
+        }
+        else if (count == 1)
+        {
+            strcpy(customer->name, ptr);
+        }
+        else if (count == 2)
+        {
+            strcpy(customer->street, ptr);
+        }
+        else if (count == 3)
+        {
+            strcpy(customer->city, ptr);
+        }
+        else if (count == 4)
+        {
+            strcpy(customer->state, ptr);
+        }
+        else if (count == 5)
+        {
+            customer->citizenship = atoi(ptr);
+        }
+        else if (count == 6)
+        {
+            customer->birth_month = atoi(ptr);
+        }
+        else if (count == 7)
+        {
+            customer->birth_day = atoi(ptr);
+        }
+        else if (count == 8)
+        {
+            customer->birth_year = atoi(ptr);
+        }
+        else if (count == 9)
+        {
+            strcpy(customer->phone, ptr);
+        }
+        else if (count == 10)
+        {
+            customer->type = atoi(ptr);
+        }
+
+        // increment count and ptr
+        ptr = strtok(NULL, ",");
+        count++;
+    }
+
+    // return success
+    return customer;
+}
 
 /**
  * @brief init_customer() creates memory allocations for structure.
