@@ -1,81 +1,76 @@
-/*
- * name: main.c
- * author: Anna DeVries
- * description: bank management program
+/**
+ * @name main.c
+ * @author Anna DeVries
+ * @brief bank management program
  */
 
-//  includes
-#include <stdio.h>
+// libraries
 #include "main.h"
 
-//  selection function
-int selection(int select_bit)
+int main(void)
 {
-    // define local variables
-    int tmp;
-
-    // user input
-    printf("Enter a number: ");
-    scanf("%d", &select_bit);
-
-    // sanitize input
-    while ((tmp = getchar()) != EOF && tmp != '\n');
-
-    // run desired function
-    if (select_bit == 1)
-    {
-        func_create();
-    }
-    else if (select_bit == 2)
-    {
-        func_edit();
-    }
-    else if (select_bit == 3)
-    {
-        func_erase();
-    }
-    else if (select_bit == 4)
-    {
-        func_see();
-    }
-    else if (select_bit == 5)
-    {
-        func_transact();
-    }
-    else if (select_bit == 6)
-    {
-        func_view();
-    }
-
-    // return selection
-    return select_bit;
-}
-
-//  main function
-int main( void )
-{
-    // define local variables
+    // declare variables
     int select_bit;
 
-    // initiate local variables
-    select_bit = 0;
+    // initiate variables
+    select_bit = INIT_SELECTION_BIT;
 
-    // prints welcome screen
-    printf("\n\tCUSTOMER ACCOUNT BANKING MANAGEMENT SYSTEM\n");
-    printf("\n\tOPTIONS:\t1 - create a new account\n"
-           "\t\t\t2 - update an existing account\n"
-           "\t\t\t3 - remove existing account\n"
-           "\t\t\t4 - check details of an account\n"
-           "\t\t\t5 - deposit/withdraw from an account\n"
-           "\t\t\t6 - view customer information associated with account\n"
-           "\t\t\t7 - exit\n\n");
-
-    // for-loop till user chooses to exit
-    while (select_bit != 7)
+    // initialize records file
+    if (exists(FILE_PATH) == FILE_DNE)
     {
-        select_bit = selection(select_bit);
+        // declare variables
+        FILE *fp;
+
+        // create file
+        fp = fopen(FILE_PATH, "w");
+        if (fp == NULL)
+        {
+            printf("\nfopen failed; unable to create file.\n");
+            return MAIN_ERROR;
+        }
+
+        // close file
+        fclose(fp);
     }
 
-    //  Exit at success
-    return 0;
+    // for-loop till user chooses to exit
+    while (select_bit != EXIT_SELECTION_BIT)
+    {
+        // prints welcome screen
+        printf("\n\t--------------- CUSTOMER ACCOUNT BANKING MANAGEMENT SYSTEM ---------------\n");
+        printf("\n\tOPTIONS:\t%d - create a new account\n"
+            "\t\t\t%d - update an existing account\n"
+            "\t\t\t%d - remove existing account\n"
+            "\t\t\t%d - deposit/withdraw from an account\n"
+            "\t\t\t%d - view account information associated with account\n"
+            "\t\t\t%d - exit\n\n", 
+            CREATE_SELECTION_BIT, EDIT_SELECTION_BIT, ERASE_SELECTION_BIT,
+            TRANSACT_SELECTION_BIT, VIEW_SELECTION_BIT, EXIT_SELECTION_BIT);
+
+        // user input
+        printf("Enter a number: ");
+        select_bit = integer_input(select_bit);
+        if(select_bit == INT_INPUT_ERROR)
+        {
+            printf("\ninteger_input() failed; unable to take user input.\n");
+            return MAIN_ERROR;
+        }
+
+        // check select_bit for bank functionality
+        // BankSystem runs regardless of error status for selection
+        selection(select_bit);
+
+        // zero out select_bit
+        if (select_bit != EXIT_SELECTION_BIT)
+        {
+            select_bit = INIT_SELECTION_BIT;
+        }
+    }
+
+    // exit message
+    printf("\n\tTHANK YOU FOR USING THE BANK MANAGEMENT SYSTEM."
+            "\n\tHAVE A GOOD DAY.\n\n");
+
+    // return success
+    return MAIN_SUCCESS;
 }

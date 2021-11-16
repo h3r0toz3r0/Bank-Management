@@ -19,7 +19,6 @@ make clean - cleans workspace, removes executables and .o files
 4) edit() – This function has been used for changing the address and phone number of a particular customer account.
 5) transact() – With this function, you can deposit and withdraw money to and from a particular customer account.
 6) erase() – This function is for deleting a customer account.
-7) see() – This function shows account number, name, date of birth, citizenship number, age, address, phone number, type of account, amount deposited and date of deposit. It also displays the amount of interest corresponding to a particular account type.
 
 ## Parts
 1) Writing to and from a file
