@@ -13,16 +13,16 @@ make exec - compiles and runs program
 make clean - cleans workspace, removes executables and .o files
 
 ## Bank Management Services
-1) menu() – This function displays the menu or welcome screen to perform different banking activities mentioned below.
-2) new_acc() – This function creates a new customer account. It asks for some  personal and banking details of the customer such as name, date of birth, citizenship number, address and phone number. You can enter the amount to deposit and choose one type of deposit account – saving, current, fixed for 1 year, fixed for 2 years or fixed for 3 years.
-3) view list() – With this function, you can view the customer’s banking information such as account number, name, address and phone number provided while creating the account.
-4) edit() – This function has been used for changing the address and phone number of a particular customer account.
-5) transact() – With this function, you can deposit and withdraw money to and from a particular customer account.
+1) main() – This function displays the menu or welcome screen to perform different banking activities mentioned below.
+2) new_acc() – This function creates a new customer account. It asks for some  personal details of the customer and allows the user to choose the type of bank account they would like to create – savings or checking.
+3) view list() – With this function, the user can view their banking information.
+4) edit() – This function allows the user to update their personal address and phone number.
+5) transact() – With this function, the user can deposit and withdraw money to and from their personal account.
 6) erase() – This function is for deleting a customer account.
 
 ## Parts
 1) Writing to and from a file
-2) FTP Server/client
+2) FTP single server/client
 3) Multiple clients and one server 
 
 ## Hints
