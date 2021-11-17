@@ -5,7 +5,12 @@
  */
 
 // libraries
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "files.h"
+#include "helper.h"
+#include "customer.h"
 
 /**
  * @brief find_customer() searches the records file for a specific account number.
@@ -269,13 +274,13 @@ int delete_line(int accn, char *filename)
     fclose(fp2);
 
     // remove file
-    if (remove(FILE_PATH) != INIT_CHECK)
+    if (remove(FILE_PATH) != REMOVE_SUCCESS)
     {
         printf("\nremove() failed; unable to remove temporary file.\n");
     }
 
     // rename file
-    if (rename(FILE_TMP_PATH, FILE_PATH) != INIT_CHECK)
+    if (rename(FILE_TMP_PATH, FILE_PATH) != RENAME_SUCCESS)
     {
         printf("\nrename() failed; unable to rename temporary file.\n");
     }

@@ -5,7 +5,10 @@
  */
 
 // libraries
+#include <stdio.h>
 #include "main.h"
+#include "helper.h"
+#include "files.h"
 
 int main(void)
 {
@@ -13,7 +16,7 @@ int main(void)
     int select_bit;
 
     // initiate variables
-    select_bit = INIT_SELECTION_BIT;
+    select_bit = INIT_INTEGER;
 
     // initialize records file
     if (exists(FILE_PATH) == FILE_DNE)
@@ -63,7 +66,7 @@ int main(void)
         // zero out select_bit
         if (select_bit != EXIT_SELECTION_BIT)
         {
-            select_bit = INIT_SELECTION_BIT;
+            select_bit = INIT_INTEGER;
         }
     }
 

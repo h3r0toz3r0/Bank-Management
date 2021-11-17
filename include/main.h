@@ -6,10 +6,6 @@
 #ifndef MAIN_H
 #define MAIN_H    
 
-// libraries
-#include "helper.h"
-#include "files.h"
-
 // macros
 #define MAIN_SUCCESS        0
 #define MAIN_ERROR         -1
