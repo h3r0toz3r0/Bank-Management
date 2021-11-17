@@ -11,7 +11,7 @@
 
 int edit(void)
 {
-    printf("\n------------- ERASE ACCOUNT ------------\n");
+    printf("\n------------- EDIT ACCOUNT -------------\n");
 
     // return success
     printf("Returning to main menu.\n\n");
