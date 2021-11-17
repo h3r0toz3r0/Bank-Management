@@ -7,8 +7,11 @@
 #define EDIT_H
 
 // macros 
-#define EDIT_ERROR           -1
-#define EDIT_SUCCESS          0
+#define EDIT_ERROR             -1
+#define EDIT_SUCCESS            0
+
+#define SELECTION_PHONE         1
+#define SELECTION_ADDRESS       2
 
 // declare functions
 int edit(void);
