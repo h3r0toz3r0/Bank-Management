@@ -6,11 +6,6 @@
 #ifndef FILES_H
 #define FILES_H    
 
-// libraries
-#include <stdio.h>
-#include "customer.h"
-#include "helper.h"
-
 // macros 
 #define FILE_PATH                      "records.csv"
 #define FILE_TMP_PATH                  "tmp.csv"
@@ -31,6 +26,9 @@
 
 #define DELETE_LINE_SUCCESS             0
 #define DELETE_LINE_ERROR              -1
+
+#define REMOVE_SUCCESS                  0
+#define RENAME_SUCCESS                  0
 
 // declare functions
 char *find_customer(int accn, char *line_cpy);

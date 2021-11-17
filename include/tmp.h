@@ -6,8 +6,6 @@
 #ifndef TMP_H
 #define TMP_H   
 
-// libraries
-
 // macros
 #define EDIT_ERROR             -1
 #define EDIT_SUCCESS            0

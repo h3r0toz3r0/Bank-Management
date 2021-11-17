@@ -11,7 +11,13 @@
  */
 
 // libraries
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "create.h"
+#include "customer.h"
+#include "helper.h"
+#include "files.h"
 
 int create(void)
 {
@@ -24,13 +30,13 @@ int create(void)
     int length_customer_obj;
 
     // initialize variables
-    check = INIT_CHECK;
+    check = INIT_INTEGER;
     customer = INIT_CUST;
     customer = init_customer(customer);
     length_customer_obj =   SIZE_NAME + SIZE_STREET + SIZE_CITY + 
-                                SIZE_STATE + SIZE_PHONE + SIZE_SSN + 
-                                SIZE_MONTH + SIZE_DAY + SIZE_YEAR + 
-                                SIZE_TYPE;
+                            SIZE_STATE + SIZE_PHONE + SIZE_SSN + 
+                            SIZE_MONTH + SIZE_DAY + SIZE_YEAR + 
+                            SIZE_TYPE;
     char cust_obj[length_customer_obj];
 
     // check for errors
@@ -40,7 +46,7 @@ int create(void)
     }
 
     // collect user information
-    while (check == INIT_CHECK)
+    while (check == INIT_INTEGER)
     {
         customer = edit_customer(customer);
         if (customer == CUSTOMER_ERROR)

@@ -6,7 +6,13 @@
  */
 
 // libraries
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "erase.h"
+#include "files.h"
+#include "customer.h"
+#include "helper.h"
 
 int erase(void)
 {

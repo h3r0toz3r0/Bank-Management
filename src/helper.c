@@ -5,7 +5,14 @@
  */
 
 // libraries
+#include <stdio.h>
+#include <time.h>
+#include <string.h>
+#include <stdlib.h>
 #include "helper.h"
+#include "create.h"
+#include "erase.h"
+#include "tmp.h"
 
 /**
  * @brief integer_input() gets user input for an integer.

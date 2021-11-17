@@ -6,15 +6,9 @@
 #ifndef CUSTOMER_H
 #define CUSTOMER_H   
 
-// libraries
-#include <stdio.h>
-#include <stdlib.h>
-#include "helper.h"
-
 //  macros
 #define CUSTOMER_ERROR  NULL
-
-#define INIT_VALUE      0
+#define INIT_CUST       NULL
 #define INIT_VALUE_STR '\0'
 
 #define SIZE_NAME       50

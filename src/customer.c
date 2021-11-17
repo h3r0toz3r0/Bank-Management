@@ -4,7 +4,11 @@
  */
 
 // include libraries
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "customer.h"
+#include "helper.h"
 
 /**
  * @brief struct_to_string() takes a customer structure and converts it to a string.
@@ -33,7 +37,7 @@ char *struct_to_string(struct Customer* customer, char *cust_obj)
                 customer->street, customer->city, customer->state, 
                 customer->citizenship, customer->birth_month, 
                 customer->birth_day, customer->birth_year, 
-                customer->phone, customer->type) < INIT_CHECK)
+                customer->phone, customer->type) < INIT_INTEGER)
     {
         printf("\nsnprintf error; unable to convert struct to string.\n");
         return STR_INPUT_ERROR;
@@ -139,12 +143,12 @@ struct Customer* init_customer(struct Customer* customer)
     }
 
     // initialize variables 
-    customer->acc_num       = INIT_VALUE;
-    customer->citizenship   = INIT_VALUE;
-    customer->birth_month   = INIT_VALUE;;
-    customer->birth_day     = INIT_VALUE;
-    customer->birth_year    = INIT_VALUE;
-    customer->type          = INIT_VALUE;
+    customer->acc_num       = INIT_INTEGER;
+    customer->citizenship   = INIT_INTEGER;
+    customer->birth_month   = INIT_INTEGER;;
+    customer->birth_day     = INIT_INTEGER;
+    customer->birth_year    = INIT_INTEGER;
+    customer->type          = INIT_INTEGER;
     for (i = 0; i < SIZE_NAME; i++)
     {
         customer->name[i]   = INIT_VALUE_STR;

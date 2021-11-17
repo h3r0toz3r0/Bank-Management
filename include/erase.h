@@ -4,12 +4,7 @@
 
 // include guard
 #ifndef ERASE_H
-#define ERASE_H    
-
-// libraries
-#include <stdio.h>
-#include "files.h"
-#include "customer.h"
+#define ERASE_H
 
 // macros 
 #define ERASE_ERROR           -1
