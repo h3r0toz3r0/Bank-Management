@@ -12,6 +12,7 @@
 #include "helper.h"
 #include "create.h"
 #include "erase.h"
+#include "view.h"
 #include "tmp.h"
 
 /**
