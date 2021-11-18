@@ -133,6 +133,10 @@ void random_gen(int *seed)
     time_t current_time;
     int tmp_int[RANDSIZE];
     char tmp_char[RANDSIZE];
+    char mid_string[RANDSIZE/2];
+    char trim_string[RANDSIZE + 1];
+    int mid_hash;
+    int trim_hash;
 
     // obtain current time
     current_time = time(NULL);
@@ -142,60 +146,57 @@ void random_gen(int *seed)
         return;
     }
 
-    printf("Seed: %d\nCurrent Time: %ld\nTmp_Seed: ", *seed, current_time);
-
-    // fill tmp_int array
+    // trim current time to seed size
     for (int i = 0; i < RANDSIZE; i++)
     {
         tmp_int[i] = current_time % 10;
         current_time /= 10;
     }
-
-    // convert tmp_int[] into tmp_char[]
     for (int i = 0; i < RANDSIZE; i++)
     {
-        sprintf(tmp_char[i], "%d", tmp_int[i]);
+        sprintf(&tmp_char[i], "%d", tmp_int[i]);
     }
+
+    // convert the tmp_char[] into the int seed
     *seed = atoi(tmp_char);
 
-    // 
-    // time_t current_time;
-    // int tmp_randsize;
-    // int tmp_half_randsize;
+    // square current seed
+    *seed = (*seed) * (*seed);
 
-    // // initialize variables
-    // tmp_randsize = 1;
-    // tmp_half_randsize = 1;
+    // initialize mid hashing number
+    for (int i = 0; i <= (RANDSIZE/2); i++)
+    {
+        if (i == 0)
+        {
+            sprintf(&mid_string[i], "%d", 1);
+        }
+        else
+        {
+            sprintf(&mid_string[i], "%d", 0);
+        }
+    }
+    mid_hash = atoi(mid_string);
 
-    // // obtain current time and assign to seed 
-    // time(&current_time); 
-    // *seed = current_time;
+    // initialize trim of mid hashing number
+    for (int i = 0; i <= (RANDSIZE); i++)
+    {
+        if (i == 0)
+        {
+            sprintf(&trim_string[i], "%d", 1);
+        }
+        else
+        {
+            sprintf(&trim_string[i], "%d", 0);
+        }
+    }
+    trim_hash = atoi(trim_string);
 
-    // // logic to calculate size of random number
-    // for (int i = 0; i < RANDSIZE; i++)
-    // {
-    //     tmp_randsize = tmp_randsize * 10;
-    // }
-    // for (int i = 0; i < (RANDSIZE / 2); i++)
-    // {
-    //     tmp_half_randsize = tmp_half_randsize * 10;
-    // }
+    // extract required digits
+    *seed = *seed / mid_hash;
+    *seed = *seed % trim_hash;
 
-    // // square current seed
-    // *seed = (*seed) * (*seed);
-
-    // // mid-square method
-    // *seed = *seed / tmp_half_randsize;
-    // *seed = *seed % tmp_randsize;
-
-    // // ensure positive
-    // *seed = abs(*seed);
-
-    // // check digit length
-    // if (*seed < RANDOM_MIN || *seed > RANDOM_MAX)
-    // {
-    //     random_gen(seed);
-    // }
+    // ensure positive
+    *seed = abs(*seed);
 
     return;
 }
