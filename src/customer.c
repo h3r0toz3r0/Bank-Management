@@ -10,183 +10,183 @@
 #include "customer.h"
 #include "helper.h"
 
-/**
- * @brief struct_to_string() takes a customer structure and converts it to a string.
- * @returns a string containing the customer object.
- * @retval cust_obj - success.
- * @retval STRING_INPUT_ERROR - error.
- */
-char *struct_to_string(struct Customer* customer, char *cust_obj)
-{
-    // declare variables
-    int length_customer_obj;
+// /**
+//  * @brief struct_to_string() takes a customer structure and converts it to a string.
+//  * @returns a string containing the customer object.
+//  * @retval cust_obj - success.
+//  * @retval STRING_INPUT_ERROR - error.
+//  */
+// char *struct_to_string(struct Customer* customer, char *cust_obj)
+// {
+//     // declare variables
+//     int length_customer_obj;
 
-    // initialize variables
-    length_customer_obj =       SIZE_NAME + SIZE_STREET + SIZE_CITY + 
-                                SIZE_STATE + SIZE_PHONE + SIZE_SSN + 
-                                SIZE_MONTH + SIZE_DAY + SIZE_YEAR + 
-                                SIZE_TYPE;
+//     // initialize variables
+//     length_customer_obj =       SIZE_NAME + SIZE_STREET + SIZE_CITY + 
+//                                 SIZE_STATE + SIZE_PHONE + SIZE_SSN + 
+//                                 SIZE_MONTH + SIZE_DAY + SIZE_YEAR + 
+//                                 SIZE_TYPE;
 
-    // ensure customer obj is cleared
-    memset(cust_obj, INIT_INTEGER, length_customer_obj);
+//     // ensure customer obj is cleared
+//     memset(cust_obj, INIT_INTEGER, length_customer_obj);
 
-    // convert structure to string
-    if (snprintf(cust_obj, length_customer_obj, "%d,%s,%s,%s,%s,%d,"
-                "%d,%d,%d,%s,%d\n", 
-                customer->acc_num, customer->name, 
-                customer->street, customer->city, customer->state, 
-                customer->citizenship, customer->birth_month, 
-                customer->birth_day, customer->birth_year, 
-                customer->phone, customer->type) < INIT_INTEGER)
-    {
-        printf("\nsnprintf error; unable to convert struct to string.\n");
-        return STRING_INPUT_ERROR;
-    }
+//     // convert structure to string
+//     if (snprintf(cust_obj, length_customer_obj, "%d,%s,%s,%s,%s,%d,"
+//                 "%d,%d,%d,%s,%d\n", 
+//                 customer->acc_num, customer->name, 
+//                 customer->street, customer->city, customer->state, 
+//                 customer->citizenship, customer->birth_month, 
+//                 customer->birth_day, customer->birth_year, 
+//                 customer->phone, customer->type) < INIT_INTEGER)
+//     {
+//         printf("\nsnprintf error; unable to convert struct to string.\n");
+//         return STRING_INPUT_ERROR;
+//     }
 
-    // return success
-    return cust_obj;
-}
+//     // return success
+//     return cust_obj;
+// }
 
-/**
- * @brief string_to_struct() takes a customer object string and converts it to the customer struct.
- * @returns a customer structure.
- * @retval customer - success.
- */
-struct Customer* string_to_struct(struct Customer* customer, char *cust_obj)
-{
-    // declare variables
-    char *ptr;
-    int count;
+// /**
+//  * @brief string_to_struct() takes a customer object string and converts it to the customer struct.
+//  * @returns a customer structure.
+//  * @retval customer - success.
+//  */
+// struct Customer* string_to_struct(struct Customer* customer, char *cust_obj)
+// {
+//     // declare variables
+//     char *ptr;
+//     int count;
 
-    // initiate variables 
-    count = 0;
+//     // initiate variables 
+//     count = 0;
     
-    // break apart line by commas
-    ptr = strtok(cust_obj,",");
-    while (ptr != NULL)
-    {
-        // convert string to struct
-        if (0 == count)
-        {
-            customer->acc_num = atoi(ptr);
-        }
-        else if (count == 1)
-        {
-            strcpy(customer->name, ptr);
-        }
-        else if (count == 2)
-        {
-            strcpy(customer->street, ptr);
-        }
-        else if (count == 3)
-        {
-            strcpy(customer->city, ptr);
-        }
-        else if (count == 4)
-        {
-            strcpy(customer->state, ptr);
-        }
-        else if (count == 5)
-        {
-            customer->citizenship = atoi(ptr);
-        }
-        else if (count == 6)
-        {
-            customer->birth_month = atoi(ptr);
-        }
-        else if (count == 7)
-        {
-            customer->birth_day = atoi(ptr);
-        }
-        else if (count == 8)
-        {
-            customer->birth_year = atoi(ptr);
-        }
-        else if (count == 9)
-        {
-            strcpy(customer->phone, ptr);
-        }
-        else if (count == 10)
-        {
-            customer->type = atoi(ptr);
-        }
+//     // break apart line by commas
+//     ptr = strtok(cust_obj,",");
+//     while (ptr != NULL)
+//     {
+//         // convert string to struct
+//         if (0 == count)
+//         {
+//             customer->acc_num = atoi(ptr);
+//         }
+//         else if (count == 1)
+//         {
+//             strcpy(customer->name, ptr);
+//         }
+//         else if (count == 2)
+//         {
+//             strcpy(customer->street, ptr);
+//         }
+//         else if (count == 3)
+//         {
+//             strcpy(customer->city, ptr);
+//         }
+//         else if (count == 4)
+//         {
+//             strcpy(customer->state, ptr);
+//         }
+//         else if (count == 5)
+//         {
+//             customer->citizenship = atoi(ptr);
+//         }
+//         else if (count == 6)
+//         {
+//             customer->birth_month = atoi(ptr);
+//         }
+//         else if (count == 7)
+//         {
+//             customer->birth_day = atoi(ptr);
+//         }
+//         else if (count == 8)
+//         {
+//             customer->birth_year = atoi(ptr);
+//         }
+//         else if (count == 9)
+//         {
+//             strcpy(customer->phone, ptr);
+//         }
+//         else if (count == 10)
+//         {
+//             customer->type = atoi(ptr);
+//         }
 
-        // increment count and ptr
-        ptr = strtok(NULL, ",");
-        count++;
-    }
+//         // increment count and ptr
+//         ptr = strtok(NULL, ",");
+//         count++;
+//     }
 
-    // return success
-    return customer;
-}
+//     // return success
+//     return customer;
+// }
 
-/**
- * @brief init_customer() creates memory allocations for structure.
- * @param customer - a NULL customer structure.
- * @returns a initialized customer structure.
- * @retval customer - success.
- * @retval CUSTOMER_ERROR - error.
- */
-struct Customer* init_customer(struct Customer* customer)
-{
-    // declare variables
-    int i;
+// /**
+//  * @brief init_customer() creates memory allocations for structure.
+//  * @param customer - a NULL customer structure.
+//  * @returns a initialized customer structure.
+//  * @retval customer - success.
+//  * @retval CUSTOMER_ERROR - error.
+//  */
+// struct Customer* init_customer(struct Customer* customer)
+// {
+//     // declare variables
+//     int i;
 
-    // allocate memory
-    customer = malloc(sizeof(struct Customer));
+//     // allocate memory
+//     customer = malloc(sizeof(struct Customer));
 
-    // error checking
-    if(customer == CUSTOMER_ERROR)
-    {
-        printf("\nmalloc failed; out of memory.\n");
-        return CUSTOMER_ERROR;
-    }
+//     // error checking
+//     if(customer == CUSTOMER_ERROR)
+//     {
+//         printf("\nmalloc failed; out of memory.\n");
+//         return CUSTOMER_ERROR;
+//     }
 
-    // initialize variables 
-    customer->acc_num       = INIT_INTEGER;
-    customer->citizenship   = INIT_INTEGER;
-    customer->birth_month   = INIT_INTEGER;;
-    customer->birth_day     = INIT_INTEGER;
-    customer->birth_year    = INIT_INTEGER;
-    customer->type          = INIT_INTEGER;
-    for (i = 0; i < SIZE_NAME; i++)
-    {
-        customer->name[i]   = INIT_VALUE_STR;
-    }
-    for (i = 0; i < SIZE_STREET; i++)
-    {
-        customer->street[i] = INIT_VALUE_STR;
-    }
-    for (i = 0; i < SIZE_CITY; i++)
-    {
-        customer->city[i]   = INIT_VALUE_STR;
-    }
-    for (i = 0; i < SIZE_STATE; i++)
-    {
-        customer->state[i]  = INIT_VALUE_STR;
-    }
-    for (i = 0; i < SIZE_PHONE; i++)
-    {
-        customer->phone[i]  = INIT_VALUE_STR;
-    }
+//     // initialize variables 
+//     customer->acc_num       = INIT_INTEGER;
+//     customer->citizenship   = INIT_INTEGER;
+//     customer->birth_month   = INIT_INTEGER;;
+//     customer->birth_day     = INIT_INTEGER;
+//     customer->birth_year    = INIT_INTEGER;
+//     customer->type          = INIT_INTEGER;
+//     for (i = 0; i < SIZE_NAME; i++)
+//     {
+//         customer->name[i]   = INIT_VALUE_STR;
+//     }
+//     for (i = 0; i < SIZE_STREET; i++)
+//     {
+//         customer->street[i] = INIT_VALUE_STR;
+//     }
+//     for (i = 0; i < SIZE_CITY; i++)
+//     {
+//         customer->city[i]   = INIT_VALUE_STR;
+//     }
+//     for (i = 0; i < SIZE_STATE; i++)
+//     {
+//         customer->state[i]  = INIT_VALUE_STR;
+//     }
+//     for (i = 0; i < SIZE_PHONE; i++)
+//     {
+//         customer->phone[i]  = INIT_VALUE_STR;
+//     }
 
-    // return customer
-    return customer;
-}
+//     // return customer
+//     return customer;
+// }
 
-/**
- * @brief destroy_customer() cleanly frees memory allocations for structure.
- * @param customer - a customer structure.
- * @returns NULL.
- */
-void destroy_customer(struct Customer* customer)
-{
-    // free memory
-    free(customer);
+// /**
+//  * @brief destroy_customer() cleanly frees memory allocations for structure.
+//  * @param customer - a customer structure.
+//  * @returns NULL.
+//  */
+// void destroy_customer(struct Customer* customer)
+// {
+//     // free memory
+//     free(customer);
 
-    // return
-    return;
-}
+//     // return
+//     return;
+// }
 
 // /**
 //  * @brief edit_customer() adds user input into customer structure.

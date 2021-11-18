@@ -127,46 +127,75 @@ void selection(int select_bit)
  * @retval seed - success.
  * @retval INTEGER_INPUT_ERROR - error.
  */
-int random_gen(int randsize)
+void random_gen(int *seed)
 {
     // declare variables
     time_t current_time;
-    int seed;
-    int tmp_randsize;
-    int tmp_half_randsize;
+    int tmp_int[RANDSIZE];
+    char tmp_char[RANDSIZE];
 
-    // initialize variables
-    time(&current_time); 
-    seed = current_time;
-    tmp_randsize = 1;
-    tmp_half_randsize = 1;
-
-    // logic to calculate size of random number
-    for (int i = 0; i < randsize; i++)
+    // obtain current time
+    current_time = time(NULL);
+    if (current_time == ((time_t) - 1))
     {
-        tmp_randsize = tmp_randsize * 10;
-    }
-    for (int i = 0; i < (randsize / 2); i++)
-    {
-        tmp_half_randsize = tmp_half_randsize * 10;
+        perror("\nError in obtaining current time");
+        return;
     }
 
-    // square current seed
-    seed = seed * seed;
+    printf("Seed: %d\nCurrent Time: %ld\nTmp_Seed: ", *seed, current_time);
 
-    // mid-square method
-    seed = seed / tmp_half_randsize;
-    seed = seed % tmp_randsize;
-
-    // ensure positive
-    seed = abs(seed);
-
-    // check digit length
-    if (seed < RANDOM_MIN || seed > RANDOM_MAX)
+    // fill tmp_int array
+    for (int i = 0; i < RANDSIZE; i++)
     {
-        random_gen(randsize);
+        tmp_int[i] = current_time % 10;
+        current_time /= 10;
     }
 
-    // return seed
-    return seed;
+    // convert tmp_int[] into tmp_char[]
+    for (int i = 0; i < RANDSIZE; i++)
+    {
+        sprintf(tmp_char[i], "%d", tmp_int[i]);
+    }
+    *seed = atoi(tmp_char);
+
+    // 
+    // time_t current_time;
+    // int tmp_randsize;
+    // int tmp_half_randsize;
+
+    // // initialize variables
+    // tmp_randsize = 1;
+    // tmp_half_randsize = 1;
+
+    // // obtain current time and assign to seed 
+    // time(&current_time); 
+    // *seed = current_time;
+
+    // // logic to calculate size of random number
+    // for (int i = 0; i < RANDSIZE; i++)
+    // {
+    //     tmp_randsize = tmp_randsize * 10;
+    // }
+    // for (int i = 0; i < (RANDSIZE / 2); i++)
+    // {
+    //     tmp_half_randsize = tmp_half_randsize * 10;
+    // }
+
+    // // square current seed
+    // *seed = (*seed) * (*seed);
+
+    // // mid-square method
+    // *seed = *seed / tmp_half_randsize;
+    // *seed = *seed % tmp_randsize;
+
+    // // ensure positive
+    // *seed = abs(*seed);
+
+    // // check digit length
+    // if (*seed < RANDOM_MIN || *seed > RANDOM_MAX)
+    // {
+    //     random_gen(seed);
+    // }
+
+    return;
 }

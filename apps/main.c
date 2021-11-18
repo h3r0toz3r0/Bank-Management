@@ -7,7 +7,6 @@
 // libraries
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "main.h"
 #include "helper.h"
 #include "files.h"
@@ -18,7 +17,7 @@ int main(void)
     int select_bit;
 
     // initiate variables
-    select_bit = INIT_INTEGER;
+    select_bit = ERROR_SELECTION;
 
     // initialize records file
     if (exists(FILE_PATH) == FILE_DNE)
@@ -55,9 +54,9 @@ int main(void)
         // user input
         printf("Enter a number: ");
         integer_input(&select_bit);
-        if(select_bit == INTEGER_INPUT_ERROR)
+        if(select_bit == ERROR_SELECTION)
         {
-            printf("\ninteger_input() failed; unable to take user input.\n");
+            printf("\nInteger_input() failed; unable to take user input.\n");
             exit(EXIT_FAILURE);
         }
 
@@ -68,9 +67,13 @@ int main(void)
         // zero out select_bit
         if (select_bit != EXIT_SELECTION)
         {
-            select_bit = INIT_INTEGER;
+            select_bit = ERROR_SELECTION;
         }
     }
+
+    int random = 0;
+    random_gen(&random);
+    printf("Random Number: %d\n", random);
 
     // exit message
     printf("\n\tTHANK YOU FOR USING THE BANK MANAGEMENT SYSTEM."
