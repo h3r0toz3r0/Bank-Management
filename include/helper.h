@@ -25,7 +25,7 @@
 #define SIZE_INPUT              4
 
 // declare functions
-int selection(int select_bit);
+void selection(int select_bit);
 int integer_input(void);
 char *string_input(char *string_input, int string_length);
 int random_gen(int randsize);

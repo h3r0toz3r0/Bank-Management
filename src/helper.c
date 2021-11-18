@@ -77,10 +77,9 @@ char *string_input(char *string_input, int string_length)
  * editing an account, erase an account, viewing account information, performing an account 
  * transaction, and exiting. Even a failure in the functions, the program will continue to run.
  * @param select_bit - interger received from user input to function selection.
- * @returns select_bit after executing desired function.
- * @retval select_bit - on success or error; errors are printed out only.
+ * @returns void after performing desired bank function.
  */
-int selection(int select_bit)
+void selection(int select_bit)
 {
     switch(select_bit)
     {
@@ -121,7 +120,7 @@ int selection(int select_bit)
     }
 
     // return selection
-    return select_bit;
+    return;
 }
 
 /**
