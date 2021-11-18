@@ -14,7 +14,7 @@
  * @brief struct_to_string() takes a customer structure and converts it to a string.
  * @returns a string containing the customer object.
  * @retval cust_obj - success.
- * @retval STR_INPUT_ERROR - error.
+ * @retval STRING_INPUT_ERROR - error.
  */
 char *struct_to_string(struct Customer* customer, char *cust_obj)
 {
@@ -40,7 +40,7 @@ char *struct_to_string(struct Customer* customer, char *cust_obj)
                 customer->phone, customer->type) < INIT_INTEGER)
     {
         printf("\nsnprintf error; unable to convert struct to string.\n");
-        return STR_INPUT_ERROR;
+        return STRING_INPUT_ERROR;
     }
 
     // return success
@@ -198,32 +198,32 @@ struct Customer* edit_customer(struct Customer* customer)
 {
     // collect user input
     printf("Enter Account Owner Name: ");
-    if (string_input(customer->name, SIZE_NAME) == STR_INPUT_ERROR)
+    if (string_input(customer->name, SIZE_NAME) == STRING_INPUT_ERROR)
     {
         return CUSTOMER_ERROR;
     }
 
     printf("Enter Street Address: ");
-    if (string_input(customer->street, SIZE_STREET) == STR_INPUT_ERROR)
+    if (string_input(customer->street, SIZE_STREET) == STRING_INPUT_ERROR)
     {
         return CUSTOMER_ERROR;
     }
 
     printf("Enter City: ");
-    if (string_input(customer->city, SIZE_CITY) == STR_INPUT_ERROR)
+    if (string_input(customer->city, SIZE_CITY) == STRING_INPUT_ERROR)
     {
         return CUSTOMER_ERROR;
     }
 
     printf("Enter Two-Letter State Abbreviation: ");
-    if (string_input(customer->state, SIZE_STATE) == STR_INPUT_ERROR)
+    if (string_input(customer->state, SIZE_STATE) == STRING_INPUT_ERROR)
     {
         return CUSTOMER_ERROR;
     }
    
     printf("Enter Citizenship Number: ");
-    customer->citizenship = integer_input(customer->citizenship);
-    if (customer->citizenship == INT_INPUT_ERROR)
+    customer->citizenship = integer_input();
+    if (customer->citizenship == INTEGER_INPUT_ERROR)
     {
         destroy_customer(customer);
         return CUSTOMER_ERROR;
@@ -235,8 +235,8 @@ struct Customer* edit_customer(struct Customer* customer)
     } 
 
     printf("Enter Birth Month As Digit (i.e. 1, 2, ..., 11, 12): ");
-    customer->birth_month = integer_input(customer->birth_month );
-    if (customer->birth_month == INT_INPUT_ERROR)
+    customer->birth_month = integer_input();
+    if (customer->birth_month == INTEGER_INPUT_ERROR)
     {
         destroy_customer(customer);
         return CUSTOMER_ERROR;
@@ -248,8 +248,8 @@ struct Customer* edit_customer(struct Customer* customer)
     }
 
     printf("Enter Birth Day: ");
-    customer->birth_day = integer_input(customer->birth_day);
-    if (customer->birth_day == INT_INPUT_ERROR)
+    customer->birth_day = integer_input();
+    if (customer->birth_day == INTEGER_INPUT_ERROR)
     {
         destroy_customer(customer);
         return CUSTOMER_ERROR;
@@ -261,8 +261,8 @@ struct Customer* edit_customer(struct Customer* customer)
     }
 
     printf("Enter Birth Year: ");
-    customer->birth_year = integer_input(customer->birth_year);
-    if (customer->birth_year == INT_INPUT_ERROR)
+    customer->birth_year = integer_input();
+    if (customer->birth_year == INTEGER_INPUT_ERROR)
     {
         destroy_customer(customer);
         return CUSTOMER_ERROR;
@@ -274,7 +274,7 @@ struct Customer* edit_customer(struct Customer* customer)
     }
 
     printf("Enter Phone Number: ");
-    if (string_input(customer->phone, SIZE_PHONE) == STR_INPUT_ERROR)
+    if (string_input(customer->phone, SIZE_PHONE) == STRING_INPUT_ERROR)
     {
         destroy_customer(customer);
         return CUSTOMER_ERROR;

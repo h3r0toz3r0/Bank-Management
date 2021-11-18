@@ -7,22 +7,26 @@
 #define HELPER_H    
 
 // macros 
-#define CREATE_SELECTION_BIT    1
-#define EDIT_SELECTION_BIT      2
-#define ERASE_SELECTION_BIT     3
-#define TRANSACT_SELECTION_BIT  4
-#define VIEW_SELECTION_BIT      5
-#define EXIT_SELECTION_BIT      6
+#define CREATE_SELECTION    1
+#define EDIT_SELECTION     2
+#define ERASE_SELECTION    3
+#define TRANSACT_SELECTION  4
+#define VIEW_SELECTION      5
+#define EXIT_SELECTION      6
 
-#define INT_INPUT_ERROR        -1
-#define STR_INPUT_ERROR         NULL
+#define INTEGER_INPUT_ERROR    -1
+#define STRING_INPUT_ERROR         NULL
+
+#define RANDOM_MIN              111111
+#define RANDOM_MAX              999999
+
 #define INIT_INTEGER            0
 #define INIT_STRING             NULL
 #define SIZE_INPUT              4
 
 // declare functions
 int selection(int select_bit);
-int integer_input(int integer_input);
+int integer_input(void);
 char *string_input(char *string_input, int string_length);
 int random_gen(int randsize);
 

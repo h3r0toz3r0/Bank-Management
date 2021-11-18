@@ -10,35 +10,35 @@
 #include <string.h>
 #include <stdlib.h>
 #include "helper.h"
-#include "create.h"
-#include "erase.h"
-#include "edit.h"
+// #include "create.h"
+// #include "erase.h"
+// #include "edit.h"
 #include "tmp.h"
 
 /**
  * @brief integer_input() gets user input for an integer.
- * @param integer_input - a declared and initialized integer variable.
  * @returns an integer from user input.
  * @retval integer_input - success.
- * @retval INT_INPUT_ERROR - error.
+ * @retval INTEGER_INPUT_ERROR - error.
  */
-int integer_input(int integer_input)
+int integer_input(void)
 {
     // declare variables
-    int c;
+    int character;
+    int int_input;
 
     // user input
-    if (scanf("%d", &integer_input) == EOF)
+    if (scanf("%d", &int_input) == EOF)
     {
-        printf("\nscanf failed; input failure.\n");
-        return INT_INPUT_ERROR;
+        perror("\nError reading user input");
+        return INTEGER_INPUT_ERROR;
     }
 
     // clears buffer of user input; getc has no errors defined
-    while((c = getc(stdin)) != '\n' && c != EOF);
+    while((character = getc(stdin)) != '\n' && character != EOF);
 
     // return integer input
-    return integer_input;
+    return int_input;
 }
 
 /**
@@ -52,17 +52,17 @@ int integer_input(int integer_input)
 char *string_input(char *string_input, int string_length)
 {
     // define variables
-    int c;
+    int character;
 
     // collect user input
     if (fgets(string_input, string_length, stdin) == NULL) {
-        printf("\nfgets failed; user input error.\n");
-        return STR_INPUT_ERROR;
+        perror("\nError reading user input");
+        return STRING_INPUT_ERROR;
     }
 
     // clears stdin buffer; getc has no errors defined
     else if (strchr(string_input, '\n') == NULL) {
-        while((c = getc(stdin)) != '\n' && c != EOF);
+        while((character = getc(stdin)) != '\n' && character != EOF);
     }
 
     // removes erroneous newline character; strtok has no errors defined
@@ -82,40 +82,42 @@ char *string_input(char *string_input, int string_length)
  */
 int selection(int select_bit)
 {
-    if (select_bit == CREATE_SELECTION_BIT)
+    switch(select_bit)
     {
-        if (create() == CREATE_ERROR)
-        {
-            printf("\ncreate() failed; no account has been made.\n");
-        }
-    }
-    else if (select_bit == EDIT_SELECTION_BIT)
-    {
-        if (edit() == EDIT_ERROR)
-        {
-            printf("\nedit() failed; no edits have been committed.\n");
-        }
-    }
-    else if (select_bit == ERASE_SELECTION_BIT)
-    {
-        if (erase() == ERASE_ERROR)
-        {
-            printf("\nerase() failed; no account has been erased.\n");
-        }
-    }
-    else if (select_bit == TRANSACT_SELECTION_BIT)
-    {
-        if (transact() == TRANSACT_ERROR)
-        {
-            printf("\ntransact() failed; no transactions have occured.\n");
-        }
-    }
-    else if (select_bit == VIEW_SELECTION_BIT)
-    {
-        if (view() == VIEW_ERROR)
-        {
-            printf("\nview() failed; unable to find account information.\n");
-        }
+        case CREATE_SELECTION :
+            if (create() == CREATE_ERROR)
+            {
+                printf("\ncreate() failed; no account has been made.\n");
+            }
+        break;
+
+        case EDIT_SELECTION :
+            if (edit() == EDIT_ERROR)
+            {
+                printf("\nedit() failed; no edits have been saved.\n");
+            }
+        break;
+
+        case ERASE_SELECTION :
+            if (erase() == ERASE_ERROR)
+            {
+                printf("\nerase() failed; no account has been removed.\n");
+            }
+        break;
+
+        case VIEW_SELECTION :
+            if (view() == VIEW_ERROR)
+            {
+                printf("\nview() failed; unable to view the account.\n");
+            }
+        break;
+
+        case TRANSACT_SELECTION :
+            if (transact() == TRANSACT_ERROR)
+            {
+                printf("\ntransact() failed; unable to handle transactions.\n");
+            }
+        break;
     }
 
     // return selection
@@ -127,7 +129,7 @@ int selection(int select_bit)
  * @param randsize - integer specifying size of random number to create.
  * @returns a random number.
  * @retval seed - success.
- * @retval INT_INPUT_ERROR - error.
+ * @retval INTEGER_INPUT_ERROR - error.
  */
 int random_gen(int randsize)
 {

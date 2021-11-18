@@ -182,7 +182,7 @@ int insert_file(char *cust_string)
 
 /**
  * @brief exists() checks if the file exists in the computer system.
- * @param filename - string that holds the name of the file in question.
+ * @param filename - string that holds the name of the file.
  * @returns a value expressing if the file exists or not.
  * @retval FILE_EXISTS - file exists.
  * @retval FILE_DNE - file doesn't exist.
@@ -198,11 +198,11 @@ int exists(char *filename)
         // close file if it exists
         fclose(fp);
         
-        // return success
+        // return file exists
         return FILE_EXISTS;
     }
 
-    // return error
+    // return file DNE
     return FILE_DNE;
 }
 

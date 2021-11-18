@@ -6,6 +6,8 @@
 
 // libraries
 #include <stdio.h>
+#include <stdlib.h>
+
 #include "main.h"
 #include "helper.h"
 #include "files.h"
@@ -28,8 +30,8 @@ int main(void)
         fp = fopen(FILE_PATH, "w");
         if (fp == NULL)
         {
-            printf("\nfopen failed; unable to create file.\n");
-            return MAIN_ERROR;
+            perror("\nError opening to file");
+            exit(EXIT_FAILURE);
         }
 
         // close file
@@ -37,7 +39,7 @@ int main(void)
     }
 
     // for-loop till user chooses to exit
-    while (select_bit != EXIT_SELECTION_BIT)
+    while (select_bit != EXIT_SELECTION)
     {
         // prints welcome screen
         printf("\n\t--------------- CUSTOMER ACCOUNT BANKING MANAGEMENT SYSTEM ---------------\n");
@@ -47,16 +49,16 @@ int main(void)
             "\t\t\t%d - deposit/withdraw from an account\n"
             "\t\t\t%d - view account information associated with account\n"
             "\t\t\t%d - exit\n\n", 
-            CREATE_SELECTION_BIT, EDIT_SELECTION_BIT, ERASE_SELECTION_BIT,
-            TRANSACT_SELECTION_BIT, VIEW_SELECTION_BIT, EXIT_SELECTION_BIT);
+            CREATE_SELECTION, EDIT_SELECTION, ERASE_SELECTION,
+            TRANSACT_SELECTION, VIEW_SELECTION, EXIT_SELECTION);
 
         // user input
         printf("Enter a number: ");
-        select_bit = integer_input(select_bit);
-        if(select_bit == INT_INPUT_ERROR)
+        select_bit = integer_input();
+        if(select_bit == INTEGER_INPUT_ERROR)
         {
             printf("\ninteger_input() failed; unable to take user input.\n");
-            return MAIN_ERROR;
+            exit(EXIT_FAILURE);
         }
 
         // check select_bit for bank functionality
@@ -64,7 +66,7 @@ int main(void)
         selection(select_bit);
 
         // zero out select_bit
-        if (select_bit != EXIT_SELECTION_BIT)
+        if (select_bit != EXIT_SELECTION)
         {
             select_bit = INIT_INTEGER;
         }
@@ -74,6 +76,6 @@ int main(void)
     printf("\n\tTHANK YOU FOR USING THE BANK MANAGEMENT SYSTEM."
             "\n\tHAVE A GOOD DAY.\n\n");
 
-    // return success
-    return MAIN_SUCCESS;
+    // exit gracefully
+    exit(EXIT_SUCCESS);
 }

@@ -4,11 +4,7 @@
 
 // include guard
 #ifndef MAIN_H
-#define MAIN_H    
-
-// macros
-#define MAIN_SUCCESS        0
-#define MAIN_ERROR         -1
+#define MAIN_H
 
 // declare functions
 int main(void);
