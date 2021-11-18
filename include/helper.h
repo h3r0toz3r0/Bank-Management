@@ -26,7 +26,7 @@
 
 // declare functions
 void selection(int select_bit);
-int integer_input(void);
+void integer_input(int *int_input);
 char *string_input(char *string_input, int string_length);
 int random_gen(int randsize);
 

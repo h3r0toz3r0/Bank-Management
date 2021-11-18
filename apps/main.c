@@ -54,7 +54,7 @@ int main(void)
 
         // user input
         printf("Enter a number: ");
-        select_bit = integer_input();
+        integer_input(&select_bit);
         if(select_bit == INTEGER_INPUT_ERROR)
         {
             printf("\ninteger_input() failed; unable to take user input.\n");

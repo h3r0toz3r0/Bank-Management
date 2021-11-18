@@ -17,28 +17,25 @@
 
 /**
  * @brief integer_input() gets user input for an integer.
- * @returns an integer from user input.
- * @retval integer_input - success.
- * @retval INTEGER_INPUT_ERROR - error.
+ * @param int_input - calls variable by reference.
+ * @returns void.
  */
-int integer_input(void)
+void integer_input(int *int_input)
 {
     // declare variables
     int character;
-    int int_input;
 
     // user input
-    if (scanf("%d", &int_input) == EOF)
+    if (scanf("%d", int_input) == EOF)
     {
         perror("\nError reading user input");
-        return INTEGER_INPUT_ERROR;
+        return;
     }
 
     // clears buffer of user input; getc has no errors defined
     while((character = getc(stdin)) != '\n' && character != EOF);
 
-    // return integer input
-    return int_input;
+    return;
 }
 
 /**

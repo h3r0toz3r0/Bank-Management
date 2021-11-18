@@ -188,101 +188,101 @@ void destroy_customer(struct Customer* customer)
     return;
 }
 
-/**
- * @brief edit_customer() adds user input into customer structure.
- * @returns customer structure with user updated values.
- * @retval customer - success.
- * @retval CUSTOMER_ERROR - error.
- */
-struct Customer* edit_customer(struct Customer* customer)
-{
-    // collect user input
-    printf("Enter Account Owner Name: ");
-    if (string_input(customer->name, SIZE_NAME) == STRING_INPUT_ERROR)
-    {
-        return CUSTOMER_ERROR;
-    }
+// /**
+//  * @brief edit_customer() adds user input into customer structure.
+//  * @returns customer structure with user updated values.
+//  * @retval customer - success.
+//  * @retval CUSTOMER_ERROR - error.
+//  */
+// struct Customer* edit_customer(struct Customer* customer)
+// {
+//     // collect user input
+//     printf("Enter Account Owner Name: ");
+//     if (string_input(customer->name, SIZE_NAME) == STRING_INPUT_ERROR)
+//     {
+//         return CUSTOMER_ERROR;
+//     }
 
-    printf("Enter Street Address: ");
-    if (string_input(customer->street, SIZE_STREET) == STRING_INPUT_ERROR)
-    {
-        return CUSTOMER_ERROR;
-    }
+//     printf("Enter Street Address: ");
+//     if (string_input(customer->street, SIZE_STREET) == STRING_INPUT_ERROR)
+//     {
+//         return CUSTOMER_ERROR;
+//     }
 
-    printf("Enter City: ");
-    if (string_input(customer->city, SIZE_CITY) == STRING_INPUT_ERROR)
-    {
-        return CUSTOMER_ERROR;
-    }
+//     printf("Enter City: ");
+//     if (string_input(customer->city, SIZE_CITY) == STRING_INPUT_ERROR)
+//     {
+//         return CUSTOMER_ERROR;
+//     }
 
-    printf("Enter Two-Letter State Abbreviation: ");
-    if (string_input(customer->state, SIZE_STATE) == STRING_INPUT_ERROR)
-    {
-        return CUSTOMER_ERROR;
-    }
+//     printf("Enter Two-Letter State Abbreviation: ");
+//     if (string_input(customer->state, SIZE_STATE) == STRING_INPUT_ERROR)
+//     {
+//         return CUSTOMER_ERROR;
+//     }
    
-    printf("Enter Citizenship Number: ");
-    customer->citizenship = integer_input();
-    if (customer->citizenship == INTEGER_INPUT_ERROR)
-    {
-        destroy_customer(customer);
-        return CUSTOMER_ERROR;
-    }
-    if (customer->citizenship > SSN_MAX || customer->citizenship < SSN_MIN)
-    {
-        destroy_customer(customer);
-        return CUSTOMER_ERROR;
-    } 
+//     printf("Enter Citizenship Number: ");
+//     customer->citizenship = integer_input();
+//     if (customer->citizenship == INTEGER_INPUT_ERROR)
+//     {
+//         destroy_customer(customer);
+//         return CUSTOMER_ERROR;
+//     }
+//     if (customer->citizenship > SSN_MAX || customer->citizenship < SSN_MIN)
+//     {
+//         destroy_customer(customer);
+//         return CUSTOMER_ERROR;
+//     } 
 
-    printf("Enter Birth Month As Digit (i.e. 1, 2, ..., 11, 12): ");
-    customer->birth_month = integer_input();
-    if (customer->birth_month == INTEGER_INPUT_ERROR)
-    {
-        destroy_customer(customer);
-        return CUSTOMER_ERROR;
-    }
-    if (MONTH_MIN > customer->birth_month || MONTH_MAX < customer->birth_month){
-        printf("\nbirth month out of range; unable to create account.\n");
-        destroy_customer(customer);
-        return CUSTOMER_ERROR;
-    }
+//     printf("Enter Birth Month As Digit (i.e. 1, 2, ..., 11, 12): ");
+//     customer->birth_month = integer_input();
+//     if (customer->birth_month == INTEGER_INPUT_ERROR)
+//     {
+//         destroy_customer(customer);
+//         return CUSTOMER_ERROR;
+//     }
+//     if (MONTH_MIN > customer->birth_month || MONTH_MAX < customer->birth_month){
+//         printf("\nbirth month out of range; unable to create account.\n");
+//         destroy_customer(customer);
+//         return CUSTOMER_ERROR;
+//     }
 
-    printf("Enter Birth Day: ");
-    customer->birth_day = integer_input();
-    if (customer->birth_day == INTEGER_INPUT_ERROR)
-    {
-        destroy_customer(customer);
-        return CUSTOMER_ERROR;
-    }
-    if (DAY_MIN > customer->birth_day || DAY_MAX < customer->birth_day){
-        printf("\nbirth day out of range; unable to create account.\n");
-        destroy_customer(customer);
-        return CUSTOMER_ERROR;
-    }
+//     printf("Enter Birth Day: ");
+//     customer->birth_day = integer_input();
+//     if (customer->birth_day == INTEGER_INPUT_ERROR)
+//     {
+//         destroy_customer(customer);
+//         return CUSTOMER_ERROR;
+//     }
+//     if (DAY_MIN > customer->birth_day || DAY_MAX < customer->birth_day){
+//         printf("\nbirth day out of range; unable to create account.\n");
+//         destroy_customer(customer);
+//         return CUSTOMER_ERROR;
+//     }
 
-    printf("Enter Birth Year: ");
-    customer->birth_year = integer_input();
-    if (customer->birth_year == INTEGER_INPUT_ERROR)
-    {
-        destroy_customer(customer);
-        return CUSTOMER_ERROR;
-    }
-    if (YEAR_MAX < customer->birth_year || YEAR_MIN > customer->birth_year){
-        printf("\nbirth year out of range; unable to create account.\n");
-        destroy_customer(customer);
-        return CUSTOMER_ERROR;
-    }
+//     printf("Enter Birth Year: ");
+//     customer->birth_year = integer_input();
+//     if (customer->birth_year == INTEGER_INPUT_ERROR)
+//     {
+//         destroy_customer(customer);
+//         return CUSTOMER_ERROR;
+//     }
+//     if (YEAR_MAX < customer->birth_year || YEAR_MIN > customer->birth_year){
+//         printf("\nbirth year out of range; unable to create account.\n");
+//         destroy_customer(customer);
+//         return CUSTOMER_ERROR;
+//     }
 
-    printf("Enter Phone Number: ");
-    if (string_input(customer->phone, SIZE_PHONE) == STRING_INPUT_ERROR)
-    {
-        destroy_customer(customer);
-        return CUSTOMER_ERROR;
-    }
+//     printf("Enter Phone Number: ");
+//     if (string_input(customer->phone, SIZE_PHONE) == STRING_INPUT_ERROR)
+//     {
+//         destroy_customer(customer);
+//         return CUSTOMER_ERROR;
+//     }
 
-    // NOTE - skipped account type to allow for portability of this function to other
-    // bank functionalities.
+//     // NOTE - skipped account type to allow for portability of this function to other
+//     // bank functionalities.
 
-    // return customer
-    return customer;
-}
+//     // return customer
+//     return customer;
+// }
