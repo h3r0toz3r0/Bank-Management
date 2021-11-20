@@ -27,7 +27,7 @@ int create_file(char *filename, char *data);
 int append_file(char *filename, char *data);
 int insert_file(char *filename, char *data, int index);
 int remove_line_file(char *filename, int index);
-int find_line_file(char *filename, char *word, int line_len);
+int find_line_file(char *filename, char *word);
 char *pull_line_file(char *filename, int index);
 int delete_file(char *filename);
 

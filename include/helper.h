@@ -27,6 +27,9 @@
 
 // declare functions
 void find_string_length(char *str, int *length);
+void **create_2D_array(int n_rows, int n_columns, int type_size);
+void destroy_array(void** array, int n_rows);
+
 void selection(int select_bit);
 void integer_input(int *int_input);
 char *string_input(char *string_input, int string_length);

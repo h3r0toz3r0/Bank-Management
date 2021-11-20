@@ -13,7 +13,7 @@
 
 int main(void)
 {
-    find_line_file("test.txt", "1234", 256);
+    find_line_file("test.txt", "1234");
     // // declare variables
     // int select_bit;
 

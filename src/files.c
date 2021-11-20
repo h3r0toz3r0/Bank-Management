@@ -39,7 +39,7 @@ int write_string_file(FILE *fp, char *string)
 }
 
 /**
- * @brief create_file() creates a file or overwrite an existing file. Write 
+ * @brief create_file() creates a file or overwrites an existing file. Write 
  * data to file.
  * 
  * @param filename string representing the name of the file
@@ -77,7 +77,7 @@ int create_file(char *filename, char *data)
 }
 
 /**
- * @brief append_file() opens an existing file and append data to the end 
+ * @brief append_file() opens an existing file and appends data to the end 
  * of the file.
  * 
  * @param filename string representing the name of the file
@@ -143,26 +143,24 @@ int append_file(char *filename, char *data)
 
 /**
  * @brief find_line_file() opens an existing file and searches file contents
- * for the line with a matching string in the first word.
+ * for the line with a matching string in the first word. It finds all instances
+ * of the word in the file.
  * 
  * @param filename string representing the name of the file
  * @param word word to find in file, must be null terminated
- * @param line_len the maximum length of each line in the file
- * @return FILE_FAILURE on failure, line index on success
+ * @return FILE_FAILURE on failure, [row index, column index] pairs of each line
+ * containing the word on success
  */
-int find_line_file(char *filename, char *word, int line_len)
+int find_line_file(char *filename, char *word)
 {
     // declare variables
     FILE *fp;
-    char line[line_len];
     int word_len;
+    int character;
+    int rows_i;
+    int cols_i;
     int index;
-    int i;
-    int counter;
-
-    // initialize variables
-    line[line_len] = INT_INIT;
-    index = INT_INIT;
+    int flag;
 
     // find length of word to find
     find_string_length(word, &word_len);
@@ -175,37 +173,84 @@ int find_line_file(char *filename, char *word, int line_len)
         return FILE_FAILURE;
     }
 
-    // store each line into buffer
-    while (fgets(line, line_len, fp) != NULL) 
+    // initialize variables
+    rows_i = INT_INIT;
+    cols_i = INT_INIT;
+    index = INT_INIT;
+    flag = INT_INIT;
+
+    // create 2D array
+    int **found_entries = (int **) create_2D_array(1, 2, sizeof(int));
+    int n_rows = 0;
+
+    // loop through all characters in file
+    while ((character = fgetc(fp)) != EOF) 
     {
-        // initialize counter
-        counter = 0;
-
-        // check the first few bytes of the line
-        for (i = 0; i < word_len; i++)
+        // find new row
+        if(character == '\n') 
         {
-            // if matching bytes, increment counter
-            if (line[i] == word[i])
+            // if word found, save column and row
+            if (flag == word_len)
             {
-                counter++;
+                printf("FOUND - row: %d\tcolumn: %d\n", rows_i, cols_i);
             }
-        }
-        // check one more byte, ensure it matches the deliminator
-        if (DELIMIN == line[i])
-        {
-            counter++;
+
+            // zero out word index, flag count and column index
+            cols_i = INT_INIT;
+            index = INT_INIT;
+            flag = INT_INIT;
+
+            // increment row counter
+            rows_i++;
         }
 
-        // break if word matches
-        if (counter == (word_len + 1))
+        // find new column
+        else if(character == DELIMIN)
         {
-            fclose(fp);
-            return index;
+            // if word found, save column and row
+            if (flag == word_len)
+            {
+                found_entries[n_rows][0] = rows_i;
+                found_entries[n_rows][1] = cols_i;
+                printf("FOUND - row: %d\tcolumn: %d\n", rows_i, cols_i);
+            }
+
+            // zero out word index and flag count
+            index = INT_INIT;
+            flag = INT_INIT;
+
+            // increment column index
+            cols_i++;
         }
 
-        // increment row value
-        index++;
+        // read each word
+        else
+        {
+            // compare words of the same length to the word being searched
+            if (index < word_len)
+            {
+                // increment flag counter if there is a match
+                if (character == word[index])
+                {
+                    flag++;
+                }
+            }
+            // if the word is too long, zero out the flag
+            else
+            {
+                flag = INT_INIT;
+            }
+            index++;
+        }
     }
+
+    for (int i = 0; i <= n_rows; i++)
+    {
+        printf("Entry[%d] - rows: %d\tcolumns: %d\n", n_rows, found_entries[0][0], found_entries[0][1]);
+    }
+
+    // free memory
+    destroy_array((void **)found_entries, 1);
 
     // close file
     fclose(fp);

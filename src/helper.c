@@ -39,9 +39,50 @@ void find_string_length(char *str, int *length)
 }
 
 /**
+ * @brief create_2D_array() function creates a 2D void type array.
+ * 
+ * @param n_rows number of rows
+ * @param n_columns number of columns
+ * @param type_size type size of data entry i.e. sizeof(int), etc.
+ * @returns 2D array of row x column
+ */
+void **create_2D_array(int n_rows, int n_columns, int type_size)
+{
+    // declare variables
+    void **array;
+
+    // allocate memory for array
+    array = malloc(n_rows * sizeof(void*));
+
+    // allocate memory for each row
+    for (n_rows -= 1; n_rows >= 0; n_rows--)
+    {
+        array[n_rows] = calloc(n_columns, type_size);
+    }
+
+    // return array
+    return array;
+}
+
+/**
+ * @brief destroy_array() function destroys 2D array.
+ * 
+ * @param n_rows number of rows
+ * @param array 2D array
+ */
+void destroy_array(void** array, int n_rows)
+{
+    // free memory for each row
+    for (n_rows -= 1; n_rows >= 0; n_rows--)
+        free(array[n_rows]);
+
+    // free entire array
+    free(array); 
+}
+
+/**
  * @brief integer_input() gets user input for an integer.
  * @param int_input - calls variable by reference.
- * @returns void.
  */
 void integer_input(int *int_input)
 {
