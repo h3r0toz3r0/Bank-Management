@@ -22,6 +22,7 @@
 #define SIZE_YEAR       5
 #define SIZE_TYPE       2
 #define SIZE_ACCN       7
+#define SIZE_CASH       1
 
 #define SSN_MAX         999999999
 #define SSN_MIN         111111111

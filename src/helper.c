@@ -16,6 +16,29 @@
 #include "tmp.h"
 
 /**
+ * @brief find_string_length() function finds length of null terminated string.
+ * 
+ * @param str string to find length of
+ * @param length empty referenced variable
+ */
+void find_string_length(char *str, int *length)
+{
+    // declare variables
+    char character;
+
+    // initialize variables
+    *length = 0;
+
+    // calculate size of string (not using SIZEOF)
+    for (character = *str; character != '\0'; character = *++str)
+    {
+        *length = *length + 1;
+    }
+
+    return;
+}
+
+/**
  * @brief integer_input() gets user input for an integer.
  * @param int_input - calls variable by reference.
  * @returns void.

@@ -26,6 +26,7 @@
 #define SIZE_INPUT              4
 
 // declare functions
+void find_string_length(char *str, int *length);
 void selection(int select_bit);
 void integer_input(int *int_input);
 char *string_input(char *string_input, int string_length);

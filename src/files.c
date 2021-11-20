@@ -1,290 +1,247 @@
 /**
- * @name find_customer.c
+ * @file files.c
  * @author Anna DeVries
- * @brief this file provides functions for file operations.
+ * @brief source contains all file logic for program
+ * @date 2021-11-19
+ * 
+ * @copyright Copyright (c) 2021
+ * 
  */
+
+///////// Question for mentor /////////
+// is it better to open/close frequently or open/close once?
 
 // libraries
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include "files.h"
 #include "helper.h"
-#include "customer.h"
-
-// /**
-//  * @brief find_customer() searches the records file for a specific account number.
-//  * @param accn - interger that holds the account number to be searched.
-//  * @param line_cpy - empty string to place customer string object into.
-//  * @returns customer entry matching the account number.
-//  * @retval line_cpy - success
-//  * @retval FIND_CUSTOMER_ERROR - error
-//  */
-// char *find_customer(int accn, char *line_cpy)
-// {
-//     // declare variables
-//     FILE *fp;
-//     char *line;
-//     size_t len;
-//     ssize_t read;
-//     char *ptr;
-//     int count;
-
-//     // initiate variables 
-//     len = INIT_INTEGER;
-//     line = INIT_STRING;
-
-//     // open file
-//     fp = fopen(FILE_PATH, "r");
-//     if (fp == FOPEN_ERROR)
-//     {
-//         // print error msg
-//         printf("\nfopen failed; unable to find customer.\n");
-
-//         // free memory
-//         free(line);
-
-//         // return error
-//         return FIND_CUSTOMER_ERROR;
-//     }
-    
-//     // read file line by line
-//     while ((read = getline(&line, &len, fp)) != END_FILE)
-//     {
-//         // initialize count 
-//         count = INIT_INTEGER;
-
-//         // copy line 
-//         strcpy(line_cpy, line);
-
-//         // break apart line by commas
-//         ptr = strtok(line,",");
-//         while (ptr != NULL)
-//         {
-//             int a = atoi(ptr);
-//             ptr = strtok(NULL, ",");
-//             count++;
-
-//             // compare account number
-//             if (count == ACCN_ITERATION)
-//             {
-//                 if (a == accn)
-//                 {
-//                     // close file
-//                     fclose(fp);
-
-//                     // free memory
-//                     free(line);
-
-//                     // load string into return 
-//                     return line_cpy;
-//                 }
-//             }
-//         }
-//     }
-
-//     // close file
-//     fclose(fp);
-
-//     // free memory
-//     free(line);
-
-//     // return success
-//     return FIND_CUSTOMER_ERROR;
-// }
-
-// /**
-//  * @brief write_int() function writes integers to file.
-//  * @param fp- file pointer.
-//  * @param num - integer to write to file
-//  * @returns success or error messages.
-//  * @retval WRITE_SUCCESS - success.
-//  * @retval WRITE_ERROR - error.
-//  */
-// int write_int(FILE *fp, int num)
-// {
-//     // write int to file
-//     if (fprintf(fp, "%d", num) < FPRINTF_ERROR)
-//     {
-//         printf("\nfwrite failed; unable to write integer to file.\n");
-//         return WRITE_ERROR;
-//     }
-
-//     // return success
-//     return WRITE_SUCCESS;
-// }
-
-// /**
-//  * @brief write_string() function writes strings to file.
-//  * @param fp- file pointer.
-//  * @param string - message to write to file.
-//  * @returns success or error messages.
-//  * @retval WRITE_SUCCESS - success.
-//  * @retval WRITE_ERROR - error.
-//  */
-// int write_string(FILE *fp, char *string)
-// {
-//     // write string to file
-//     if (fprintf(fp, "%s", string) < FPRINTF_ERROR)
-//     {
-//         printf("\nfwrite failed; unable to write integer to file.\n");
-//         return WRITE_ERROR;
-//     }
-
-//     // return success
-//     return WRITE_SUCCESS;
-// }
-
-// /**
-//  * @brief insert_file() function inserts new account into file.
-//  * @param cust_string - string object of the customer 
-//  * @returns success or error messages.
-//  * @retval INIT_FILE_SUCCESS - success.
-//  * @retval INIT_FILE_ERROR - error.
-//  */
-// int insert_file(char *cust_string)
-// {
-//     // declare variables 
-//     FILE *fp;
-
-//     // open file
-//     fp = fopen(FILE_PATH, "a");
-//     if (fp == FOPEN_ERROR)
-//     {
-//         printf("\nfopen failed; unable to save customer information.\n");
-//         return INIT_FILE_ERROR;
-//     }
-
-//     // add account to FILE
-//     if (write_string(fp, cust_string) == WRITE_ERROR)
-//     {
-//         // close file
-//         if (fclose(fp) == EOF)
-//         {
-//             printf("\nfclose failed; unable to save customer information.\n");
-//             return INIT_FILE_ERROR;
-//         }
-
-//         printf("\ninsert_file() failed; unable to save customer information.\n");
-//         return INIT_FILE_ERROR;
-//     }
-
-//     // close file
-//     if (fclose(fp) == EOF)
-//     {
-//         printf("\nfclose failed; unable to save customer information.\n");
-//         return INIT_FILE_ERROR;
-//     }
-
-//     // return success
-//     return INIT_FILE_SUCCESS;
-// }
 
 /**
- * @brief exists() checks if the file exists in the computer system.
- * @param filename - string that holds the name of the file.
- * @returns a value expressing if the file exists or not.
- * @retval FILE_EXISTS - file exists.
- * @retval FILE_DNE - file doesn't exist.
+ * @brief write_string() writes a string to a file.
+ * 
+ * @param fp file pointer
+ * @param string string to be written to the file
+ * @returns FILE_FAILURE on failure, FILE_SUCCESS on success
  */
-int exists(char *filename)
+int write_string_file(FILE *fp, char *string)
+{
+    // write string to file
+    if (FPRINTF_ERROR > fprintf(fp, "%s", string))
+    {
+        perror("unable to write string to file");
+        return FILE_FAILURE;
+    }
+
+    // return success
+    return FILE_SUCCESS;
+}
+
+/**
+ * @brief create_file() creates a file or overwrite an existing file. Write 
+ * data to file.
+ * 
+ * @param filename string representing the name of the file
+ * @param data data to be written to the file
+ * @return FILE_FAILURE on failure, FILE_SUCCESS on success
+ */
+int create_file(char *filename, char *data)
 {
     // declare variables
     FILE *fp;
 
     // open file
-    if ((fp = fopen(filename, "r")))
+    fp = fopen(filename, "w");
+    if (POINTER_ERROR == fp)
     {
-        // close file if it exists
-        fclose(fp);
-        
-        // return file exists
-        return FILE_EXISTS;
+        perror("unable to open file");
+        return FILE_FAILURE;
     }
 
-    // return file DNE
-    return FILE_DNE;
+    // write content
+    if (FILE_FAILURE == write_string_file(fp, data))
+    {
+        // close file
+        fclose(fp);
+
+        // return error
+        return FILE_FAILURE;
+    }
+
+    // close file
+    fclose(fp);
+
+    // return success
+    return FILE_SUCCESS;
+}
+
+/**
+ * @brief append_file() opens an existing file and append data to the end 
+ * of the file.
+ * 
+ * @param filename string representing the name of the file
+ * @param data data to be appended to file
+ * @return FILE_FAILURE on failure, FILE_SUCCESS on success
+ */
+int append_file(char *filename, char *data)
+{
+    // declare variables
+    FILE *fp;
+
+    // open file
+    fp = fopen(filename, "a");
+    if (POINTER_ERROR == fp)
+    {
+        perror("unable to open file");
+        return FILE_FAILURE;
+    }
+
+    // write content
+    if (FILE_FAILURE == write_string_file(fp, data))
+    {
+        // close file
+        fclose(fp);
+
+        // return error
+        return FILE_FAILURE;
+    }
+
+    // close file
+    fclose(fp);
+
+    // return success
+    return FILE_SUCCESS;
 }
 
 // /**
-//  * @brief delete_line() deletes a single line from the file based on accn.
-//  * @param accn - integer that represents account number to be removed.
-//  * @param filename - filename for the records file.
-//  * @returns a value expressing if removing line was successful.
-//  * @retval DELETE_LINE_SUCCESS - success.
-//  * @retval DELETE_LINE_ERROR - error.
+//  * @brief insert_file() opens an existing file and inserts data at a given
+//  * index in the file.
+//  * 
+//  * @param filename string representing the name of the file
+//  * @param data data to be appended to file
+//  * @param index index at which data is inserted
+//  * @return FILE_FAILURE on failure, FILE_SUCCESS on success
 //  */
-// int delete_line(int accn, char *filename)
+// int insert_file(char *filename, char *data, int index)
 // {
-//     // declare variables
-//     FILE *fp1;
-//     FILE *fp2;
-//     int length_customer_obj;
-//     char *ptr;
-//     int cust_accn;
-
-//     // initialize variables
-//     length_customer_obj =       SIZE_NAME + SIZE_STREET + SIZE_CITY + 
-//                                 SIZE_STATE + SIZE_PHONE + SIZE_SSN + 
-//                                 SIZE_MONTH + SIZE_DAY + SIZE_YEAR + 
-//                                 SIZE_TYPE;
-//     char line[length_customer_obj];
-//     char line_cpy[length_customer_obj];
-//     cust_accn = INIT_INTEGER;
-
-//     // open files
-//     fp1 = fopen(filename, "r");
-//     if (fp1 == FOPEN_ERROR)
-//     {
-//         printf("\nfopen failed; unable to find file.\n");
-//         return DELETE_LINE_ERROR;
-//     }
-//     fp2 = fopen(FILE_TMP_PATH, "w");
-//     if (fp2 == FOPEN_ERROR)
-//     {
-//         printf("\nfopen failed; unable to open file.\n");
-//         return DELETE_LINE_ERROR;
-//     }
-
-//     // copy content into tmp
-//     while (!feof(fp1))
-//     {
-//         strcpy(line, "\0");
-//         fgets(line, length_customer_obj, fp1);
-
-//         // copy line 
-//         strcpy(line_cpy, line);
-
-//         if (!feof(fp1)) 
-//         {
-//             // read accn number of line
-//             ptr = strtok(line,",");
-//             cust_accn = atoi(ptr);
-
-//             // skip line of customer to delete
-//             if (cust_accn != accn) 
-//             {
-//                 fprintf(fp2, "%s", line_cpy);
-//             }
-//         }
-//     }
-
-//     // close files
-//     fclose(fp1);
-//     fclose(fp2);
-
-//     // remove file
-//     if (remove(FILE_PATH) != REMOVE_SUCCESS)
-//     {
-//         printf("\nremove() failed; unable to remove temporary file.\n");
-//     }
-
-//     // rename file
-//     if (rename(FILE_TMP_PATH, FILE_PATH) != RENAME_SUCCESS)
-//     {
-//         printf("\nrename() failed; unable to rename temporary file.\n");
-//     }
-
-//     // return error
-//     return DELETE_LINE_SUCCESS;
+//     return FILE_SUCCESS;
 // }
+
+// /**
+//  * @brief remove_line_file() opens an existing file and removes data at a 
+//  * given index in the file.
+//  * 
+//  * @param filename string representing the name of the file
+//  * @param index index at which data is deleted
+//  * @return FILE_FAILURE on failure, FILE_SUCCESS on success
+//  */
+// int remove_line_file(char *filename, int index)
+// {
+//     return FILE_SUCCESS;
+// }
+
+/**
+ * @brief find_line_file() opens an existing file and searches file contents
+ * for the line with a matching string in the first word.
+ * 
+ * @param filename string representing the name of the file
+ * @param word word to find in file, must be null terminated
+ * @param line_len the maximum length of each line in the file
+ * @return FILE_FAILURE on failure, line index on success
+ */
+int find_line_file(char *filename, char *word, int line_len)
+{
+    // declare variables
+    FILE *fp;
+    char line[line_len];
+    int word_len;
+    int index;
+    int i;
+    int counter;
+
+    // initialize variables
+    line[line_len] = INT_INIT;
+    index = INT_INIT;
+
+    // find length of word to find
+    find_string_length(word, &word_len);
+
+    // open file
+    fp = fopen(filename, "r");
+    if (POINTER_ERROR == fp)
+    {
+        perror("unable to open file");
+        return FILE_FAILURE;
+    }
+
+    // store each line into buffer
+    while (fgets(line, line_len, fp) != NULL) 
+    {
+        // initialize counter
+        counter = 0;
+
+        // check the first few bytes of the line
+        for (i = 0; i < word_len; i++)
+        {
+            // if matching bytes, increment counter
+            if (line[i] == word[i])
+            {
+                counter++;
+            }
+        }
+        // check one more byte, ensure it matches the deliminator
+        if (DELIMIN == line[i])
+        {
+            counter++;
+        }
+
+        // break if word matches
+        if (counter == (word_len + 1))
+        {
+            fclose(fp);
+            return index;
+        }
+
+        // increment row value
+        index++;
+    }
+
+    // close file
+    fclose(fp);
+
+    // unable to find matching word
+    return FILE_FAILURE;
+}
+
+// /**
+//  * @brief pull_line_file() opens an existing file and returns the contents
+//  * of a line at a given index.
+//  * 
+//  * @param filename string representing the name of the file
+//  * @param index at which data is insterted
+//  * @return FILE_FAILURE on failure, line index on success
+//  */
+// char *pull_line_file(char *filename, int index)
+// {
+//     return FILE_SUCCESS;
+// }
+
+/**
+ * @brief delete_file() deletes an existing file.
+ *  
+ * @param filename name of the file
+ * @return FILE_FAILURE on failure, FILE_SUCCESS on success
+**/
+int delete_file(char *filename)
+{
+    // remove file
+    if(remove(filename) != REMOVE_ERROR)
+    {
+        perror("unable to remove file");
+        return FILE_FAILURE;
+    }
+
+    // return success
+    return FILE_SUCCESS;
+}
