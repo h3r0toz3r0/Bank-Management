@@ -10,9 +10,9 @@
 #define FILE_PATH           "records.csv"
 #define FILE_HEADER         "accn,name,street,city,state,phone,ssn,birthmonth,birthday,birthyear,type,money\n"
 
-
 #define INT_INIT             0
-#define DELIMIN             ','
+#define COLS_DELIMIN        ','
+#define ROW_DELIMIN         '\n'
 
 #define FILE_FAILURE        -1
 #define FILE_SUCCESS         0
