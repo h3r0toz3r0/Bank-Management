@@ -53,6 +53,11 @@ void **create_2D_array(int n_rows, int n_columns, int type_size)
 
     // allocate memory for array
     array = malloc(n_rows * sizeof(void *));
+    if (array == NULL)
+    {
+        perror("unable to create array rows");
+        return array;
+    }
 
     // allocate memory for each row
     for (n_rows -= 1; n_rows >= 0; n_rows--)
@@ -64,52 +69,37 @@ void **create_2D_array(int n_rows, int n_columns, int type_size)
     return array;
 }
 
-int **increase_rows_array(int **array, int n_rows, int add_rows, int n_cols)
+/**
+ * @brief increase_rows_array() function re-allocates more memory to a 
+ * 2D array
+ * 
+ * @param array 2D array to increase in size
+ * @param n_rows number of rows originally
+ * @param add_rows number of rows to add
+ * @param n_cols number of columns
+ * @param type_size type size of data entry i.e. sizeof(int), etc.
+ * @returns 2D array of row x column
+ */
+void **increase_rows_array(void **array, int n_rows, int add_rows, int n_cols, int type_size)
 {
-    int **tmp = realloc( array, sizeof *array * (n_rows + add_rows) );
-    if ( tmp )
+    // create temporary array
+    void **tmp_array = realloc(array, (n_rows + add_rows) * sizeof(*array));
+
+    // ensure realloc worked
+    if(tmp_array == NULL)
     {
-        array = tmp;
-        for ( int i = 0; i < add_rows; i++ )
-        {
-            array[n_rows + i] = malloc( sizeof *array[n_rows + i] * n_cols);
-        }
+        perror("unable to increase row size in array");
+        return tmp_array;
     }
+
+    // overwrite array with reallocated memory
+    array = tmp_array;
+
+    // allocate and set columns within rows to zero
+    array[n_rows] = calloc(n_cols, type_size);
+
+    // return array
     return array;
-    // // use a single realloc for the char pointers to the first char of each row
-    // // so we reallocate space for the pointers and then space for the actual rows.
-
-    // // temporary array
-    // int **pArray;
-
-    // // allocate memory for array
-    // array = malloc(n_rows * sizeof(void*));
-
-    // // allocate memory for each row
-    // for (n_rows -= 1; n_rows >= 0; n_rows--)
-    // {
-    //     array[n_rows] = calloc(n_columns, type_size);
-    // }
-
-    // pArray = (int **)realloc(array, n_rows * sizeof(*array));
-    // memset(&pArray[n_rows - 1], 0, n_rows - (n_rows-1));
-    
-    // // 
-    // pArray = realloc ( array, sizeof(int *) * n_rows + sizeof(int) * n_columns * n_rows);
-
-    // if (pArray) {
-    //     // calculate offset to the beginning of the actual data space
-    //     int *pOffset = (int *)(pArray + n_rows);
-    //     int   i;
-
-    //     // fix up the pointers to the individual rows
-    //     for (i = 0; i < n_rows; i++) {
-    //         pArray[i] = pOffset;
-    //         pOffset += n_columns;
-    //     }
-    // }
-
-    // return pArray;
 }
 
 /**

@@ -29,7 +29,7 @@
 void find_string_length(char *str, int *length);
 void **create_2D_array(int n_rows, int n_columns, int type_size);
 void destroy_2D_array(void** array, int n_rows);
-int **increase_rows_array(int **array, int n_rows, int add_rows, int n_cols);
+void **increase_rows_array(void **array, int n_rows, int add_rows, int n_cols, int type_size);
 
 void selection(int select_bit);
 void integer_input(int *int_input);

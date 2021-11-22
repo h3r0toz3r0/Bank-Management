@@ -13,6 +13,8 @@
 #define INT_INIT             0
 #define COLS_DELIMIN        ','
 #define ROW_DELIMIN         '\n'
+#define N_COLS               2
+#define N_ROWS               1
 
 #define FILE_FAILURE        -1
 #define FILE_SUCCESS         0
@@ -27,7 +29,7 @@ int create_file(char *filename, char *data);
 int append_file(char *filename, char *data);
 int insert_file(char *filename, char *data, int index);
 int remove_line_file(char *filename, int index);
-int find_line_file(char *filename, char *word);
+int **find_line_file(char *filename, char *word);
 char *pull_line_file(char *filename, int index);
 int delete_file(char *filename);
 

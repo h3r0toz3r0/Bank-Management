@@ -142,25 +142,27 @@ int append_file(char *filename, char *data)
 // }
 
 /**
- * @brief find_line_file() opens an existing file and searches file contents
- * for the line with a matching string in the first word. It finds all instances
- * of the word in the file.
+ * @brief find_line_file() opens an existing file and searches the file for all instances
+ * of a specific word.
  * 
  * @param filename string representing the name of the file
  * @param word word to find in file, must be null terminated
- * @return FILE_FAILURE on failure, [row index, column index] pairs of each line
+ * @return NULL on failure, array of [row index, column index] pairs of each line
  * containing the word on success
  */
-int find_line_file(char *filename, char *word)
+void **find_line_file(char *filename, char *word, void **found_words)
 {
     // declare variables
     FILE *fp;
     int keyword_len;    // length of keyword being searched for
-    int character;
-    int rows_i;
-    int cols_i;
     int word_len;       // length of word read from file
+    int rows_i;         // running row count of file
+    int cols_i;         // running column count of file
     int flag;
+    int character;
+    int n_rows;
+    int n_columns;
+    int entry;
 
     // find length of word to find
     find_string_length(word, &keyword_len);
@@ -170,7 +172,7 @@ int find_line_file(char *filename, char *word)
     if (POINTER_ERROR == fp)
     {
         perror("unable to open file");
-        return FILE_FAILURE;
+        return NULL;
     }
 
     // initialize variables
@@ -178,11 +180,9 @@ int find_line_file(char *filename, char *word)
     cols_i = INT_INIT;
     word_len = INT_INIT;
     flag = INT_INIT;
-
-    // create 2D array
-    int n_rows = 1;
-    int n_columns = 2;
-    int **found_words = (int **) create_2D_array(n_rows, n_columns, sizeof(int));
+    entry = INT_INIT;
+    n_rows = N_ROWS;
+    n_columns = N_COLS;
 
     // read all characters in a file
     while ((character = fgetc(fp)) != EOF) 
@@ -193,7 +193,30 @@ int find_line_file(char *filename, char *word)
             // words match; add entry to array
             if (flag == keyword_len)
             {
-                printf("FOUND - row: %d\tcolumn: %d\n", rows_i, cols_i);
+                // reallocate array as needed
+                if ((entry + 1) == n_rows)
+                {
+                    found_words = (int **) increase_rows_array((void **) found_words, n_rows, 1, n_columns, sizeof(int));
+                    if (found_words == NULL)
+                    {
+                        // free memory
+                        destroy_2D_array((void**) found_words, n_rows);
+
+                        // close file
+                        fclose(fp);
+
+                        // return failure
+                        return NULL;
+                    }
+                    n_rows++;
+                }
+
+                // update array of row x column pairs
+                found_words[entry][0] = rows_i;
+                found_words[entry][1] = cols_i;
+
+                // increment entry of the array
+                entry++;
             }
 
             // zero out necessary variables
@@ -211,26 +234,30 @@ int find_line_file(char *filename, char *word)
             // words match; add entry to array
             if (flag == keyword_len)
             {
-                //
-                if (n_rows > 1)
+                // reallocate array as needed
+                if ((entry + 1) == n_rows)
                 {
-                    int **tmp = realloc(found_words, sizeof(*found_words) * ((n_rows - 1) + 1));
-                    if(tmp)
+                    found_words = (int **) increase_rows_array((void **) found_words, n_rows, 1, n_columns, sizeof(int));
+                    if (found_words == NULL)
                     {
-                        found_words = tmp;
-                        for (int i = 0; i < 1; i++)
-                        {
-                            found_words[(n_rows - 1) + i] = malloc(sizeof(*found_words[(n_rows - 1) + i] * 2));
-                        }
-                    }
-                }
-                //
-                found_words[n_rows - 1][0] = rows_i;
-                found_words[n_rows - 1][1] = cols_i;
-                printf("\tFOUND - row: %d\tcolumn: %d\tn_row: %d\n", rows_i, cols_i, n_rows);
+                        // free memory
+                        destroy_2D_array((void**) found_words, n_rows);
 
-                // increment number of rows in array
-                n_rows++;
+                        // close file
+                        fclose(fp);
+
+                        // return failure
+                        return NULL;
+                    }
+                    n_rows++;
+                }
+
+                // update array of row x column pairs
+                found_words[entry][0] = rows_i;
+                found_words[entry][1] = cols_i;
+
+                // increment entry of the array
+                entry++;
             }
 
             // zero out necessary variables
@@ -264,18 +291,11 @@ int find_line_file(char *filename, char *word)
         }
     }
 
-    // free 2D array
-    for (int i = 0; i < n_rows; i++)
-    {
-        printf("\tEntry[%d]: %d, %d\n", i, found_words[i][0], found_words[i][1]);
-    }
-    destroy_2D_array((void**) found_words, n_rows);
-
     // close file
     fclose(fp);
 
-    // unable to find matching word
-    return FILE_FAILURE;
+    // return found words
+    return found_words;
 }
 
 // /**

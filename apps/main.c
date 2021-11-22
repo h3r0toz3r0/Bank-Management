@@ -13,7 +13,23 @@
 
 int main(void)
 {
-    find_line_file("test.txt", "1234");
+    // create 2D array
+    int **found_words = (int **) create_2D_array(n_rows, n_columns, sizeof(int));
+    if (found_words == NULL)
+    {
+        // return failure
+        return NULL;
+    }
+
+    found_words = find_line_file("test.txt", "1234");
+
+    // free 2D array
+    for (int i = 0; i < (n_rows - 1); i++)
+    {
+        printf("\tEntry[%d]: %d, %d\n", i, found_words[i][0], found_words[i][1]);
+    }
+    destroy_2D_array((void**) found_words, n_rows);
+
     // // declare variables
     // int select_bit;
 
