@@ -14,18 +14,159 @@
 // libraries
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "files.h"
-#include "helper.h"
 
 /**
- * @brief write_string() writes a string to a file.
+ * @brief size_file() determines the size of the file.
+ * 
+ * @param filename string representing the name of the file
+ * @param size size of file, passed by reference to function;
+ *            res = 0 on error
+ */
+void size_file(char *filename, int *size)
+{
+    // declare variables
+    FILE *fp;
+    char character;
+
+    // initialize variables
+    *size = INT_INIT;
+
+    // open file
+    fp = fopen(filename, "r");
+    if (NULL == fp)
+    {
+        perror("unable to open file");
+        return;
+    }
+
+    // obtain each character in file
+    while ((character = fgetc(fp)) != EOF)
+    {
+        // increase size
+        *size += 1;
+    }
+
+    // close file
+    fclose(fp);
+
+    // return
+    return;
+}
+
+/**
+ * @brief size_line() determines the size of a particular line
+ * in a file.
+ * 
+ * @param filename string representing the name of the file
+ * @param index at which data is insterted
+ * @param size size of file, passed by reference to function;
+ *            res = 0 on error
+ */
+void size_line(char *filename, int index, int *size)
+{
+    // declare variables
+    FILE *fp;
+    char character;
+    int count;
+
+    // initialize variables
+    *size = INT_INIT;
+    count = INT_INIT;
+
+    // open file
+    fp = fopen(filename, "r");
+    if (NULL == fp)
+    {
+        perror("unable to open file");
+        return;
+    }
+
+    // get all characters of the file
+    while ((character = fgetc(fp)) != EOF)
+    {
+        // check for new line
+        if (character == ROW_DELIMIN)
+        {
+            // count lines
+            count++;
+        }
+
+        // check if line matches index
+        if (count == index)
+        {
+            // count size of line
+            *size += 1;
+        }
+
+        // once index is passed
+        else if (count > index)
+        {
+            // close file
+            fclose(fp);
+
+            // return
+            return;
+        }
+    }
+
+    // close file
+    fclose(fp);
+
+    // return
+    return;
+}
+
+/**
+ * @brief file_to_buf() writes the content of the file to a buffer.
+ * 
+ * @param filename string representing the name of the file
+ * @param buf char* buffer to hold the contents
+ * @param size size of the file and buffer
+ * @return the buffer with the file contents on success; NULL on 
+ * error
+ */
+char *file_to_buf(char *filename, char *buf, int size)
+{
+    // declare variables
+    FILE *fp;
+
+    // open file
+    fp = fopen(filename, "r");
+    if (NULL == fp)
+    {
+        perror("unable to open file");
+        return NULL;
+    }
+
+    // write file to buffer
+    if (fread(buf, size, 1, fp) != FREAD_SUCCESS)
+    {
+        // print error message
+        perror("fread failed");
+
+        // close file
+        fclose(fp);
+
+        // return error
+        return NULL;
+    }
+
+    // close file
+    fclose(fp);
+
+    // return buf
+    return buf;
+}
+
+/**
+ * @brief buf_to_file() writes a string to a file.
  * 
  * @param fp file pointer
  * @param string string to be written to the file
- * @returns FILE_FAILURE on failure, FILE_SUCCESS on success
+ * @return FILE_FAILURE on failure, FILE_SUCCESS on success
  */
-int write_string_file(FILE *fp, char *string)
+int buf_to_file(FILE *fp, char *string)
 {
     // write string to file
     if (FPRINTF_ERROR > fprintf(fp, "%s", string))
@@ -53,14 +194,14 @@ int create_file(char *filename, char *data)
 
     // open file
     fp = fopen(filename, "w");
-    if (POINTER_ERROR == fp)
+    if (NULL == fp)
     {
         perror("unable to open file");
         return FILE_FAILURE;
     }
 
     // write content
-    if (FILE_FAILURE == write_string_file(fp, data))
+    if (FILE_FAILURE == buf_to_file(fp, data))
     {
         // close file
         fclose(fp);
@@ -91,14 +232,14 @@ int append_file(char *filename, char *data)
 
     // open file
     fp = fopen(filename, "a");
-    if (POINTER_ERROR == fp)
+    if (NULL == fp)
     {
         perror("unable to open file");
         return FILE_FAILURE;
     }
 
     // write content
-    if (FILE_FAILURE == write_string_file(fp, data))
+    if (FILE_FAILURE == buf_to_file(fp, data))
     {
         // close file
         fclose(fp);
@@ -114,202 +255,79 @@ int append_file(char *filename, char *data)
     return FILE_SUCCESS;
 }
 
-// /**
-//  * @brief insert_file() opens an existing file and inserts data at a given
-//  * index in the file.
-//  * 
-//  * @param filename string representing the name of the file
-//  * @param data data to be appended to file
-//  * @param index index at which data is inserted
-//  * @return FILE_FAILURE on failure, FILE_SUCCESS on success
-//  */
-// int insert_file(char *filename, char *data, int index)
-// {
-//     return FILE_SUCCESS;
-// }
-
-// /**
-//  * @brief remove_line_file() opens an existing file and removes data at a 
-//  * given index in the file.
-//  * 
-//  * @param filename string representing the name of the file
-//  * @param index index at which data is deleted
-//  * @return FILE_FAILURE on failure, FILE_SUCCESS on success
-//  */
-// int remove_line_file(char *filename, int index)
-// {
-//     return FILE_SUCCESS;
-// }
-
 /**
- * @brief find_line_file() opens an existing file and searches the file for all instances
- * of a specific word.
+ * @brief insert_line_file() opens an existing file and inserts data at a given
+ * index in the file.
  * 
  * @param filename string representing the name of the file
- * @param word word to find in file, must be null terminated
- * @return NULL on failure, array of [row index, column index] pairs of each line
- * containing the word on success
+ * @param data data to be appended to file
+ * @param index index at which data is inserted
+ * @return FILE_FAILURE on failure, FILE_SUCCESS on success
  */
-void **find_line_file(char *filename, char *word, void **found_words)
+int insert_line_file(char *filename, char *data, int index)
 {
+    printf("DEBUGGING INSERT LINE\nfilename: %s\tdata: %s\tindex: %d\n\n", filename, data, index);
+    return FILE_SUCCESS;
+}
+
+/**
+ * @brief remove_line_file() opens an existing file and removes data at a 
+ * given index in the file.
+ * 
+ * @param filename string representing the name of the file
+ * @param index index at which data is deleted
+ * @return FILE_FAILURE on failure, FILE_SUCCESS on success
+ */
+int remove_line_file(char *filename, int index)
+{
+    printf("DEBUGGING REMOVE LINE\nfilename: %s\tindex: %d\n\n", filename, index);
+    
     // declare variables
     FILE *fp;
-    int keyword_len;    // length of keyword being searched for
-    int word_len;       // length of word read from file
-    int rows_i;         // running row count of file
-    int cols_i;         // running column count of file
-    int flag;
-    int character;
-    int n_rows;
-    int n_columns;
-    int entry;
+    char *buf;
+    int file_len;
 
-    // find length of word to find
-    find_string_length(word, &keyword_len);
+    // initialize variables
+    size_file(filename, &file_len);
+    if (INT_INIT >= file_len)
+    {
+        return FILE_FAILURE;
+    }
 
     // open file
     fp = fopen(filename, "r");
-    if (POINTER_ERROR == fp)
+    if (NULL == fp)
     {
         perror("unable to open file");
-        return NULL;
+        return FILE_FAILURE;
     }
 
-    // initialize variables
-    rows_i = INT_INIT;
-    cols_i = INT_INIT;
-    word_len = INT_INIT;
-    flag = INT_INIT;
-    entry = INT_INIT;
-    n_rows = N_ROWS;
-    n_columns = N_COLS;
+    // allocate memory
+    buf = calloc(file_len, sizeof(char));
 
-    // read all characters in a file
-    while ((character = fgetc(fp)) != EOF) 
-    {
-        // new row
-        if(character == ROW_DELIMIN) 
-        {
-            // words match; add entry to array
-            if (flag == keyword_len)
-            {
-                // reallocate array as needed
-                if ((entry + 1) == n_rows)
-                {
-                    found_words = (int **) increase_rows_array((void **) found_words, n_rows, 1, n_columns, sizeof(int));
-                    if (found_words == NULL)
-                    {
-                        // free memory
-                        destroy_2D_array((void**) found_words, n_rows);
-
-                        // close file
-                        fclose(fp);
-
-                        // return failure
-                        return NULL;
-                    }
-                    n_rows++;
-                }
-
-                // update array of row x column pairs
-                found_words[entry][0] = rows_i;
-                found_words[entry][1] = cols_i;
-
-                // increment entry of the array
-                entry++;
-            }
-
-            // zero out necessary variables
-            cols_i = INT_INIT;
-            word_len = INT_INIT;
-            flag = INT_INIT;
-
-            // increment row counter
-            rows_i++;
-        }
-
-        // new column
-        else if(character == COLS_DELIMIN)
-        {
-            // words match; add entry to array
-            if (flag == keyword_len)
-            {
-                // reallocate array as needed
-                if ((entry + 1) == n_rows)
-                {
-                    found_words = (int **) increase_rows_array((void **) found_words, n_rows, 1, n_columns, sizeof(int));
-                    if (found_words == NULL)
-                    {
-                        // free memory
-                        destroy_2D_array((void**) found_words, n_rows);
-
-                        // close file
-                        fclose(fp);
-
-                        // return failure
-                        return NULL;
-                    }
-                    n_rows++;
-                }
-
-                // update array of row x column pairs
-                found_words[entry][0] = rows_i;
-                found_words[entry][1] = cols_i;
-
-                // increment entry of the array
-                entry++;
-            }
-
-            // zero out necessary variables
-            word_len = INT_INIT;
-            flag = INT_INIT;
-
-            // increment column index
-            cols_i++;
-        }
-
-        // new word
-        else
-        {
-            // compare word length to the keyword length for a match
-            if (word_len < keyword_len)
-            {
-                // increment flag counter if there is a match
-                if (character == word[word_len])
-                {
-                    flag++;
-                }
-            }
-            // if the word is too long, zero out the flag
-            else
-            {
-                flag = INT_INIT;
-            }
-
-            // increment word length from file
-            word_len++;
-        }
-    }
+    // copy each character into buffer
+        // skip line matching index
+        // count line number
 
     // close file
     fclose(fp);
 
-    // return found words
-    return found_words;
-}
+    // re-write new buffer into file
+    if (create_file(filename, buf) == FILE_FAILURE)
+    {
+        // free memory
+        free(buf);
 
-// /**
-//  * @brief pull_line_file() opens an existing file and returns the contents
-//  * of a line at a given index.
-//  * 
-//  * @param filename string representing the name of the file
-//  * @param index at which data is insterted
-//  * @return FILE_FAILURE on failure, line index on success
-//  */
-// char *pull_line_file(char *filename, int index)
-// {
-//     return FILE_SUCCESS;
-// }
+        // return error
+        return FILE_FAILURE;
+    }
+
+    // free memory
+    free(buf);
+
+    // return success    
+    return FILE_SUCCESS;
+}
 
 /**
  * @brief delete_file() deletes an existing file.
