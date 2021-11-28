@@ -1,0 +1,11 @@
+accn,name,street,city,state,phone,ssn,birthmonth,birthday,birthyear,type,money
+1111,joe jones,115th,/
+3333, alex xxd,1234th street,1234
+4444,the rock,1234,rainbows
+1234,12th man ,fort hill,sorry
+2341,DAN HOOVER,washington road ,
+3412,,yes,idk 
+1122,1234, ,?
+2233,1234tina belcher,somewhere,nyc 
+4433,louis belcher,somewhat, NYC
+4213,gene belcher,somehow,1234

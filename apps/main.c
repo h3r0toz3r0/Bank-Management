@@ -116,32 +116,32 @@ int main(void)
     free(buf2);
 
 
-    // testing insert_line_file
-    char *data = "1542,new user, 100 lane road, WA\n";
-    if(insert_line_file(filename, data, index) == FILE_FAILURE)
-    {
-        exit(EXIT_FAILURE);
-    }
-    printf("\ninserting line[%d]\tdata: %s", index, data);
-    size_file(filename, &file_len);
-    if (INT_INIT >= file_len)
-    {
-        exit(EXIT_FAILURE);
-    }
-    char *buf3 = calloc(file_len + 1, sizeof(char));
-    buf3 = file_to_buf(filename, buf3, file_len);
-    if (NULL == buf)
-    {
-        exit(EXIT_FAILURE);
-    }
-    printf("file contents: \n%s\n", buf3);
-    free(buf3);
+    // // testing insert_line_file
+    // char *data = "1542,new user, 100 lane road, WA\n";
+    // if(insert_line_file(filename, data, index) == FILE_FAILURE)
+    // {
+    //     exit(EXIT_FAILURE);
+    // }
+    // printf("\ninserting line[%d]\tdata: %s", index, data);
+    // size_file(filename, &file_len);
+    // if (INT_INIT >= file_len)
+    // {
+    //     exit(EXIT_FAILURE);
+    // }
+    // char *buf3 = calloc(file_len + 1, sizeof(char));
+    // buf3 = file_to_buf(filename, buf3, file_len);
+    // if (NULL == buf)
+    // {
+    //     exit(EXIT_FAILURE);
+    // }
+    // printf("file contents: \n%s\n", buf3);
+    // free(buf3);
 
-    // testing delete_file
-    if (delete_file(filename) == FILE_FAILURE)
-    {
-        exit(EXIT_FAILURE);
-    }
+    // // testing delete_file
+    // if (delete_file(filename) == FILE_FAILURE)
+    // {
+    //     exit(EXIT_FAILURE);
+    // }
     
 
     // // declare variables

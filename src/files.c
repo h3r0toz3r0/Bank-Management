@@ -14,6 +14,7 @@
 // libraries
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "files.h"
 
 /**
@@ -279,15 +280,16 @@ int insert_line_file(char *filename, char *data, int index)
  * @return FILE_FAILURE on failure, FILE_SUCCESS on success
  */
 int remove_line_file(char *filename, int index)
-{
-    printf("DEBUGGING REMOVE LINE\nfilename: %s\tindex: %d\n\n", filename, index);
-    
+{  
     // declare variables
     FILE *fp;
     char *buf;
     int file_len;
+    char character;
+    int line;
 
     // initialize variables
+    line = INT_INIT;
     size_file(filename, &file_len);
     if (INT_INIT >= file_len)
     {
@@ -305,9 +307,33 @@ int remove_line_file(char *filename, int index)
     // allocate memory
     buf = calloc(file_len, sizeof(char));
 
-    // copy each character into buffer
-        // skip line matching index
-        // count line number
+    // get all characters of the file
+    while ((character = fgetc(fp)) != EOF)
+    {
+        // find new lines
+        if (character == ROW_DELIMIN)
+        {
+            // count lines
+            line++;
+        }
+
+        // skip line to remove
+        if (line != index)
+        {
+            // copy each character into buffer
+            if ( strncat(buf, &character, 1) == NULL)
+            {
+                // close file
+                fclose(fp);
+
+                // free memory
+                free(buf);
+
+                // return error
+                return FILE_FAILURE;
+            }
+        }
+    }
 
     // close file
     fclose(fp);
