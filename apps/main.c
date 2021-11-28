@@ -137,11 +137,11 @@ int main(void)
     printf("file contents: \n%s\n", buf3);
     free(buf3);
 
-    // // testing delete_file
-    // if (delete_file(filename) == FILE_FAILURE)
-    // {
-    //     exit(EXIT_FAILURE);
-    // }
+    // testing delete_file
+    if (delete_file(filename) == FILE_FAILURE)
+    {
+        exit(EXIT_FAILURE);
+    }
     
 
     // // declare variables
