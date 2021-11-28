@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "files.h"
+#include "helper.h"
 
 /**
  * @brief size_file() determines the size of the file.
@@ -267,7 +268,104 @@ int append_file(char *filename, char *data)
  */
 int insert_line_file(char *filename, char *data, int index)
 {
-    printf("DEBUGGING INSERT LINE\nfilename: %s\tdata: %s\tindex: %d\n\n", filename, data, index);
+    // declare variables
+    FILE *fp;
+    char *buf;
+    int file_len;       // length of original file
+    int line_len;       // length of new data
+    int character_len;  // length to track location within buffer
+    int total_length;   // total length of new buffer
+    char character;
+    int line;           // line count; for indexing
+
+    // initialize variables
+    line = INT_INIT;
+    character_len = INT_INIT;
+    size_file(filename, &file_len);
+    if (INT_INIT >= file_len)
+    {
+        return FILE_FAILURE;
+    }
+    find_string_length(data, &line_len);
+    total_length = file_len + line_len;
+
+    printf("line length: %d\n\n", line_len);
+
+    // open file
+    fp = fopen(filename, "r");
+    if (NULL == fp)
+    {
+        perror("unable to open file");
+        return FILE_FAILURE;
+    }
+
+    // allocate memory
+    buf = calloc(total_length, sizeof(char));
+
+    // get all characters of the file
+    while ((character = fgetc(fp)) != EOF)
+    {
+        // find new lines
+        if (character == ROW_DELIMIN)
+        {
+            // count lines
+            line++;
+        }
+
+        // once index is found
+        if (index == line)
+        {
+            // copy new line into buffer
+            if (snprintf(buf + character_len, line_len, "%s", data) < INT_INIT)
+            {
+                // close file
+                fclose(fp);
+
+                // free memory
+                free(buf);
+
+                // return error
+                return FILE_FAILURE;
+            }
+
+            // increment line count
+            line++;
+        }
+
+        // copy each character into buffer
+        if (strncat(buf, &character, 1) == NULL)
+        {
+            // close file
+            fclose(fp);
+
+            // free memory
+            free(buf);
+            
+            // return error
+            return FILE_FAILURE;
+        }
+
+        // increment buffer location
+        character_len++;
+    }
+
+    // close file
+    fclose(fp);
+
+    // re-write new buffer into file
+    if (create_file(filename, buf) == FILE_FAILURE)
+    {
+        // free memory
+        free(buf);
+
+        // return error
+        return FILE_FAILURE;
+    }
+
+    // free memory
+    free(buf);
+
+    // return success    
     return FILE_SUCCESS;
 }
 
@@ -321,7 +419,7 @@ int remove_line_file(char *filename, int index)
         if (line != index)
         {
             // copy each character into buffer
-            if ( strncat(buf, &character, 1) == NULL)
+            if (strncat(buf, &character, 1) == NULL)
             {
                 // close file
                 fclose(fp);
