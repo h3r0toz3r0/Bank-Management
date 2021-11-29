@@ -39,6 +39,6 @@ int insert_line_file(char *filename, char *data, int index);
 int remove_line_file(char *filename, int index);
 int delete_file(char *filename);
 char *cpy_line_file(char *filename, int index, char *buf);
-int find_index_file(char *filename, char *data);
+int *find_index_file(char *filename, char *needle);
 
 #endif /* FILES_H */

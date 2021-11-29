@@ -150,10 +150,17 @@ void file_success(void)
     printf("Line[%d]: %s\n", index, buf4);
     free(buf4);
 
-    // testing delete_file
-    printf("\nTESTING REMOVING FILE\n");
-    if (delete_file(filename) == FILE_FAILURE)
-    {
-        return;
-    }
+    // testing find index in file
+    printf("\nTESTING FINDING NEEDLE IN LINE\n");
+    char *needle = "1234";
+    int *tuple;
+    tuple = find_index_file(filename, needle);
+    printf("First Instance of %s is at [%d, %d]\n", needle, tuple[0], tuple[1]);
+
+    // // testing delete_file
+    // printf("\nTESTING REMOVING FILE\n");
+    // if (delete_file(filename) == FILE_FAILURE)
+    // {
+    //     return;
+    // }
 }
