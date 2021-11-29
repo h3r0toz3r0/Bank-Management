@@ -24,8 +24,6 @@
 
 #define RANDSIZE            6
 #define STR_INPUT_FAILURE   NULL
-#define STR_INIT            NULL
-#define SIZE_INPUT          4
 
 // declare functions
 void find_string_length(char *str, int *length);
