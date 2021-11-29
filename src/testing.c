@@ -11,12 +11,14 @@ void file_success(void)
 { 
     // testing create_file
     char *filename = "file_testing.txt";
+    printf("\nTESTING CREATE\n");
     if (create_file(filename, FILE_HEADER) == FILE_FAILURE)
     {
         return;
     }
 
     // testing append_file
+    printf("\nTESTING APPEND\n");
     if (append_file(filename, "1111,joe jones,115th,/\n") == FILE_FAILURE)
     {
         return;
@@ -64,14 +66,16 @@ void file_success(void)
 
     // testing size_file
     int file_len;
+    printf("\nTESTING SIZE_FILE\n");
     size_file(filename, &file_len);
     if (INT_INIT >= file_len)
     {
         return;
     }
-    printf("\nfile size: %d\n", file_len);
+    printf("file size: %d\n", file_len);
 
     // testing file_to_buf
+    printf("\nTESTING FILE_TO_BUF\n");
     char *buf = calloc(file_len + 1, sizeof(char));
     buf = file_to_buf(filename, buf, file_len);
     if (NULL == buf)
@@ -82,6 +86,7 @@ void file_success(void)
     free(buf);
 
     // testing size_line
+    printf("\nTESTING SIZE_LINE\n");
     int line_len;
     int index = 2;
     size_line(filename, index, &line_len);
@@ -89,14 +94,15 @@ void file_success(void)
     {
         return;
     }
-    printf("\nline[%d]\tline size: %d\n", index, line_len);
+    printf("line[%d]\tline size: %d\n", index, line_len);
 
     // testing remove_line_file
+    printf("\nTESTING REMOVE_LINE\n");
     if(remove_line_file(filename, index) == FILE_FAILURE)
     {
         return;
     }
-    printf("\nremoving line[%d]\n", index);
+    printf("removing line[%d]\n", index);
     size_file(filename, &file_len);
     if (INT_INIT >= file_len)
     {
@@ -113,6 +119,7 @@ void file_success(void)
 
 
     // testing insert_line_file
+    printf("\nTESTING INSERT_LINE\n");
     char *data = "\n1542,new user, 100 lane road, WA\n";
     if(insert_line_file(filename, data, index) == FILE_FAILURE)
     {
@@ -130,10 +137,21 @@ void file_success(void)
     {
         return;
     }
-    printf("file contents: \n%s\n", buf3);
+    printf("\nfile contents: \n%s\n", buf3);
     free(buf3);
 
+    // testing reading a line
+    printf("\nTESTING COPYING LINE\n");
+    line_len = 0;
+    index = 4;
+    size_line(filename, index, &line_len);
+    char *buf4 = calloc(line_len+1, sizeof(char));
+    buf4 = cpy_line_file(filename, index, buf4);
+    printf("Line[%d]: %s\n", index, buf4);
+    free(buf4);
+
     // testing delete_file
+    printf("\nTESTING REMOVING FILE\n");
     if (delete_file(filename) == FILE_FAILURE)
     {
         return;

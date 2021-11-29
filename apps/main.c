@@ -16,6 +16,8 @@
 #include "helper.h"
 #include "files.h"
 
+#include "testing.h"
+
 // main function
 int main(void)
 {
@@ -67,6 +69,8 @@ int main(void)
     // exit message
     printf("\n\tTHANK YOU FOR USING THE BANK MANAGEMENT SYSTEM."
             "\n\tHAVE A GOOD DAY.\n\n");
+
+    file_success();
 
     // exit gracefully
     exit(EXIT_SUCCESS);

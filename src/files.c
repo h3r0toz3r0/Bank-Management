@@ -22,8 +22,7 @@
  * @brief size_file() determines the size of the file in bytes.
  * 
  * @param filename string representing the name of the file
- * @param size size of file, passed by reference to function;
- *            size = 0 on error
+ * @param size size of file, passed by reference to function; size = 0 on error
  */
 void size_file(char *filename, int *size)
 {
@@ -38,7 +37,10 @@ void size_file(char *filename, int *size)
     fp = fopen(filename, "r");
     if (NULL == fp)
     {
+        // print error
         perror("unable to open file");
+
+        // return
         return;
     }
 
@@ -61,26 +63,28 @@ void size_file(char *filename, int *size)
  * in a file.
  * 
  * @param filename string representing the name of the file
- * @param index at which data is insterted
- * @param size size of file, passed by reference to function;
- *            size = 0 on error
+ * @param index line number in file
+ * @param size size of file, passed by reference to function; size = 0 on error
  */
 void size_line(char *filename, int index, int *size)
 {
     // declare variables
     FILE *fp;
     char character;
-    int count;
+    int line_count;
 
     // initialize variables
     *size = INT_INIT;
-    count = INT_INIT;
+    line_count = INT_INIT;
 
     // open file
     fp = fopen(filename, "r");
     if (NULL == fp)
     {
+        // print error
         perror("unable to open file");
+
+        // return
         return;
     }
 
@@ -91,18 +95,18 @@ void size_line(char *filename, int index, int *size)
         if (character == ROW_DELIMIN)
         {
             // count lines
-            count++;
+            line_count++;
         }
 
         // check if line matches index
-        if (count == index)
+        if (line_count == index)
         {
             // count size of line
             *size += 1;
         }
 
         // once index is passed
-        else if (count > index)
+        else if (line_count > index)
         {
             // close file
             fclose(fp);
@@ -123,7 +127,7 @@ void size_line(char *filename, int index, int *size)
  * @brief file_to_buf() writes the content of the file to a buffer.
  * 
  * @param filename string representing the name of the file
- * @param buf char* buffer to hold the contents
+ * @param buf buffer holding content of file
  * @param size size of the file and buffer
  * @return the buffer with the file contents on success; STR_INPUT_FAILURE 
  * on error
@@ -137,8 +141,11 @@ char *file_to_buf(char *filename, char *buf, int size)
     fp = fopen(filename, "r");
     if (NULL == fp)
     {
+        // print error
         perror("unable to open file");
-        return STR_INPUT_FAILURE;
+
+        // return error
+        return buf;
     }
 
     // write file to buffer
@@ -151,7 +158,7 @@ char *file_to_buf(char *filename, char *buf, int size)
         fclose(fp);
 
         // return error
-        return STR_INPUT_FAILURE;
+        return buf;
     }
 
     // close file
@@ -173,7 +180,10 @@ int buf_to_file(FILE *fp, char *string)
     // write string to file
     if (FPRINTF_ERROR > fprintf(fp, "%s", string))
     {
+        // print error message
         perror("unable to write string to file");
+
+        // return error
         return FILE_FAILURE;
     }
 
@@ -198,7 +208,10 @@ int create_file(char *filename, char *data)
     fp = fopen(filename, "w");
     if (NULL == fp)
     {
+        // print error
         perror("unable to open file");
+
+        // return error
         return FILE_FAILURE;
     }
 
@@ -236,7 +249,10 @@ int append_file(char *filename, char *data)
     fp = fopen(filename, "a");
     if (NULL == fp)
     {
+        // print error
         perror("unable to open file");
+
+        // return error
         return FILE_FAILURE;
     }
 
@@ -295,7 +311,10 @@ int insert_line_file(char *filename, char *data, int index)
     fp = fopen(filename, "r");
     if (NULL == fp)
     {
+        // print error message
         perror("unable to open file");
+
+        // return error
         return FILE_FAILURE;
     }
 
@@ -303,8 +322,13 @@ int insert_line_file(char *filename, char *data, int index)
     buf = calloc(total_length, sizeof(char));
     if (NULL == buf)
     {
+        // print error message
         perror("unable to allocate memory");
+
+        // close file
         fclose(fp);
+
+        // return error
         return FILE_FAILURE;
     }
 
@@ -380,7 +404,7 @@ int insert_line_file(char *filename, char *data, int index)
  * given index in the file.
  * 
  * @param filename string representing the name of the file
- * @param index index at which data is deleted
+ * @param index line number to be removed
  * @return FILE_FAILURE on failure, FILE_SUCCESS on success
  */
 int remove_line_file(char *filename, int index)
@@ -397,6 +421,7 @@ int remove_line_file(char *filename, int index)
     size_file(filename, &file_len);
     if (INT_INIT >= file_len)
     {
+        // return error
         return FILE_FAILURE;
     }
 
@@ -404,7 +429,10 @@ int remove_line_file(char *filename, int index)
     fp = fopen(filename, "r");
     if (NULL == fp)
     {
+        // print error message
         perror("unable to open file");
+
+        // return error
         return FILE_FAILURE;
     }
 
@@ -412,8 +440,13 @@ int remove_line_file(char *filename, int index)
     buf = calloc(file_len, sizeof(char));
     if (NULL == buf)
     {
+        // print error message
         perror("unable to allocate memory");
+
+        // close file
         fclose(fp);
+
+        // return error
         return FILE_FAILURE;
     }
 
@@ -476,7 +509,10 @@ int delete_file(char *filename)
     // remove file
     if(remove(filename) != REMOVE_ERROR)
     {
+        // print error message
         perror("unable to remove file");
+
+        // return error
         return FILE_FAILURE;
     }
 
@@ -495,8 +531,70 @@ int delete_file(char *filename)
 **/
 char *cpy_line_file(char *filename, int index, char *buf)
 {
-    // return success
-    printf("TMP\n\tfilename: %s\tindex: %d\t buf: %s\n", filename, index, buf);
+    // declare variables
+    FILE *fp;
+    char character;
+    int line_count;
+
+    // initialize variables
+    line_count = INT_INIT;
+
+    // open file
+    fp = fopen(filename, "r");
+    if (NULL == fp)
+    {
+        // print error
+        perror("unable to open file");
+
+        // return
+        return buf;
+    }
+
+    // get all characters of the file
+    while ((character = fgetc(fp)) != EOF)
+    {
+        // check for new line
+        if (character == ROW_DELIMIN)
+        {
+            // count lines
+            line_count++;
+        }
+
+        // check if line matches index
+        if (line_count == index)
+        {
+            // copy line into buf
+            if (strncat(buf, &character, 1) == NULL)
+            {
+                // print error message
+                perror("unable to copy character into buffer");
+
+                // close file
+                fclose(fp);
+
+                // return
+                return buf;
+            }
+        }
+
+        // check if line exceeds index
+        if (line_count > index)
+        {
+            // close file
+            fclose(fp);
+
+            // return
+            return buf;
+        }
+    }
+
+    // close file
+    fclose(fp);
+
+    // print error message
+    printf("unable to find line.\n");
+
+    // return
     return buf;
 }
 
