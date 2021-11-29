@@ -1,5 +1,12 @@
 /**
- * @brief main - header file for main.c.
+ * @file main.h
+ * @author Anna DeVries
+ * @brief header file for main.c
+ * @version 0.1
+ * @date 2021-11-29
+ * 
+ * @copyright Copyright (c) 2021
+ * 
  */
 
 // include guard

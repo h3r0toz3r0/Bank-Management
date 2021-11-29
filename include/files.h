@@ -1,5 +1,12 @@
 /**
- * @brief files.h - header file for files.c.
+ * @file files.h
+ * @author Anna DeVries
+ * @brief header file for files.c
+ * @version 0.1
+ * @date 2021-11-29
+ * 
+ * @copyright Copyright (c) 2021
+ * 
  */
 
 // include guard
@@ -19,7 +26,6 @@
 
 #define FPRINTF_ERROR        0
 #define REMOVE_ERROR         0
-#define FSEEK_SUCCESS        0
 #define FREAD_SUCCESS        1
 
 // declare functions
@@ -32,5 +38,7 @@ int append_file(char *filename, char *data);
 int insert_line_file(char *filename, char *data, int index);
 int remove_line_file(char *filename, int index);
 int delete_file(char *filename);
+char *cpy_line_file(char *filename, int index, char *buf);
+int find_index_file(char *filename, char *data);
 
 #endif /* FILES_H */

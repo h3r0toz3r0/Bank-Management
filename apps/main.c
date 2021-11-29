@@ -1,7 +1,12 @@
 /**
- * @name main.c
+ * @file main.c
  * @author Anna DeVries
- * @brief bank management program
+ * @brief source contains all main function for program
+ * @version 0.1
+ * @date 2021-11-15
+ * 
+ * @copyright Copyright (c) 2021
+ * 
  */
 
 // libraries
@@ -11,12 +16,13 @@
 #include "helper.h"
 #include "files.h"
 
+// main function
 int main(void)
 {
     // declare variables
     int select_bit;
 
-    // initiate variables
+    // initialize variables
     select_bit = ERROR_SELECTION;
 
     // initialize records file
@@ -49,7 +55,6 @@ int main(void)
         }
 
         // check select_bit for bank functionality
-        // BankSystem runs regardless of error status for selection
         selection(select_bit);
 
         // zero out select_bit
@@ -58,10 +63,6 @@ int main(void)
             select_bit = ERROR_SELECTION;
         }
     }
-
-    int random = 0;
-    random_gen(&random);
-    printf("Random Number: %d\n", random);
 
     // exit message
     printf("\n\tTHANK YOU FOR USING THE BANK MANAGEMENT SYSTEM."

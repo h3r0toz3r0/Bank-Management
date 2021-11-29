@@ -1,7 +1,12 @@
 /**
- * @name helper.c
+ * @file helper.c
  * @author Anna DeVries
- * @brief helper functions for the program.
+ * @brief source contains all helper functions for program
+ * @version 0.1
+ * @date 2021-11-29
+ * 
+ * @copyright Copyright (c) 2021
+ * 
  */
 
 // libraries
@@ -10,16 +15,18 @@
 #include <string.h>
 #include <stdlib.h>
 #include "helper.h"
-// #include "create.h"
-// #include "erase.h"
-// #include "edit.h"
-#include "tmp.h"
+#include "create.h"
+#include "edit.h"
+#include "erase.h"
+#include "view.h"
+#include "transact.h"
 
 /**
- * @brief find_string_length() function finds length of null terminated string.
+ * @brief find_string_length() function finds length of null terminated strings.
  * 
- * @param str string to find length of
- * @param length empty referenced variable
+ * @param str string
+ * @param length size of string, passed by reference to function;
+ *            length = 0 on error
  */
 void find_string_length(char *str, int *length)
 {
@@ -63,6 +70,11 @@ void **create_2D_array(int n_rows, int n_columns, int type_size)
     for (n_rows -= 1; n_rows >= 0; n_rows--)
     {
         array[n_rows] = calloc(n_columns, type_size);
+        if (NULL == array[n_rows])
+        {
+            perror("unable to allocate memory");
+            return NULL;
+        }
     }
 
     // return array
@@ -71,13 +83,13 @@ void **create_2D_array(int n_rows, int n_columns, int type_size)
 
 /**
  * @brief increase_rows_array() function re-allocates more memory to a 
- * 2D array
+ * 2D array; should be done with 2x the amount of currently needed space.
  * 
  * @param array 2D array to increase in size
  * @param n_rows number of rows originally
  * @param add_rows number of rows to add
  * @param n_cols number of columns
- * @param type_size type size of data entry i.e. sizeof(int), etc.
+ * @param type_size type size of data entry i.e. sizeof(int), etc
  * @returns 2D array of row x column
  */
 void **increase_rows_array(void **array, int n_rows, int add_rows, int n_cols, int type_size)
@@ -97,6 +109,11 @@ void **increase_rows_array(void **array, int n_rows, int add_rows, int n_cols, i
 
     // allocate and set columns within rows to zero
     array[n_rows] = calloc(n_cols, type_size);
+    if (NULL == array[n_rows])
+    {
+        perror("unable to allocate memory");
+        return NULL;
+    }
 
     // return array
     return array;
@@ -120,7 +137,9 @@ void destroy_2D_array(void** array, int n_rows)
 
 /**
  * @brief integer_input() gets user input for an integer.
- * @param int_input - calls variable by reference.
+ * 
+ * @param int_input user defined integer input, passed by 
+ *                  reference to function
  */
 void integer_input(int *int_input)
 {
@@ -137,16 +156,17 @@ void integer_input(int *int_input)
     // clears buffer of user input; getc has no errors defined
     while((character = getc(stdin)) != '\n' && character != EOF);
 
+    // return
     return;
 }
 
 /**
  * @brief string_input() function gets user input for a string.
- * @returns string from user input upon function return.
- * @param string_input - empty string_input value to fill. 
- * @param string_length - integer of length of string.
- * @retval string_input - success
- * @retval STR_INPUT_ERROR - error
+ * 
+ * @returns string from user input upon function return
+ * @param string_input - empty string_input value to fill
+ * @param string_length - length of string
+ * @returns string of user input on success, STR_INPUT_ERROR on failure
  */
 char *string_input(char *string_input, int string_length)
 {
@@ -156,7 +176,7 @@ char *string_input(char *string_input, int string_length)
     // collect user input
     if (fgets(string_input, string_length, stdin) == NULL) {
         perror("\nError reading user input");
-        return STRING_INPUT_ERROR;
+        return STR_INPUT_FAILURE;
     }
 
     // clears stdin buffer; getc has no errors defined
@@ -174,44 +194,44 @@ char *string_input(char *string_input, int string_length)
 /**
  * @brief selection() runs desired bank functionality. Options include: creating an account,
  * editing an account, erase an account, viewing account information, performing an account 
- * transaction, and exiting. Even a failure in the functions, the program will continue to run.
- * @param select_bit - interger received from user input to function selection.
- * @returns void after performing desired bank function.
+ * transaction, and exiting. The program will continue to run even in functionality failures.
+ * 
+ * @param select_bit interger received from user input to function selection
  */
 void selection(int select_bit)
 {
     switch(select_bit)
     {
         case CREATE_SELECTION :
-            if (create() == CREATE_ERROR)
+            if (create() == CREATE_FAILURE)
             {
                 printf("\ncreate() failed; no account has been made.\n");
             }
         break;
 
         case EDIT_SELECTION :
-            if (edit() == EDIT_ERROR)
+            if (edit() == EDIT_FAILURE)
             {
                 printf("\nedit() failed; no edits have been saved.\n");
             }
         break;
 
         case ERASE_SELECTION :
-            if (erase() == ERASE_ERROR)
+            if (erase() == ERASE_FAILURE)
             {
                 printf("\nerase() failed; no account has been removed.\n");
             }
         break;
 
         case VIEW_SELECTION :
-            if (view() == VIEW_ERROR)
+            if (view() == VIEW_FAILURE)
             {
                 printf("\nview() failed; unable to view the account.\n");
             }
         break;
 
         case TRANSACT_SELECTION :
-            if (transact() == TRANSACT_ERROR)
+            if (transact() == TRANSACT_FAILURE)
             {
                 printf("\ntransact() failed; unable to handle transactions.\n");
             }
@@ -224,10 +244,10 @@ void selection(int select_bit)
 
 /**
  * @brief random_gen() mid-square method to generate a pseudorandom number.
- * @param randsize - integer specifying size of random number to create.
- * @returns a random number.
- * @retval seed - success.
- * @retval INTEGER_INPUT_ERROR - error.
+ * 
+ * @param seed random integer, passed by reference to function;
+ *             seed = 0 on error
+ * @returns a random number on success, INTEGER_INPUT_ERROR on failure
  */
 void random_gen(int *seed)
 {

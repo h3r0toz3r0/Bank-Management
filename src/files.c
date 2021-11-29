@@ -19,11 +19,11 @@
 #include "helper.h"
 
 /**
- * @brief size_file() determines the size of the file.
+ * @brief size_file() determines the size of the file in bytes.
  * 
  * @param filename string representing the name of the file
  * @param size size of file, passed by reference to function;
- *            res = 0 on error
+ *            size = 0 on error
  */
 void size_file(char *filename, int *size)
 {
@@ -63,7 +63,7 @@ void size_file(char *filename, int *size)
  * @param filename string representing the name of the file
  * @param index at which data is insterted
  * @param size size of file, passed by reference to function;
- *            res = 0 on error
+ *            size = 0 on error
  */
 void size_line(char *filename, int index, int *size)
 {
@@ -125,8 +125,8 @@ void size_line(char *filename, int index, int *size)
  * @param filename string representing the name of the file
  * @param buf char* buffer to hold the contents
  * @param size size of the file and buffer
- * @return the buffer with the file contents on success; NULL on 
- * error
+ * @return the buffer with the file contents on success; STR_INPUT_FAILURE 
+ * on error
  */
 char *file_to_buf(char *filename, char *buf, int size)
 {
@@ -138,7 +138,7 @@ char *file_to_buf(char *filename, char *buf, int size)
     if (NULL == fp)
     {
         perror("unable to open file");
-        return NULL;
+        return STR_INPUT_FAILURE;
     }
 
     // write file to buffer
@@ -151,7 +151,7 @@ char *file_to_buf(char *filename, char *buf, int size)
         fclose(fp);
 
         // return error
-        return NULL;
+        return STR_INPUT_FAILURE;
     }
 
     // close file
@@ -301,6 +301,12 @@ int insert_line_file(char *filename, char *data, int index)
 
     // allocate memory
     buf = calloc(total_length, sizeof(char));
+    if (NULL == buf)
+    {
+        perror("unable to allocate memory");
+        fclose(fp);
+        return FILE_FAILURE;
+    }
 
     // get all characters of the file
     while ((character = fgetc(fp)) != EOF)
@@ -340,7 +346,7 @@ int insert_line_file(char *filename, char *data, int index)
 
             // free memory
             free(buf);
-            
+
             // return error
             return FILE_FAILURE;
         }
@@ -404,6 +410,12 @@ int remove_line_file(char *filename, int index)
 
     // allocate memory
     buf = calloc(file_len, sizeof(char));
+    if (NULL == buf)
+    {
+        perror("unable to allocate memory");
+        fclose(fp);
+        return FILE_FAILURE;
+    }
 
     // get all characters of the file
     while ((character = fgetc(fp)) != EOF)
@@ -470,4 +482,36 @@ int delete_file(char *filename)
 
     // return success
     return FILE_SUCCESS;
+}
+
+/**
+ * @brief cpy_line_file() copies a line specified by an index 
+ * into a buffer.
+ *  
+ * @param filename name of the file
+ * @param index line index to copy into buffer
+ * @param buf buffer to hold line
+ * @return STR_INPUT_FAILURE on failure, buffer on success
+**/
+char *cpy_line_file(char *filename, int index, char *buf)
+{
+    // return success
+    printf("TMP\n\tfilename: %s\tindex: %d\t buf: %s\n", filename, index, buf);
+    return buf;
+}
+
+/**
+ * @brief find_index_file() finds index of a line that contains the 
+ * data in the first column of the line.
+ *  
+ * @param filename name of the file
+ * @param index line index to copy into buffer
+ * @param buf buffer to hold line
+ * @return STR_INPUT_FAILURE on failure, buffer on success
+**/
+int find_index_file(char *filename, char *data)
+{
+    // return success
+    printf("TMP\n\tfilename: %s\t buf: %s\n", filename, data);
+    return 1;
 }
