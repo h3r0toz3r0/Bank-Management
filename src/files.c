@@ -599,33 +599,37 @@ char *cpy_line_file(char *filename, int index, char *buf)
 }
 
 /**
- * @brief find_index_file() finds the column and row number of first instance
+ * @brief find_index_file() finds the column and row number of every instance
  * of needle
  *  
  * @param filename name of the file
  * @param needle the string 
- * @returns integer array as row x column of needle instance; integer array
- *          will return {FILE_FAILURE, FILE_FAILURE} on error
+ * @returns integer array as row x column of each needle instance; integer array
+ *          will return NULL
 **/
-int *find_index_file(char *filename, char *needle)
+int **find_index_file(char *filename, char *needle, int **index)
 {
     // declare variables
     static int index[2];
     FILE *fp;
     char character;
-    int n_rows;
-    int n_columns;
-    int word_len;
-    int needle_len;
+    int word_len;       // length of word
+    int needle_len;     // length of needle
     int flag;
 
     // initialize variables
-    n_rows = INT_INIT;
-    n_columns = INT_INIT;
+    index[0] = INT_INIT;    // row number
+    index[1] = INT_INIT;    // column number
     word_len = INT_INIT;
     flag = INT_INIT;
-    index[0] = FILE_FAILURE;
-    index[1] = FILE_FAILURE;
+
+    // find needle size
+    find_string_length(needle, &needle_len);
+    if (needle_len <= INT_INIT)
+    {
+        printf("Unable to find the string length.\n");
+        return index;
+    }
 
     // open file
     fp = fopen(filename, "r");
@@ -638,56 +642,60 @@ int *find_index_file(char *filename, char *needle)
         return index;
     }
 
-    // find size of needle
-    find_string_length(needle, &needle_len);
-    if (INT_INIT >= needle_len)
-    {
-        // close file
-        fclose(fp);
-
-        // return
-        return index;
-    }
-
     // get all characters of the file
     while ((character = fgetc(fp)) != EOF)
     {
-        // count word length
-        word_len++;
-
-        // count new rows
+        // new line
         if (character == ROW_DELIMIN)
         {
-            n_rows++;
-
             // compare flag
-            if(flag == needle_len)
+            if (flag == needle_len)
             {
-            printf("needle: %s\t rows: %d\tneedle len: %d\tword len: %d\n", needle, n_rows, needle_len, word_len);
+                printf("index: (%d, %d)\n", index[0], index[1]);
             }
 
-            // reset word count
+            // increment row counter
+            index[0]++;
+
+            // zero out column counter
+            index[1] = INT_INIT;
+
+            // initialize new word length
             word_len = INT_INIT;
         }
 
-        // count new columns
-        if (character == COLS_DELIMIN)
+        // new column
+        else if (character == COLS_DELIMIN)
         {
-            n_columns++;
+            // compare flag
+            if (flag == needle_len)
+            {
+                printf("index: (%d, %d)\n", index[0], index[1]);
+            }
 
-            // reset word count
+            // increment column counter
+            index[1]++;
+
+            // initialize new word length
             word_len = INT_INIT;
         }
 
-        // check word and needle are within same size
-        if ((word_len - 1) <= needle_len)
+        // check if word len is within needle len
+        if (word_len <= needle_len)
         {
-            flag++;
+            // compare characters
+            if (character == needle[word_len - 1])
+            {
+                flag++;
+            }
         }
-        else if ((word_len - 1) > needle_len)
+        else if (word_len > needle_len)
+        {
+            flag = INT_INIT;
+        }
 
-        // count characters in word
-            // compare character to needle
+        // increment word length count
+        word_len++;
     }
 
     // close file
